@@ -321,11 +321,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d1e6ed35544d4d4e937e0724cdbc8a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationSpeed: 100
+  rotationSpeed: 1000
   accelerationRate: 25
   torqueSpeed: 1
   rb: {fileID: 0}
-  inputDeadZone: 0
+  deadZoneRadius: 0.5
 --- !u!212 &600121977
 SpriteRenderer:
   m_ObjectHideFlags: 0

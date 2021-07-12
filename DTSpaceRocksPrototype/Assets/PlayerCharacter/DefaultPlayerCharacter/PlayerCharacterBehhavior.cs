@@ -7,15 +7,16 @@ using UnityEngine.InputSystem;
 public class PlayerCharacterBehhavior : MonoBehaviour
 {
     [Header("Stats")]
-    public float rotationSpeed = 100;
+    public float rotationSpeed = 500;
     public float accelerationRate = 10;
     public float torqueSpeed = 1;
+    private int rotatingDirection = 0;
 
     [Header("Physics")]
     public Rigidbody2D rb;
 
     [Header("Gamepad Deadzone Setup")]
-    public float inputDeadZone = 0.5f;
+    public float deadZoneRadius = 0.5f;
     Vector2 leftStickInput;
 
     private float horizontalInput = 0;
@@ -32,6 +33,9 @@ public class PlayerCharacterBehhavior : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Rotate the Spaceship in a specific direction
+        //rotateSpaceShipKB();
+
         switch (turnVariant)
         {
             //Turning the Spaceship: Variant 1: Rotation in direction
@@ -54,7 +58,7 @@ public class PlayerCharacterBehhavior : MonoBehaviour
     }
 
     /**
-     * Accelerates the Spaceship with an impulse forward
+     * <summary>...</summary>
      */
     void OnSpaceShipAcceleration()
     {
@@ -86,47 +90,60 @@ public class PlayerCharacterBehhavior : MonoBehaviour
 
 
 
+    /**
+     * Turn the Spaceship to match the position of the joystick
+     */
+    void OnSpaceShipTurn(InputValue value)
+    {
+        Vector2 joystickPosition = value.Get<Vector2>();
+        
+        if (joystickPosition.magnitude > deadZoneRadius)
+        {
+            //Do Stuff
+            Quaternion targetRotation = Quaternion.LookRotation(Vector3.forward, joystickPosition);
 
-    //void OnTurnSpaceShipKeyboard(InputValue value)
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+
+            print("GamepadJS Values: " + joystickPosition);
+            print("Spaceship Values: " + transform.rotation);
+        }
+
+
+
+
+        //if (temp < 0)
+        //{
+        //    transform.Rotate(Vector3.forward * rotationSpeed * Time.deltaTime);
+        //    print("Turn left");
+        //}
+        ////Rotate rightwards
+        //else if (temp > 0)
+        //{
+        //    transform.Rotate(Vector3.back * rotationSpeed * Time.deltaTime);
+        //    print("Turn right");
+        //}
+    }
+
+
+
+    ///**
+    // * Turning the Spaceship leftwards. The spaceship turns over time in the desired direction
+    // */
+    //void OnLeftTurnSpaceShipKeyboard()
     //{
-    //    print("Turn Ship");
-
-
-    //    float temp = value.Get<float>();
-
-    //    //Rotate leftwards
-    //    if (temp < 0) 
-    //    {
-    //        transform.Rotate(Vector3.forward * rotationSpeed * Time.deltaTime);
-    //        print("Turn left");
-    //    }
-    //    //Rotate rightwards
-    //    else if (temp > 0)
-    //    {
-    //        transform.Rotate(Vector3.back * rotationSpeed * Time.deltaTime);
-    //        print("Turn right");
-    //    }
-
+    //    //rotatingDirection = -1;
+    //    transform.Rotate(Vector3.forward * rotationSpeed * Time.deltaTime);
+    //    print("Turn left");
     //}
-
-
-
-    /**
-     * Turning the Spaceship leftwards. The spaceship turns over time in the desired direction
-     */
-    void OnLeftTurnSpaceShipKeyboard()
-    {
-        transform.Rotate(Vector3.forward * rotationSpeed * Time.deltaTime);
-        print("Turn left");
-    }
-    /**
-     * Turning the Spaceship rightwards. The spaceship turns over time in the desired direction
-     */
-    void OnRightTurnSpaceShipKeyboard()
-    {
-        transform.Rotate(Vector3.back * rotationSpeed * Time.deltaTime);
-        print("Turn right");
-    }
+    ///**
+    // * Turning the Spaceship rightwards. The spaceship turns over time in the desired direction
+    // */
+    //void OnRightTurnSpaceShipKeyboard()
+    //{
+    //    //rotatingDirection = 1;
+    //    transform.Rotate(Vector3.back * rotationSpeed * Time.deltaTime);
+    //    print("Turn right");
+    //}
 
 
 
@@ -163,7 +180,7 @@ public class PlayerCharacterBehhavior : MonoBehaviour
      */
     void turnSpaceShipV2()
     {
-        //Check if Joystick Drag is out of the Deadzone. Therefore a Vector2 Variable is created and its magnitute is compared to the specified inputDeadZone variable 
+        //Check if Joystick Drag is out of the Deadzone. Therefore a Vector2 Variable is created and its magnitute is compared to the specified deadZoneRadius variable 
         //leftStickInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
                 
         Vector2 movementDirection = new Vector2();
@@ -203,6 +220,11 @@ public class PlayerCharacterBehhavior : MonoBehaviour
 
     }
 
+
+
+
+
+
     /**
      * Checks if the Input of the Gamepad's analoguous sticks is in the deadzone. 
      * Is the input out of the deadzone, the coordinates will be returned.
@@ -212,7 +234,7 @@ public class PlayerCharacterBehhavior : MonoBehaviour
         Vector2 validInput = new Vector2(0, 0);
 
         //When out of Deadzone, input may be checked
-        if (input.magnitude > inputDeadZone)
+        if (input.magnitude > deadZoneRadius)
         {
             //validInput = new Vector2(Input.GetAxis("Horizontal"), -Input.GetAxis("Vertical"));
         }
