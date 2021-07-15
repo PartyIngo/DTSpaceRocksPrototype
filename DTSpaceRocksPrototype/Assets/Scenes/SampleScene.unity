@@ -321,10 +321,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d1e6ed35544d4d4e937e0724cdbc8a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationSpeed: 1000
-  accelerationRate: 25
-  torqueSpeed: 1
-  rb: {fileID: 0}
+  boostZone: 0.8
+  accelerationValue: 1
+  accelerationBoostMultiplier: 5
+  brakeDragMultiplier: 50
+  defaultFriction: 1
+  torque: 2
+  defaultAngularDrag: 0.05
+  maxVariableAngularDrag: 2
+  brakeAngle: 10
   deadZoneRadius: 0.5
 --- !u!212 &600121977
 SpriteRenderer:
@@ -367,12 +372,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: df5781d083e09e74997eb1fb658def82, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Sprite: {fileID: 7482667652216324306, guid: 16e311303f9816e49b4d12148ba7777d, type: 3}
+  m_Color: {r: 1, g: 0, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.16, y: 0.16}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -406,14 +411,14 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 0.8
+  m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 4
+  m_Constraints: 0
 --- !u!114 &600121980
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -427,7 +432,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Actions: {fileID: -944628639613478452, guid: 3dd7ea4a92aeca94bb13da1bb42f9bd0, type: 3}
-  m_NotificationBehavior: 0
+  m_NotificationBehavior: 2
   m_UIInputModule: {fileID: 0}
   m_DeviceLostEvent:
     m_PersistentCalls:
@@ -438,7 +443,39 @@ MonoBehaviour:
   m_ControlsChangedEvent:
     m_PersistentCalls:
       m_Calls: []
-  m_ActionEvents: []
+  m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 600121976}
+        m_TargetAssemblyTypeName: PlayerCharacterBehavior, Assembly-CSharp
+        m_MethodName: OnLeftThumbstickInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 07b1c6c5-51cd-46e4-8b83-5337827a8fdc
+    m_ActionName: Gameplay/LeftThumbstickInput[/XInputControllerWindows/leftStick/up,/XInputControllerWindows/leftStick/down,/XInputControllerWindows/leftStick/left,/XInputControllerWindows/leftStick/right]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 600121976}
+        m_TargetAssemblyTypeName: PlayerCharacterBehavior, Assembly-CSharp
+        m_MethodName: OnBrake
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: f0d6751f-250b-482e-bcd6-2ff8222cf9ed
+    m_ActionName: Gameplay/Brake[/XInputControllerWindows/leftStickPress]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Gameplay
