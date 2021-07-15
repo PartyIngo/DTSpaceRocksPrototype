@@ -6,31 +6,7 @@
             "id": "6c6fa39c-f590-448b-9683-1319406496e5",
             "actions": [
                 {
-                    "name": "SwitchToMovement1",
-                    "type": "Button",
-                    "id": "352c526e-a469-467c-97e3-fd6c6dc219ab",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "SwitchToMovement2",
-                    "type": "Button",
-                    "id": "d7500ce9-a41d-402f-939e-122af473d65c",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "SwitchToMovement3",
-                    "type": "Button",
-                    "id": "61318025-617e-4f04-b827-11ec90768666",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "SpaceShipTurn",
+                    "name": "LeftThumbstickInput",
                     "type": "Value",
                     "id": "07b1c6c5-51cd-46e4-8b83-5337827a8fdc",
                     "expectedControlType": "Vector2",
@@ -38,9 +14,9 @@
                     "interactions": ""
                 },
                 {
-                    "name": "SpaceShipAcceleration",
+                    "name": "Brake",
                     "type": "Button",
-                    "id": "c345f631-407b-4b34-99ac-b0ab057ec001",
+                    "id": "f0d6751f-250b-482e-bcd6-2ff8222cf9ed",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
@@ -48,24 +24,13 @@
             ],
             "bindings": [
                 {
-                    "name": "",
-                    "id": "477140ef-2b62-4129-a66a-22cfb47fc886",
-                    "path": "<Keyboard>/1",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "SwitchToMovement1",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
                     "name": "2D Vector",
                     "id": "f602bd49-e05d-4d62-8ed5-ae46131d0b02",
                     "path": "2DVector(mode=2)",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "SpaceShipTurn",
+                    "action": "LeftThumbstickInput",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
@@ -76,7 +41,7 @@
                     "interactions": "",
                     "processors": "AxisDeadzone",
                     "groups": "",
-                    "action": "SpaceShipTurn",
+                    "action": "LeftThumbstickInput",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -87,7 +52,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "SpaceShipTurn",
+                    "action": "LeftThumbstickInput",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -98,7 +63,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "SpaceShipTurn",
+                    "action": "LeftThumbstickInput",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -109,51 +74,18 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "SpaceShipTurn",
+                    "action": "LeftThumbstickInput",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
                 {
                     "name": "",
-                    "id": "05970343-222d-43ea-b37e-5644d8d6dccb",
-                    "path": "<Keyboard>/2",
+                    "id": "39698c40-06f3-4b5b-a888-eaf50a0227ae",
+                    "path": "<Gamepad>/leftStickPress",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "SwitchToMovement2",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "3f6262fe-2a7e-4b9e-b106-fcff82b2eadb",
-                    "path": "<Keyboard>/3",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "SwitchToMovement3",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "e57a2e68-d50f-4153-bd18-cc274151b144",
-                    "path": "<Keyboard>/space",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "SpaceShipAcceleration",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "805055a2-d4e2-41ff-b77f-dd17f44e000e",
-                    "path": "<Gamepad>/buttonEast",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "SpaceShipAcceleration",
+                    "action": "Brake",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
