@@ -321,16 +321,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d1e6ed35544d4d4e937e0724cdbc8a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boostZone: 0.8
-  accelerationValue: 4
-  accelerationBoostMultiplier: 2
+  boostZone: 0.95
+  accelerationValue: 5
+  accelerationBoostMultiplier: 3
   brakeDragMultiplier: 3
   defaultFriction: 0.35
   torque: 10
   defaultAngularDrag: 0.5
   maxVariableAngularDrag: 2
   brakeAngle: 10
-  deadZoneRadius: 0.5
+  deadZoneRadius: 0.2
 --- !u!212 &600121977
 SpriteRenderer:
   m_ObjectHideFlags: 0

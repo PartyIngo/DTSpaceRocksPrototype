@@ -63,6 +63,7 @@ public class PlayerCharacterBehavior : MonoBehaviour
      */
     void handleAcceleration()
     {
+        print(" ");
         //When the current Value of the Thumbstick is out of the deadzone...
         if (leftStickInput.magnitude > deadZoneRadius)
         {
@@ -79,9 +80,9 @@ public class PlayerCharacterBehavior : MonoBehaviour
             if (leftStickInput.magnitude >= boostZone)
             {
                 currentAcceleration = (leftStickInput.normalized.magnitude * accelerationValue * accelerationBoostMultiplier);
-                //print("BOOST: " + currentAcceleration);
+                print("BOOST!");
             }
-            //Adds the force to the gameobject to move it. Acceleration feels better, when rotating the object to 180°
+            //Adds the force to the gameobject to move it. Acceleration feels better, when rotating the object to 180Â°
             rb.AddForce((transform.up * currentAcceleration) - ((transform.up * currentAcceleration) * Mathf.Abs(normalizedAngleDifference) / 180));
         }
     }
@@ -185,6 +186,6 @@ public class PlayerCharacterBehavior : MonoBehaviour
     public void OnLeftThumbstickInput(InputAction.CallbackContext context)
     {
         leftStickInput = context.ReadValue<Vector2>();
-        print("LTS Input: " + leftStickInput.magnitude);
+        //print("LTS Input: " + leftStickInput.magnitude);
     }
 }
