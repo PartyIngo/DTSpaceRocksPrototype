@@ -35,6 +35,8 @@ public class PlayerCharacterBehavior : MonoBehaviour
     public float deadZoneRadius;
     Vector2 leftStickInput;
 
+
+    float normalizedAngleDifference;
     Rigidbody2D rb;
 
     
@@ -70,7 +72,6 @@ public class PlayerCharacterBehavior : MonoBehaviour
             if (leftStickInput.magnitude < boostZone)
             {
                 currentAcceleration = (leftStickInput.normalized.magnitude * accelerationValue);
-                rb.AddForce(transform.up * currentAcceleration);
                 //print("NORMAL Speed: " + currentAcceleration);
             }
 
@@ -78,9 +79,10 @@ public class PlayerCharacterBehavior : MonoBehaviour
             if (leftStickInput.magnitude >= boostZone)
             {
                 currentAcceleration = (leftStickInput.normalized.magnitude * accelerationValue * accelerationBoostMultiplier);
-                rb.AddForce(transform.up * currentAcceleration);
                 //print("BOOST: " + currentAcceleration);
             }
+            //Adds the force to the gameobject to move it. Acceleration feels better, when rotating the object to 180°
+            rb.AddForce((transform.up * currentAcceleration) - ((transform.up * currentAcceleration) * Mathf.Abs(normalizedAngleDifference) / 180));
         }
     }
 
@@ -126,7 +128,7 @@ public class PlayerCharacterBehavior : MonoBehaviour
             //Notmalize the difference between the ships rotation and the LTS input.
             //This has to be done because of the transition from the values 179.9 to 180.0.
             //Otherwise the ship will rotate in the wrong direction/through the greater angle
-            float normalizedAngleDifference = angleLTS - convShipRotation;
+            normalizedAngleDifference = angleLTS - convShipRotation;
 
             if (normalizedAngleDifference > 180)
             {
