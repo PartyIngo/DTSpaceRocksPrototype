@@ -23,6 +23,8 @@ public class PlayerCharacterBehavior : MonoBehaviour
     [Header("Turning Stats")]
     [Tooltip("How fast should the spaceship rotate?")]
     public float torque;
+    [Tooltip("Extra torque for wide turns.")]
+    public float maxFastTurnTorque;
     [Tooltip("the default Value for angular drag")]
     public float defaultAngularDrag;
     [Tooltip("Multiplier for angular drag which slows down the rotation")]
@@ -34,7 +36,6 @@ public class PlayerCharacterBehavior : MonoBehaviour
     [Header("Gamepad Deadzone Setup")]
     public float deadZoneRadius;
     Vector2 leftStickInput;
-
 
     float normalizedAngleDifference;
     Rigidbody2D rb;
@@ -86,7 +87,7 @@ public class PlayerCharacterBehavior : MonoBehaviour
             rb.AddForce((transform.up * currentAcceleration) - ((transform.up * currentAcceleration) * Mathf.Abs(normalizedAngleDifference) / 180));
         }
     }
-
+    
     /**
      * When pressing the left Thumbstick, a multiplier has to be applied to the friction to slow down the spaceship.
      */
@@ -152,11 +153,11 @@ public class PlayerCharacterBehavior : MonoBehaviour
             //Otherwise, when the ship is rotated close to LTS's position, increase it more, the closer both values are
             else
             {
-                variableAngularDrag = (brakeAngle -angleDifference) * maxVariableAngularDrag;
+                variableAngularDrag = maxVariableAngularDrag - (maxVariableAngularDrag * Mathf.Abs(angleDifference)/ brakeAngle);
             }
 
             //set the angular Drag Property of the Rigidbody Component
-            rb.angularDrag = defaultAngularDrag + variableAngularDrag;
+            rb.angularDrag = defaultAngularDrag + Mathf.Abs(variableAngularDrag);
 
 
             //rotate leftwards
@@ -164,6 +165,7 @@ public class PlayerCharacterBehavior : MonoBehaviour
             {
                 //print("LEFT");
                 torque = Mathf.Abs(torque);
+                maxFastTurnTorque = Mathf.Abs(maxFastTurnTorque);
             }
             else
             {
@@ -172,14 +174,17 @@ public class PlayerCharacterBehavior : MonoBehaviour
                 if (Mathf.Sign(torque) > 0)
                 {
                     torque = -torque;
+                    maxFastTurnTorque = -maxFastTurnTorque;
                 }
             }
 
             //Finally add torque to rotate the Spaceship
-            rb.AddTorque(torque, ForceMode2D.Force);
+            float extraTorque = maxFastTurnTorque * (Mathf.Abs(normalizedAngleDifference) / 180);
+            rb.AddTorque(torque + extraTorque, ForceMode2D.Force);
+            print(torque + extraTorque);
         }
     }
-
+    
     /**
      * Called, then the left Thumbstick is dragged
      */

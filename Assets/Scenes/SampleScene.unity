@@ -327,8 +327,9 @@ MonoBehaviour:
   brakeDragMultiplier: 3
   defaultFriction: 0.35
   torque: 10
+  maxFastTurnTorque: 20
   defaultAngularDrag: 0.5
-  maxVariableAngularDrag: 2
+  maxVariableAngularDrag: 35
   brakeAngle: 10
   deadZoneRadius: 0.2
 --- !u!212 &600121977
