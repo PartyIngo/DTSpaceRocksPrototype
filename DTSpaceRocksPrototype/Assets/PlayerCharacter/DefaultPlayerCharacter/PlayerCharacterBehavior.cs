@@ -30,7 +30,6 @@ public class PlayerCharacterBehavior : MonoBehaviour
     float variableAngularDrag;
     [Tooltip("angular difference between Spaceship and LTS. Is the Spaceship within this angle, the friction will be increased")]
     public float brakeAngle;
-    float lastTargetRotation;
 
     [Header("Gamepad Deadzone Setup")]
     public float deadZoneRadius;
@@ -39,6 +38,9 @@ public class PlayerCharacterBehavior : MonoBehaviour
     Rigidbody2D rb;
 
     
+    /**
+     * prepare some values by starting this script
+     */
     void Start()
     {
         rb = this.GetComponent<Rigidbody2D>();
@@ -69,7 +71,7 @@ public class PlayerCharacterBehavior : MonoBehaviour
             {
                 currentAcceleration = (leftStickInput.normalized.magnitude * accelerationValue);
                 rb.AddForce(transform.up * currentAcceleration);
-                print("NORMAL Speed: " + currentAcceleration);
+                //print("NORMAL Speed: " + currentAcceleration);
             }
 
             //When dragging the Left Thumbstick to it's limit, a boost has to be applied, to increase the acceleration to a maximum
@@ -77,7 +79,7 @@ public class PlayerCharacterBehavior : MonoBehaviour
             {
                 currentAcceleration = (leftStickInput.normalized.magnitude * accelerationValue * accelerationBoostMultiplier);
                 rb.AddForce(transform.up * currentAcceleration);
-                print("BOOST: " + currentAcceleration);
+                //print("BOOST: " + currentAcceleration);
             }
         }
     }
@@ -91,14 +93,14 @@ public class PlayerCharacterBehavior : MonoBehaviour
         if (context.started)
         {
             rb.drag = defaultFriction * brakeDragMultiplier;
-            print("Pressed");
+            //print("Pressed");
         }
 
         //On LTS released, the friction is set to it's default value
         if (context.canceled)
         {
             rb.drag = defaultFriction;
-            print("Released");
+            //print("Released");
         }
     }
 
@@ -106,79 +108,72 @@ public class PlayerCharacterBehavior : MonoBehaviour
      * Here is described how the spaceship has to turn in the desired directions
      */
     void handleTurning()
-    {
+    {   
         //When out of Deadzone, the Spaceship is able to turn around
         if (leftStickInput.magnitude > deadZoneRadius)
         {
-            //print("LeftStick Input " + leftStickInput);
-
-            //Calculates LTS input into float value for angle
             float angleLTS = Mathf.Atan2(leftStickInput.y, leftStickInput.x) * Mathf.Rad2Deg;
-            lastTargetRotation = angleLTS;
-
-            //Converts LTS Input into desired Spaceship Rotation. The Whole Coordinate System of LTS is rotated by 90° CCW, so North has the Value of 90 while Unitys System hast a Value of 0 in northern Direction
-            Quaternion targetRotation = Quaternion.Euler(new Vector3(0, 0, angleLTS - 90));
-
-            
-            //transform.rotation = targetRotation; //Check if conversation of LTS works. Comment Code below, so it won't affect this debug values
-
-            //The only difference that can be calculates is from both z Axis values. The Spaceship as well as the calculated LTS input doen't have any other values than 0 on their X and Y axis
-            float angleDifference = Mathf.Abs(transform.rotation.eulerAngles.z - targetRotation.eulerAngles.z);  //If SS is on 358 and LTS is on 2, the difference will be huge (256 instead of 4)
-
-            print("SS:    " + transform.rotation.eulerAngles.z + "    LTS:    " + targetRotation.eulerAngles.z + "    Diff   " + angleDifference);
-            
-            
-            //If the spaceship is rotated in another direction than the LTS is currently dragged to, the Spaceship has to be rotated.
-            if (transform.rotation.eulerAngles.z != targetRotation.eulerAngles.z)
+     
+            //Conversion
+            //Add -90 on Ship's rotation
+            float convShipRotation = transform.rotation.eulerAngles.z + 90;
+            //ship and LTS are equal and are not > 360
+            if (convShipRotation > 180f)
             {
-                //If the difference is too high, the rotation has to work fast. Therefore a Multiplier for the angularDrag is set to a minimum.
-                if (angleDifference > brakeAngle)
-                {
-                    variableAngularDrag = 0;
-                }
-
-                //If the difference between the Spaceship's rotation and the LTS's Direction is small enaough, the multiplier is increased exponentially.
-                if (angleDifference <= brakeAngle)
-                {
-                    variableAngularDrag = (Mathf.Pow(brakeAngle, 2) - Mathf.Pow(angleDifference, 2)) * maxVariableAngularDrag;
-                }
-
-                //set the angular Drag Property of the Rigidbody Component
-                rb.angularDrag = defaultAngularDrag + variableAngularDrag;
-
-                //
-                if (angleDifference < 180)
-                {
-                    torque = Mathf.Abs(torque);
-                }
-                if (angleDifference >= 180)
-                {
-                    //If torque is positive, switch it's sign ONCE
-                    if (Mathf.Sign(torque) > 0)
-                    {
-                        torque = -torque;
-                    }
-                }
-
-                //Apply Torque to the spaceship to rotate it
-                rb.AddTorque(torque, ForceMode2D.Force);
+                convShipRotation -= 360f;
             }
 
-            /**
-             *      PSEUDO CODE. DO NOT DELETE!!!
-             *      
-             *      public float defaultAngularDrag;
-             *      float variableAngularDrag;
-             *      WHILE Thumbstick Position != SpaceshipRotation
-             *          IF angle between SpaceshipRotation  and ThumbstickPosition greater than brakeAngle
-             *              variableAngularDrag = 0;
-             *              
-             *          IF angle between SpaceshipRotation and ThumbstickPosition smallerEqual brakeAngle
-             *              variableAngularDrag = (brakeAngle² - diff²) * maxVariableAngularDrag;
-             *
-             *      rb.angualarDrag = defaultAngularDrag + variableAngularDrag;
-             *      Rotate Spaceship with AddTorque on Spaceship
-             */
+            //Notmalize the difference between the ships rotation and the LTS input.
+            //This has to be done because of the transition from the values 179.9 to 180.0.
+            //Otherwise the ship will rotate in the wrong direction/through the greater angle
+            float normalizedAngleDifference = angleLTS - convShipRotation;
+
+            if (normalizedAngleDifference > 180)
+            {
+                normalizedAngleDifference -= 360;
+            }
+            if (normalizedAngleDifference < -180)
+            {
+                normalizedAngleDifference += 360;
+            }
+            float angleDifference = normalizedAngleDifference;
+
+            //Debug output
+            //print("SS:    " + convShipRotation + "  LTS:   " + angleLTS + "  DIFF:    " + angleDifference);
+
+            //when ship is rotated far from the LTS's position, reduce the friction miltiplier
+            if (Mathf.Abs(angleDifference) > brakeAngle)
+            {
+                variableAngularDrag = 0;
+            }
+            //Otherwise, when the ship is rotated close to LTS's position, increase it more, the closer both values are
+            else
+            {
+                variableAngularDrag = (brakeAngle -angleDifference) * maxVariableAngularDrag;
+            }
+
+            //set the angular Drag Property of the Rigidbody Component
+            rb.angularDrag = defaultAngularDrag + variableAngularDrag;
+
+
+            //rotate leftwards
+            if (Mathf.Sign(normalizedAngleDifference) > 0)
+            {
+                //print("LEFT");
+                torque = Mathf.Abs(torque);
+            }
+            else
+            {
+                //print("RIGHT");
+                //If torque is positive, switch it's sign ONCE
+                if (Mathf.Sign(torque) > 0)
+                {
+                    torque = -torque;
+                }
+            }
+
+            //Finally add torque to rotate the Spaceship
+            rb.AddTorque(torque, ForceMode2D.Force);
         }
     }
 
@@ -188,5 +183,6 @@ public class PlayerCharacterBehavior : MonoBehaviour
     public void OnLeftThumbstickInput(InputAction.CallbackContext context)
     {
         leftStickInput = context.ReadValue<Vector2>();
+        print("LTS Input: " + leftStickInput.magnitude);
     }
 }
