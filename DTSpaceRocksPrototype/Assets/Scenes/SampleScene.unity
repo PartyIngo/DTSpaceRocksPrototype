@@ -322,12 +322,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boostZone: 0.8
-  accelerationValue: 1
-  accelerationBoostMultiplier: 5
-  brakeDragMultiplier: 50
-  defaultFriction: 1
-  torque: 2
-  defaultAngularDrag: 0.05
+  accelerationValue: 4
+  accelerationBoostMultiplier: 2
+  brakeDragMultiplier: 3
+  defaultFriction: 0.35
+  torque: 10
+  defaultAngularDrag: 0.5
   maxVariableAngularDrag: 2
   brakeAngle: 10
   deadZoneRadius: 0.5
