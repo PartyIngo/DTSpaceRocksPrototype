@@ -180,8 +180,9 @@ public class PlayerCharacterBehavior : MonoBehaviour
 
             //Finally add torque to rotate the Spaceship
             float extraTorque = maxFastTurnTorque * (Mathf.Abs(normalizedAngleDifference) / 180);
-            rb.AddTorque(torque + extraTorque, ForceMode2D.Force);
-            print(torque + extraTorque);
+            float scaledTotalTorque = (torque + extraTorque) * leftStickInput.magnitude;
+            rb.AddTorque(scaledTotalTorque, ForceMode2D.Force);
+            print(scaledTotalTorque);
         }
     }
     
