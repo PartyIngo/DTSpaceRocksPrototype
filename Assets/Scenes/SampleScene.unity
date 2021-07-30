@@ -331,7 +331,9 @@ MonoBehaviour:
   defaultAngularDrag: 0.5
   maxVariableAngularDrag: 35
   brakeAngle: 10
-  deadZoneRadius: 0.2
+  strafeSpeed: 2
+  deadZoneRadiusLTS: 0.2
+  deadZoneLTRT: 0.2
 --- !u!212 &600121977
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -477,6 +479,38 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: f0d6751f-250b-482e-bcd6-2ff8222cf9ed
     m_ActionName: Gameplay/Brake[/XInputControllerWindows/leftStickPress]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 600121976}
+        m_TargetAssemblyTypeName: PlayerCharacterBehavior, Assembly-CSharp
+        m_MethodName: OnStrafeLeft
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 8594c787-ca02-48c3-a0e4-a918688a001b
+    m_ActionName: Gameplay/Strafe
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 600121976}
+        m_TargetAssemblyTypeName: PlayerCharacterBehavior, Assembly-CSharp
+        m_MethodName: OnStrafeRight
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: e4dcd37f-f759-4d41-ae5c-8998cfcce62a
+    m_ActionName: Gameplay/StrafeLeft1[/XInputControllerWindows/leftTrigger]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Gameplay

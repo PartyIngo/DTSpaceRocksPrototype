@@ -20,6 +20,22 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "StrafeLeft",
+                    "type": "Value",
+                    "id": "8594c787-ca02-48c3-a0e4-a918688a001b",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "StrafeRight",
+                    "type": "Value",
+                    "id": "e4dcd37f-f759-4d41-ae5c-8998cfcce62a",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -86,6 +102,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "Brake",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "25b6dde4-4ddd-4c2b-89bf-852b9a224b3f",
+                    "path": "<Gamepad>/leftTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "StrafeLeft",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "da70cf56-8a0b-4e04-b993-2e83c8c84b25",
+                    "path": "<Gamepad>/rightTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "StrafeRight",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
