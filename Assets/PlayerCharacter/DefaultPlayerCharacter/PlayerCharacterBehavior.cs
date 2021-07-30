@@ -80,27 +80,31 @@ public class PlayerCharacterBehavior : MonoBehaviour
      */
     void HandleAcceleration()
     {
-        //When the current Value of the Thumbstick is out of the deadzone...
-        if (leftStickInput.magnitude > deadZoneRadiusLTS)
+        //When the player isn't strafing...
+        if (!(isStrafingLeft || isStrafingRight))
         {
-            //print("Magnitude: " + leftStickInput.normalized.magnitude + " On Coordinates " + leftStickInput);
-            //print("On Coordinates " + leftStickInput);
-            //When dragging the Left Thumbstick a little bit, the acceleration is normal
-            if (leftStickInput.magnitude < boostZone)
+            //When the current Value of the Thumbstick is out of the deadzone...
+            if (leftStickInput.magnitude > deadZoneRadiusLTS)
             {
-                currentAcceleration = (leftStickInput.normalized.magnitude * accelerationValue);
-                //print("NORMAL Speed: " + currentAcceleration);
-            }
+                //print("Magnitude: " + leftStickInput.normalized.magnitude + " On Coordinates " + leftStickInput);
+                //print("On Coordinates " + leftStickInput);
+                //When dragging the Left Thumbstick a little bit, the acceleration is normal
+                if (leftStickInput.magnitude < boostZone)
+                {
+                    currentAcceleration = (leftStickInput.normalized.magnitude * accelerationValue);
+                    //print("NORMAL Speed: " + currentAcceleration);
+                }
 
-            //When dragging the Left Thumbstick to it's limit, a boost has to be applied, to increase the acceleration to a maximum
-            if (leftStickInput.magnitude >= boostZone)
-            {
-                currentAcceleration = (leftStickInput.normalized.magnitude * accelerationValue * accelerationBoostMultiplier);
-                print("BOOST!");
+                //When dragging the Left Thumbstick to it's limit, a boost has to be applied, to increase the acceleration to a maximum
+                if (leftStickInput.magnitude >= boostZone)
+                {
+                    currentAcceleration = (leftStickInput.normalized.magnitude * accelerationValue * accelerationBoostMultiplier);
+                    print("BOOST!");
+                }
+                //Adds the force to the gameobject to move it. Acceleration feels better, when rotating the object to 180°
+                rb.AddForce((transform.up * currentAcceleration) - ((transform.up * currentAcceleration) * Mathf.Abs(normalizedAngleDifference) / 180));
             }
-            //Adds the force to the gameobject to move it. Acceleration feels better, when rotating the object to 180°
-            rb.AddForce((transform.up * currentAcceleration) - ((transform.up * currentAcceleration) * Mathf.Abs(normalizedAngleDifference) / 180));
-        }
+        }  
     }
     
 

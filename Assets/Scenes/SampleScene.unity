@@ -331,7 +331,7 @@ MonoBehaviour:
   defaultAngularDrag: 0.5
   maxVariableAngularDrag: 35
   brakeAngle: 10
-  strafeSpeed: 2
+  strafeSpeed: 5
   deadZoneRadiusLTS: 0.2
   deadZoneLTRT: 0.2
 --- !u!212 &600121977
