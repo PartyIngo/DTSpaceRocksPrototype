@@ -332,9 +332,9 @@ MonoBehaviour:
   defaultAngularDrag: 0.5
   maxVariableAngularDrag: 35
   brakeAngle: 10
-  strafeSpeed: 5
-  deadZoneRadiusLTS: 0.2
-  deadZoneLTRT: 0.2
+  strafeSpeed: 10
+  deadZoneRadiusLTS: 0.1
+  deadZoneLTRT: 0.1
   borderDistanceX: 30
   borderDistanceY: 16
 --- !u!212 &600121977
@@ -548,7 +548,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bullet: {fileID: 5803481595772901523, guid: 0d5a12c9886214a4a8814109e77ea64b, type: 3}
-  shootingInterval: 0.5
+  shootingInterval: 0.1
 --- !u!1 &2001028614
 GameObject:
   m_ObjectHideFlags: 0
