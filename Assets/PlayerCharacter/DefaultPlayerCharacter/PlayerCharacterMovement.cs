@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerCharacterBehavior : MonoBehaviour
+public class PlayerCharacterMovement : MonoBehaviour
 {
     [Header("Acceleration Stats")]
     [Tooltip("The inner boundaries for boost. If the Thumbstick's value is greater, a boost will be applied.")]
@@ -49,6 +49,11 @@ public class PlayerCharacterBehavior : MonoBehaviour
     [Tooltip("The Deadzone of both the LT and RT Triggers")]
     public float deadZoneLTRT;
 
+    [Header("Field Boundaries")]
+    [Tooltip("The Distance from left or right Border to the center (0/0)")]
+    public float borderDistanceX;
+    [Tooltip("The Distance from top or bottom Border to the center (0/0)")]
+    public float borderDistanceY;
 
     float normalizedAngleDifference;
     Rigidbody2D rb;
@@ -63,6 +68,11 @@ public class PlayerCharacterBehavior : MonoBehaviour
         rb.drag = defaultFriction;
     }
 
+    void Update()
+    {
+        //Check if the Spaceship is outside of the Field and sets it's position to the opposite border.
+        CheckPosition();        
+    }
     void FixedUpdate()
     {
         //Check if the spaceship has to be accelerated forward
@@ -73,6 +83,54 @@ public class PlayerCharacterBehavior : MonoBehaviour
 
         //Check if the spaceship has to strafe
         HandleStrafing();
+    }
+
+    /**
+     * Checks if the player is outside of the boundaries of the playfield
+     * If so, the player will enter the field from the opposite border
+     */
+    void CheckPosition()
+    {
+        //print("X Pos: " + transform.position.x + " Y Pos: " + transform.position.y);
+        
+        Vector3 tmp = transform.position;
+
+        //If spaceship has passed the right border...
+        if (transform.position.x > borderDistanceX)
+        {
+            //Change it's position to be inside of the left border of the field
+            tmp.x = -borderDistanceX + 1;   //Make sure, the ship will spawn WITHIN the borders to avoid switching its signs infinitely
+            transform.position = tmp;
+            //print(tmp);
+        }
+
+        //If spaceship has passed the left border...
+        if (transform.position.x < -borderDistanceX)
+        {
+            //Change it's position to be inside of the left border of the field
+            tmp.x = borderDistanceX - 1;   //Make sure, the ship will spawn WITHIN the borders to avoid switching its signs infinitely
+            transform.position = tmp;
+            //print(tmp);
+        }
+
+        //If spaceship hahs passed top border...
+        if (transform.position.y > borderDistanceY)
+        {
+            //Change it's position to be inside of the left border of the field
+            tmp.y = -borderDistanceY + 1;    //Make sure, the ship will spawn WITHIN the borders to avoid switching its signs infinitely
+            transform.position = tmp;
+            //print(tmp);
+        }
+
+        //If spaceship hahs passed bottom border...
+        if (transform.position.y < -borderDistanceY)
+        {
+            //Change it's position to be inside of the left border of the field
+            tmp.y = borderDistanceY - 1;    //Make sure, the ship will spawn WITHIN the borders to avoid switching its signs infinitely
+            transform.position = tmp;
+            //print(tmp);
+        }
+
     }
 
     /**
@@ -227,7 +285,7 @@ public class PlayerCharacterBehavior : MonoBehaviour
             strafingValue = 0;
         }
 
-        print("Strafing Value * Speed: " + strafingValue * strafeSpeed);
+        //print("Strafing Value * Speed: " + strafingValue * strafeSpeed);
         //Apply the force sideways, to make the Spaceship strafe
         rb.AddForce(transform.right * strafingValue * strafeSpeed);
     }
