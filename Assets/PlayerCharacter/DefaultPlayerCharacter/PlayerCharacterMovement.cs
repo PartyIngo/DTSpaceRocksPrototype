@@ -264,6 +264,9 @@ public class PlayerCharacterMovement : MonoBehaviour
             //Debug info
             //print("Strafe enabled");
 
+            //Reset friction value, as it may be lowered by the else if statement below.
+            rb.drag = defaultFriction;
+
             //If ship strafes leftwards set stafingValue to corresponding value. Make sure, the value is inverted to simplify further calculations.
             if (isStrafingLeft)
             {
@@ -275,14 +278,22 @@ public class PlayerCharacterMovement : MonoBehaviour
             {
                 strafingValue = strafingRightValue;
             }
-        }
 
-        //When XOR will return false (because both of LT/RT are pressed or both of them are not pressed) no strafe will be applied or rather the strafe will be resetted
+            
+        }
+        //If ship strafes rightwards and leftwards, divide linear drag by 4.
+        else if (isStrafingLeft && isStrafingRight)
+        {
+            strafingValue = 0;
+            rb.drag = defaultFriction/4;
+        }
+        //When none of LT/RT are pressed no strafe will be applied and the linear friction reset.
         else
         {
             //Debug info
             //print("strafe blocked");
             strafingValue = 0;
+            rb.drag = defaultFriction;
         }
 
         //print("Strafing Value * Speed: " + strafingValue * strafeSpeed);
