@@ -138,8 +138,8 @@ public class PlayerCharacterMovement : MonoBehaviour
      */
     void HandleAcceleration()
     {
-        //When the player isn't strafing...
-        if (!(isStrafingLeft || isStrafingRight))
+        //When the player isn't pressing both LT & RT...
+        if (!(isStrafingLeft && isStrafingRight))
         {
             //When the current Value of the Thumbstick is out of the deadzone...
             if (leftStickInput.magnitude > deadZoneRadiusLTS)
@@ -213,7 +213,7 @@ public class PlayerCharacterMovement : MonoBehaviour
             //Otherwise, when the angleDifference is less thatn the brakeAngle's value, increase the angular drag exponentially the smaller the angleDifference becomes
             else
             {
-                variableAngularDrag = maxVariableAngularDrag - (maxVariableAngularDrag * Mathf.Abs(angleDifference)/ brakeAngle);
+                variableAngularDrag = maxVariableAngularDrag - (maxVariableAngularDrag * Mathf.Abs(angleDifference) / brakeAngle);
             }
 
             //set the angular Drag Property of the Rigidbody Component
@@ -258,41 +258,41 @@ public class PlayerCharacterMovement : MonoBehaviour
      */
     void HandleStrafing()
     {
-        //XOR Check: Only one of LT or RT can have a value to apply lateral force/strafe
-        if (isStrafingLeft ^ isStrafingRight)
-        {
-            //Debug info
-            //print("Strafe enabled");
+        ////XOR Check: Only one of LT or RT can have a value to apply lateral force/strafe
+        //if (isStrafingLeft ^ isStrafingRight)
+        //{
+        //    //Debug info
+        //    //print("Strafe enabled");
 
-            //Reset friction value, as it may be lowered by the else if statement below.
-            rb.drag = defaultFriction;
+        //    //Reset friction value, as it may be lowered by the else if statement below.
+        //    rb.drag = defaultFriction;
 
-            //If ship strafes leftwards set stafingValue to corresponding value. Make sure, the value is inverted to simplify further calculations.
-            if (isStrafingLeft)
-            {
-                strafingValue = -strafingLeftValue;
-            }
+        //    //If ship strafes leftwards set stafingValue to corresponding value. Make sure, the value is inverted to simplify further calculations.
+        //    if (isStrafingLeft)
+        //    {
+        //        strafingValue = -strafingLeftValue;
+        //    }
 
-            // If ship strafes rightwards set stafingValue to corresponding value.
-            if (isStrafingRight)
-            {
-                strafingValue = strafingRightValue;
-            }
+        //    // If ship strafes rightwards set stafingValue to corresponding value.
+        //    if (isStrafingRight)
+        //    {
+        //        strafingValue = strafingRightValue;
+        //    }
 
             
-        }
-        //If ship strafes rightwards and leftwards, divide linear drag by 4.
-        else if (isStrafingLeft && isStrafingRight)
+        //}
+        //If LT+RT are pressed, divide linear drag by 4.
+        /*else*/ if (isStrafingLeft && isStrafingRight)
         {
-            strafingValue = 0;
+            //strafingValue = 0;
             rb.drag = defaultFriction/4;
         }
-        //When none of LT/RT are pressed no strafe will be applied and the linear friction reset.
+        //Else the linear friction resets.
         else
         {
             //Debug info
             //print("strafe blocked");
-            strafingValue = 0;
+            //strafingValue = 0;
             rb.drag = defaultFriction;
         }
 

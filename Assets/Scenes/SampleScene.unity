@@ -327,11 +327,11 @@ MonoBehaviour:
   accelerationBoostMultiplier: 3
   brakeDragMultiplier: 3
   defaultFriction: 1
-  torque: 15
-  maxFastTurnTorque: 75
-  defaultAngularDrag: 5
-  maxVariableAngularDrag: 15
-  brakeAngle: 10
+  torque: 10
+  maxFastTurnTorque: 100
+  defaultAngularDrag: 8
+  maxVariableAngularDrag: 25
+  brakeAngle: 2
   strafeSpeed: 20
   deadZoneRadiusLTS: 0.2
   deadZoneLTRT: 0.2
@@ -418,7 +418,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 0.1
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
@@ -548,7 +548,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bullet: {fileID: 5803481595772901523, guid: 0d5a12c9886214a4a8814109e77ea64b, type: 3}
-  shootingInterval: 0.1
+  shootingInterval: 0.05
 --- !u!1 &2001028614
 GameObject:
   m_ObjectHideFlags: 0
