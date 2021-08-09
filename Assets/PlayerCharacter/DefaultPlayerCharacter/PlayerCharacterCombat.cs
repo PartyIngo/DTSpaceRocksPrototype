@@ -6,6 +6,10 @@ using UnityEngine.InputSystem;
 
 public class PlayerCharacterCombat : MonoBehaviour
 {
+    [Header("Enable/Disable specific Functions")]
+    public bool isShootingEnabled;
+    
+    [Header("Shooting Settings")]
     [Tooltip("The gameObject, the playerCharacter shoots")]
     public GameObject bullet;
 
@@ -18,7 +22,10 @@ public class PlayerCharacterCombat : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        HandleShooting();
+        if (isShootingEnabled)
+        {
+            HandleShooting();
+        }
     }
 
 

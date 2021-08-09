@@ -322,6 +322,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d1e6ed35544d4d4e937e0724cdbc8a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTurningEnabled: 1
+  isAcceleratingEnabled: 1
+  isBrakeEnabled: 1
+  isStrafingEnabled: 1
+  isLoopingEnabled: 1
   boostZone: 0.95
   accelerationValue: 10
   accelerationBoostMultiplier: 3
@@ -547,6 +552,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b33360c7dbb62c4697d1f4056957130, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isShootingEnabled: 1
   bullet: {fileID: 5803481595772901523, guid: 0d5a12c9886214a4a8814109e77ea64b, type: 3}
   shootingInterval: 0.05
 --- !u!1 &2001028614

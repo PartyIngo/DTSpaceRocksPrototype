@@ -5,6 +5,18 @@ using UnityEngine.InputSystem;
 
 public class PlayerCharacterMovement : MonoBehaviour
 {
+    [Header("Enable/Disable specific Functions")]
+    [Tooltip("Is the Spaceship able to turn leftwards/rightwards?")]
+    public bool isTurningEnabled;
+    [Tooltip("Is the Spaceship able to accelerate forward?")]
+    public bool isAcceleratingEnabled;
+    [Tooltip("Is the Spaceship able to brake")]
+    public bool isBrakeEnabled;
+    [Tooltip("Is a acceleration on the left/right side enabled?")]
+    public bool isStrafingEnabled;
+    [Tooltip("Should the Spaceship enter the Field from the other side, when exiting it?")]
+    public bool isLoopingEnabled;
+
     [Header("Acceleration Stats")]
     [Tooltip("The inner boundaries for boost. If the Thumbstick's value is greater, a boost will be applied.")]
     public float boostZone;
@@ -71,7 +83,10 @@ public class PlayerCharacterMovement : MonoBehaviour
     void Update()
     {
         //Check if the Spaceship is outside of the Field and sets it's position to the opposite border.
-        CheckPosition();        
+        if (isLoopingEnabled)
+        {
+            CheckPosition();
+        }
     }
     void FixedUpdate()
     {
@@ -159,8 +174,12 @@ public class PlayerCharacterMovement : MonoBehaviour
                     currentAcceleration = (leftStickInput.normalized.magnitude * accelerationValue * accelerationBoostMultiplier);
                     print("BOOST!");
                 }
-                //Adds the force to the gameobject to move it. Acceleration feels better, when rotating the object to 180°
-                rb.AddForce((transform.up * currentAcceleration) - ((transform.up * currentAcceleration) * Mathf.Abs(normalizedAngleDifference) / 180));
+
+                if (isAcceleratingEnabled)
+                {
+                    //Adds the force to the gameobject to move it. Acceleration feels better, when rotating the object to 180°
+                    rb.AddForce((transform.up * currentAcceleration) - ((transform.up * currentAcceleration) * Mathf.Abs(normalizedAngleDifference) / 180));
+                }
             }
         }  
     }
@@ -243,8 +262,12 @@ public class PlayerCharacterMovement : MonoBehaviour
             
             float extraTorque = maxFastTurnTorque * (Mathf.Abs(normalizedAngleDifference) / 180);
             float scaledTotalTorque = (torque + extraTorque) * leftStickInput.magnitude;
-            //Finally add torque to rotate the Spaceship
-            rb.AddTorque(scaledTotalTorque, ForceMode2D.Force);
+
+            if (isTurningEnabled)
+            {
+                //Finally add torque to rotate the Spaceship
+                rb.AddTorque(scaledTotalTorque, ForceMode2D.Force);
+            }
             
             //Debug info
             //print(scaledTotalTorque);
@@ -298,7 +321,10 @@ public class PlayerCharacterMovement : MonoBehaviour
 
         //print("Strafing Value * Speed: " + strafingValue * strafeSpeed);
         //Apply the force sideways, to make the Spaceship strafe
-        rb.AddForce(transform.right * strafingValue * strafeSpeed);
+        if (isStrafingEnabled)
+        {
+            rb.AddForce(transform.right * strafingValue * strafeSpeed);
+        }
     }
 
     #region Input System Controls
@@ -308,18 +334,21 @@ public class PlayerCharacterMovement : MonoBehaviour
      */
     public void OnBrake(InputAction.CallbackContext context)
     {
-        //On LTS pressed, the drag is increased to slow down the spaceship
-        if (context.started)
+        if (isBrakeEnabled)
         {
-            rb.drag = defaultFriction * brakeDragMultiplier;
-            //print("Pressed");
-        }
+            //On LTS pressed, the drag is increased to slow down the spaceship
+            if (context.started)
+            {
+                rb.drag = defaultFriction * brakeDragMultiplier;
+                //print("Pressed");
+            }
 
-        //On LTS released, the friction is set to it's default value
-        if (context.canceled)
-        {
-            rb.drag = defaultFriction;
-            //print("Released");
+            //On LTS released, the friction is set to it's default value
+            if (context.canceled)
+            {
+                rb.drag = defaultFriction;
+                //print("Released");
+            }
         }
     }
 
