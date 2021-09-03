@@ -67,6 +67,15 @@ public class PlayerCharacterMovement : MonoBehaviour
     [Tooltip("The Distance from top or bottom Border to the center (0/0)")]
     public float borderDistanceY;
 
+    [Header("VFX Stats")]
+    public TrailRenderer trailLeft;
+    public TrailRenderer trailRight;
+    float ribbonLifeTime;
+    public SpriteRenderer flame;
+    public Sprite accelerationFlame;
+    public Sprite boostFlame;
+
+
     float normalizedAngleDifference;
     Rigidbody2D rb;
 
@@ -78,6 +87,9 @@ public class PlayerCharacterMovement : MonoBehaviour
     {
         rb = this.GetComponent<Rigidbody2D>();
         rb.drag = defaultFriction;
+
+        //VFX/Trail handling
+        
     }
 
     void Update()
@@ -166,6 +178,9 @@ public class PlayerCharacterMovement : MonoBehaviour
                 {
                     currentAcceleration = (leftStickInput.normalized.magnitude * accelerationValue);
                     //print("NORMAL Speed: " + currentAcceleration);
+                    
+                    //VFX: change flame sprite to normal acceleration sprite
+                    flame.sprite = accelerationFlame;
                 }
 
                 //When dragging the Left Thumbstick to it's limit, a boost has to be applied, to increase the acceleration to a maximum
@@ -173,6 +188,9 @@ public class PlayerCharacterMovement : MonoBehaviour
                 {
                     currentAcceleration = (leftStickInput.normalized.magnitude * accelerationValue * accelerationBoostMultiplier);
                     print("BOOST!");
+
+                    //VFX: change flame sprite to boost sprite
+                    flame.sprite = boostFlame;
                 }
 
                 if (isAcceleratingEnabled)
@@ -181,7 +199,12 @@ public class PlayerCharacterMovement : MonoBehaviour
                     rb.AddForce((transform.up * currentAcceleration) - ((transform.up * currentAcceleration) * Mathf.Abs(normalizedAngleDifference) / 180));
                 }
             }
-        }  
+            else
+            {
+                //VFX: reset flame sprite
+                flame.sprite = null;
+            }
+        }
     }
     
 
@@ -228,16 +251,17 @@ public class PlayerCharacterMovement : MonoBehaviour
             if (Mathf.Abs(angleDifference) > brakeAngle)
             {
                 variableAngularDrag = 0;
+                //ribbonLifeTime = 0.1f;
             }
             //Otherwise, when the angleDifference is less thatn the brakeAngle's value, increase the angular drag exponentially the smaller the angleDifference becomes
             else
             {
                 variableAngularDrag = maxVariableAngularDrag - (maxVariableAngularDrag * Mathf.Abs(angleDifference) / brakeAngle);
+                //ribbonLifeTime = 1.0f;
             }
 
             //set the angular Drag Property of the Rigidbody Component
             rb.angularDrag = defaultAngularDrag + Mathf.Abs(variableAngularDrag);
-
 
             //rotate the spaceship leftwards
             if (Mathf.Sign(normalizedAngleDifference) > 0)
@@ -246,6 +270,8 @@ public class PlayerCharacterMovement : MonoBehaviour
                 //print("LEFT");
                 torque = Mathf.Abs(torque);
                 maxFastTurnTorque = Mathf.Abs(maxFastTurnTorque);
+
+                //trailLeft.time = ribbonLifeTime;
             }
             else
             {
@@ -256,6 +282,8 @@ public class PlayerCharacterMovement : MonoBehaviour
                 {
                     torque = -torque;
                     maxFastTurnTorque = -maxFastTurnTorque;
+
+                    //trailRight.time = trailLeft.time;
                 }
             }
 
