@@ -68,13 +68,21 @@ public class PlayerCharacterMovement : MonoBehaviour
     public float borderDistanceY;
 
     [Header("VFX Stats")]
+    [Tooltip("The Asset for the left Trail")]
     public TrailRenderer trailLeft;
+    [Tooltip("The Asset for the right Trail")]
     public TrailRenderer trailRight;
     float ribbonLifeTime;
     public SpriteRenderer flame;
     public Sprite accelerationFlame;
     public Sprite boostFlame;
-
+    bool isRibbonDiffEnabled;
+    bool isRibbonLeftEnabled;
+    bool isRibbonRightEnabled;
+    [Tooltip("Standard length for ribbons, when the spaceshhip is normally accelerating")]
+    public float ribbonStandardLength;
+    [Tooltip("The length for ribbons, when the ship is making a huge turn in any direction")]
+    public float ribbonTurnLength;
 
     float normalizedAngleDifference;
     Rigidbody2D rb;
@@ -110,6 +118,9 @@ public class PlayerCharacterMovement : MonoBehaviour
 
         //Check if the spaceship has to strafe
         HandleStrafing();
+
+        //Handle Ribbon VFX
+        HandleRibbons();
     }
 
     /**
@@ -251,13 +262,15 @@ public class PlayerCharacterMovement : MonoBehaviour
             if (Mathf.Abs(angleDifference) > brakeAngle)
             {
                 variableAngularDrag = 0;
-                //ribbonLifeTime = 0.1f;
+
+                //VFX: enable different Ribbon lengths
+                isRibbonDiffEnabled = true;
             }
             //Otherwise, when the angleDifference is less thatn the brakeAngle's value, increase the angular drag exponentially the smaller the angleDifference becomes
             else
             {
                 variableAngularDrag = maxVariableAngularDrag - (maxVariableAngularDrag * Mathf.Abs(angleDifference) / brakeAngle);
-                //ribbonLifeTime = 1.0f;
+                isRibbonDiffEnabled = false;
             }
 
             //set the angular Drag Property of the Rigidbody Component
@@ -268,10 +281,14 @@ public class PlayerCharacterMovement : MonoBehaviour
             {
                 //Debug info
                 //print("LEFT");
+                
+                //VFX Settings: By turning leftwards, only the left ribbon is enabled to change its appearance
+                isRibbonLeftEnabled = true;
+                isRibbonRightEnabled = false;
+
                 torque = Mathf.Abs(torque);
                 maxFastTurnTorque = Mathf.Abs(maxFastTurnTorque);
 
-                //trailLeft.time = ribbonLifeTime;
             }
             else
             {
@@ -283,7 +300,9 @@ public class PlayerCharacterMovement : MonoBehaviour
                     torque = -torque;
                     maxFastTurnTorque = -maxFastTurnTorque;
 
-                    //trailRight.time = trailLeft.time;
+                    //VFX Settings: By turning rightwards, only the right ribbon is enabled to change its appearance
+                    isRibbonRightEnabled = true;
+                    isRibbonLeftEnabled = false;
                 }
             }
 
@@ -354,6 +373,36 @@ public class PlayerCharacterMovement : MonoBehaviour
             rb.AddForce(transform.right * strafingValue * strafeSpeed);
         }
     }
+
+
+    /**
+     * Handles the length of the Ribbons of the spaceship, depending on turning direction
+     * TODO: Lerp between the ribbon lifetime values, when the ribbon is changing from high to low
+     */
+    void HandleRibbons()
+    {
+        if (isRibbonDiffEnabled)
+        {
+            //Change Lifetime of left/Right Ribbon, depending on 
+            if (isRibbonRightEnabled)
+            {
+                trailLeft.time = ribbonTurnLength;
+            }
+            if (isRibbonLeftEnabled)
+            {
+                trailRight.time = ribbonTurnLength;
+            }
+        }
+        else
+        {
+            trailLeft.time = ribbonStandardLength;
+            trailRight.time = ribbonStandardLength;
+        }
+
+
+    }
+
+
 
     #region Input System Controls
 

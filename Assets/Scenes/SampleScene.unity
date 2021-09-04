@@ -295,6 +295,8 @@ MonoBehaviour:
   flame: {fileID: 1989612613}
   accelerationFlame: {fileID: 21300000, guid: 309080416c2a97d47a4ea8efa380af00, type: 3}
   boostFlame: {fileID: 21300000, guid: f50f53bd629e0584b8d0d05cea07b5fe, type: 3}
+  ribbonStandardLength: 0.2
+  ribbonTurnLength: 0.5
 --- !u!212 &600121977
 SpriteRenderer:
   m_ObjectHideFlags: 0
