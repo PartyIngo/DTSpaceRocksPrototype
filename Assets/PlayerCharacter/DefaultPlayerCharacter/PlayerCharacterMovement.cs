@@ -189,8 +189,10 @@ public class PlayerCharacterMovement : MonoBehaviour
                 {
                     currentAcceleration = (leftStickInput.normalized.magnitude * accelerationValue);
                     //print("NORMAL Speed: " + currentAcceleration);
-                    
+
                     //VFX: change flame sprite to normal acceleration sprite
+
+                    print("Accel");
                     flame.sprite = accelerationFlame;
                 }
 
@@ -387,10 +389,12 @@ public class PlayerCharacterMovement : MonoBehaviour
             if (isRibbonRightEnabled)
             {
                 trailLeft.time = ribbonTurnLength;
+                //trailRight.time = 0.0f;
             }
             if (isRibbonLeftEnabled)
             {
                 trailRight.time = ribbonTurnLength;
+                //trailLeft.time = 0.0f;
             }
         }
         else
