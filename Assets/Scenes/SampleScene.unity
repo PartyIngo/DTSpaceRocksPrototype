@@ -148,12 +148,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 295364181}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.742, z: 0}
-  m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
-  m_Children:
-  - {fileID: 639931620}
-  m_Father: {fileID: 600121978}
-  m_RootOrder: 2
+  m_LocalPosition: {x: 0, y: 0, z: -0.1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 639931620}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &295364183
 SpriteRenderer:
@@ -379,8 +378,9 @@ MonoBehaviour:
   flame: {fileID: 639931619}
   accelerationFlame: {fileID: 21300000, guid: 309080416c2a97d47a4ea8efa380af00, type: 3}
   boostFlame: {fileID: 21300000, guid: f50f53bd629e0584b8d0d05cea07b5fe, type: 3}
-  ribbonStandardLength: 0.2
-  ribbonTurnLength: 0.5
+  ribbonTurnLength: 0.2
+  ribbonLengthDivisor: 10
+  ribbonDefaultLifetime: 1
 --- !u!212 &600121977
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -446,7 +446,7 @@ Transform:
   m_Children:
   - {fileID: 1031444822}
   - {fileID: 365100272}
-  - {fileID: 295364182}
+  - {fileID: 639931620}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -673,11 +673,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 639931618}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 295364182}
-  m_RootOrder: 0
+  m_LocalPosition: {x: 0, y: -0.742, z: 0}
+  m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
+  m_Children:
+  - {fileID: 295364182}
+  m_Father: {fileID: 600121978}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &791751725
 GameObject:
@@ -782,7 +783,7 @@ TrailRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 0.3254902, g: 0.48627454, b: 0.4156863, a: 1}
+      key0: {r: 0.3254902, g: 0.48627454, b: 0.4156863, a: 0.5019608}
       key1: {r: 1, g: 1, b: 1, a: 0}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
@@ -952,7 +953,7 @@ TrailRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 0.3254902, g: 0.48627454, b: 0.4156863, a: 1}
+      key0: {r: 0.3254902, g: 0.48627454, b: 0.4156863, a: 0.5019608}
       key1: {r: 1, g: 1, b: 1, a: 0}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}

@@ -44,6 +44,7 @@ public class PlayerCharacterMovement : MonoBehaviour
     float variableAngularDrag;
     [Tooltip("angular difference between Spaceship and LTS. Is the Spaceship within this angle, the friction will be increased")]
     public float brakeAngle;
+    float angleDifference;
 
     [Header("Strafe Stats")]
     [Tooltip("The speed in which the spaceship should move leftwards/rightwards by strafing")]
@@ -76,13 +77,14 @@ public class PlayerCharacterMovement : MonoBehaviour
     public SpriteRenderer flame;
     public Sprite accelerationFlame;
     public Sprite boostFlame;
-    bool isRibbonDiffEnabled;
     bool isRibbonLeftEnabled;
     bool isRibbonRightEnabled;
-    [Tooltip("Standard length for ribbons, when the spaceshhip is normally accelerating")]
-    public float ribbonStandardLength;
     [Tooltip("The length for ribbons, when the ship is making a huge turn in any direction")]
     public float ribbonTurnLength;
+    [Tooltip("How strongly should the angle difference been applied to the ribbon length. The AngleDifference is divided by this value.")]
+    public float ribbonLengthDivisor;
+    [Tooltip("Determines the length of the ribbon based on the lifetime of it's particles. This value is also set as the minimum lifetime")]
+    public float ribbonDefaultLifetime;
 
     float normalizedAngleDifference;
     Rigidbody2D rb;
@@ -179,6 +181,11 @@ public class PlayerCharacterMovement : MonoBehaviour
         //When the player isn't pressing both LT & RT...
         if (!(isStrafingLeft && isStrafingRight))
         {
+            //vfx: enable both ribbons and flame 
+            flame.enabled = true;
+            trailLeft.enabled = true;
+            trailRight.enabled = true;
+
             //When the current Value of the Thumbstick is out of the deadzone...
             if (leftStickInput.magnitude > deadZoneRadiusLTS)
             {
@@ -218,6 +225,13 @@ public class PlayerCharacterMovement : MonoBehaviour
                 flame.sprite = null;
             }
         }
+        //both LT and RT are pressed, so the ship is gliding. For VFX: Flame should extinguish and ribbons are diabled
+        else
+        {
+            flame.enabled = false;
+            trailLeft.enabled = false;
+            trailRight.enabled = false;
+        }
     }
     
 
@@ -255,7 +269,7 @@ public class PlayerCharacterMovement : MonoBehaviour
                 normalizedAngleDifference += 360;
             }
 
-            float angleDifference = normalizedAngleDifference;
+            angleDifference = normalizedAngleDifference;
 
             //Debug info
             //print("SS:    " + convShipRotation + "  LTS:   " + angleLTS + "  DIFF:    " + angleDifference);
@@ -264,15 +278,12 @@ public class PlayerCharacterMovement : MonoBehaviour
             if (Mathf.Abs(angleDifference) > brakeAngle)
             {
                 variableAngularDrag = 0;
-
-                //VFX: enable different Ribbon lengths
-                isRibbonDiffEnabled = true;
             }
+
             //Otherwise, when the angleDifference is less thatn the brakeAngle's value, increase the angular drag exponentially the smaller the angleDifference becomes
             else
             {
                 variableAngularDrag = maxVariableAngularDrag - (maxVariableAngularDrag * Mathf.Abs(angleDifference) / brakeAngle);
-                isRibbonDiffEnabled = false;
             }
 
             //set the angular Drag Property of the Rigidbody Component
@@ -379,31 +390,35 @@ public class PlayerCharacterMovement : MonoBehaviour
 
     /**
      * Handles the length of the Ribbons of the spaceship, depending on turning direction
-     * TODO: Lerp between the ribbon lifetime values, when the ribbon is changing from high to low
      */
     void HandleRibbons()
     {
-        if (isRibbonDiffEnabled)
+        //AngleDifference is a value, that gows up to ~ 40. Decrease this value by dividing it by 10 
+        float ribbonLengthMultiplier = Mathf.Abs(angleDifference) / ribbonLengthDivisor;
+        if (ribbonLengthMultiplier < ribbonDefaultLifetime)
         {
-            //Change Lifetime of left/Right Ribbon, depending on 
-            if (isRibbonRightEnabled)
-            {
-                trailLeft.time = ribbonTurnLength;
-                //trailRight.time = 0.0f;
-            }
-            if (isRibbonLeftEnabled)
-            {
-                trailRight.time = ribbonTurnLength;
-                //trailLeft.time = 0.0f;
-            }
-        }
-        else
-        {
-            trailLeft.time = ribbonStandardLength;
-            trailRight.time = ribbonStandardLength;
+            ribbonLengthMultiplier = ribbonDefaultLifetime;
         }
 
+        print("Angle Diff:    " + Mathf.Abs(angleDifference));
 
+        //Change Lifetime of left/Right Ribbon, depending on turning direction
+        //turning rightwards
+        if (isRibbonRightEnabled)
+        {
+            //left ribbon has to grow, depending on divided angleDifference
+            trailLeft.time = ribbonTurnLength * ribbonLengthMultiplier;
+            //right ribbon has to shrink, depending on divided angleDifference
+            trailRight.time = ribbonTurnLength / ribbonLengthMultiplier;
+        }
+        //turning leftwards
+        if (isRibbonLeftEnabled)
+        {
+            //right ribbon has to grow, depending on divided angleDifference
+            trailRight.time = ribbonTurnLength * ribbonLengthMultiplier;
+            //left ribbon has to shrink, depending on divided angleDifference
+            trailLeft.time = ribbonTurnLength / ribbonLengthMultiplier;
+        }
     }
 
 
