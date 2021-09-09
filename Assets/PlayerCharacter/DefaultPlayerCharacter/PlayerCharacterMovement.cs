@@ -74,9 +74,26 @@ public class PlayerCharacterMovement : MonoBehaviour
     [Tooltip("The Asset for the right Trail")]
     public TrailRenderer trailRight;
     float ribbonLifeTime;
-    public SpriteRenderer flame;
-    public Sprite accelerationFlame;
-    public Sprite boostFlame;
+    [Tooltip("The glowing dot to lighten up the area around the flame")]
+    public SpriteRenderer flameGlow;
+    [Tooltip("the spriterenderer asset of the accelerating flame")]
+    public SpriteRenderer accelFlame;
+    [Tooltip("the spriterenderer asset of the boosting flame")]
+    public SpriteRenderer boostFlame;
+
+    //[Tooltip("the sprite for the acceleration")]
+    //public Sprite accelerationFlame;
+
+    //public Sprite boostFlame;
+
+    //public Animator flameAnimator;
+    //public  accelerationController;
+    //public AnimatorControllerParameter boostController;
+
+    [Tooltip("Color of glowing dot for acceleration flame")]
+    public Color accelerationDotColor;
+    [Tooltip("Color of glowing dot for boost flame")]
+    public Color boostDotColor;
     bool isRibbonLeftEnabled;
     bool isRibbonRightEnabled;
     [Tooltip("The length for ribbons, when the ship is making a huge turn in any direction")]
@@ -181,14 +198,19 @@ public class PlayerCharacterMovement : MonoBehaviour
         //When the player isn't pressing both LT & RT...
         if (!(isStrafingLeft && isStrafingRight))
         {
-            //vfx: enable both ribbons and flame 
-            flame.enabled = true;
+            //vfx: enable both ribbons
             trailLeft.enabled = true;
             trailRight.enabled = true;
 
             //When the current Value of the Thumbstick is out of the deadzone...
             if (leftStickInput.magnitude > deadZoneRadiusLTS)
             {
+                //vfx: enable flame and glow
+                flameGlow.enabled = true;
+                flameGlow.color = accelerationDotColor;
+                accelFlame.enabled = true;
+
+
                 //print("Magnitude: " + leftStickInput.normalized.magnitude + " On Coordinates " + leftStickInput);
                 //print("On Coordinates " + leftStickInput);
                 //When dragging the Left Thumbstick a little bit, the acceleration is normal
@@ -197,10 +219,8 @@ public class PlayerCharacterMovement : MonoBehaviour
                     currentAcceleration = (leftStickInput.normalized.magnitude * accelerationValue);
                     //print("NORMAL Speed: " + currentAcceleration);
 
-                    //VFX: change flame sprite to normal acceleration sprite
-
+                    //VFX: change glow color
                     print("Accel");
-                    flame.sprite = accelerationFlame;
                 }
 
                 //When dragging the Left Thumbstick to it's limit, a boost has to be applied, to increase the acceleration to a maximum
@@ -209,8 +229,16 @@ public class PlayerCharacterMovement : MonoBehaviour
                     currentAcceleration = (leftStickInput.normalized.magnitude * accelerationValue * accelerationBoostMultiplier);
                     print("BOOST!");
 
-                    //VFX: change flame sprite to boost sprite
-                    flame.sprite = boostFlame;
+                    //VFX: change glow color and flame from acceleration to boost variant
+                    flameGlow.color = boostDotColor;
+                    accelFlame.enabled = false;
+                    boostFlame.enabled = true;
+
+                }
+                //when not boosting, the boosting flame has to be disabled
+                else
+                {
+                    boostFlame.enabled = false;
                 }
 
                 if (isAcceleratingEnabled)
@@ -219,18 +247,25 @@ public class PlayerCharacterMovement : MonoBehaviour
                     rb.AddForce((transform.up * currentAcceleration) - ((transform.up * currentAcceleration) * Mathf.Abs(normalizedAngleDifference) / 180));
                 }
             }
+            //LTS is within deadzone, so neither boost nor acceleration are applied
             else
             {
-                //VFX: reset flame sprite
-                flame.sprite = null;
+                //VFX: disable flame sprite and glow because ship isn't moving and fire is extinguished
+                accelFlame.enabled = false;
+                flameGlow.enabled = false;
+
+                //flameAnim.sprite = null;
+                //flameGlow.color = new Color(255, 255, 255, 255);
             }
         }
         //both LT and RT are pressed, so the ship is gliding. For VFX: Flame should extinguish and ribbons are diabled
         else
         {
-            flame.enabled = false;
+            flameGlow.enabled = false;
             trailLeft.enabled = false;
             trailRight.enabled = false;
+            accelFlame.enabled = false;
+            boostFlame.enabled = false;
         }
     }
     
