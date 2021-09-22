@@ -25,6 +25,7 @@ public class PlayerCharacterMovement : MonoBehaviour
     [Tooltip("How large has the boost multiplier to be, when dragging the Thumbstick to it's limit")]
     public float accelerationBoostMultiplier;
     float currentAcceleration;
+    Vector2 newForce;
 
     [Header("Brake Stats")]
     [Tooltip("How strong should the brake be? This value is multiplied with the next Parameter called 'defaultFriction'")]
@@ -69,11 +70,6 @@ public class PlayerCharacterMovement : MonoBehaviour
     public float borderDistanceY;
 
     [Header("VFX Stats")]
-    [Tooltip("The Asset for the left Trail")]
-    public TrailRenderer trailLeft;
-    [Tooltip("The Asset for the right Trail")]
-    public TrailRenderer trailRight;
-    float ribbonLifeTime;
     [Tooltip("The glowing dot to lighten up the area around the flame")]
     public SpriteRenderer flameGlow;
     [Tooltip("the spriterenderer asset of the accelerating flame")]
@@ -81,11 +77,10 @@ public class PlayerCharacterMovement : MonoBehaviour
     [Tooltip("the spriterenderer asset of the boosting flame")]
     public SpriteRenderer boostFlame;
 
+
     //[Tooltip("the sprite for the acceleration")]
     //public Sprite accelerationFlame;
-
     //public Sprite boostFlame;
-
     //public Animator flameAnimator;
     //public  accelerationController;
     //public AnimatorControllerParameter boostController;
@@ -94,14 +89,6 @@ public class PlayerCharacterMovement : MonoBehaviour
     public Color accelerationDotColor;
     [Tooltip("Color of glowing dot for boost flame")]
     public Color boostDotColor;
-    bool isRibbonLeftEnabled;
-    bool isRibbonRightEnabled;
-    [Tooltip("The length for ribbons, when the ship is making a huge turn in any direction")]
-    public float ribbonTurnLength;
-    [Tooltip("How strongly should the angle difference been applied to the ribbon length. The AngleDifference is divided by this value.")]
-    public float ribbonLengthDivisor;
-    [Tooltip("Determines the length of the ribbon based on the lifetime of it's particles. This value is also set as the minimum lifetime")]
-    public float ribbonDefaultLifetime;
 
     float normalizedAngleDifference;
     Rigidbody2D rb;
@@ -114,9 +101,6 @@ public class PlayerCharacterMovement : MonoBehaviour
     {
         rb = this.GetComponent<Rigidbody2D>();
         rb.drag = defaultFriction;
-
-        //VFX/Trail handling
-        
     }
 
     void Update()
@@ -137,9 +121,6 @@ public class PlayerCharacterMovement : MonoBehaviour
 
         //Check if the spaceship has to strafe
         HandleStrafing();
-
-        //Handle Ribbon VFX
-        HandleRibbons();
     }
 
     /**
@@ -198,10 +179,6 @@ public class PlayerCharacterMovement : MonoBehaviour
         //When the player isn't pressing both LT & RT...
         if (!(isStrafingLeft && isStrafingRight))
         {
-            //vfx: enable both ribbons
-            trailLeft.enabled = true;
-            trailRight.enabled = true;
-
             //When the current Value of the Thumbstick is out of the deadzone...
             if (leftStickInput.magnitude > deadZoneRadiusLTS)
             {
@@ -244,7 +221,8 @@ public class PlayerCharacterMovement : MonoBehaviour
                 if (isAcceleratingEnabled)
                 {
                     //Adds the force to the gameobject to move it. Acceleration feels better, when rotating the object to 180°
-                    rb.AddForce((transform.up * currentAcceleration) - ((transform.up * currentAcceleration) * Mathf.Abs(normalizedAngleDifference) / 180));
+                    newForce = (transform.up * currentAcceleration) - ((transform.up * currentAcceleration) * Mathf.Abs(normalizedAngleDifference) / 180);
+                    rb.AddForce(newForce);
                 }
             }
             //LTS is within deadzone, so neither boost nor acceleration are applied
@@ -253,17 +231,17 @@ public class PlayerCharacterMovement : MonoBehaviour
                 //VFX: disable flame sprite and glow because ship isn't moving and fire is extinguished
                 accelFlame.enabled = false;
                 flameGlow.enabled = false;
+                boostFlame.enabled = false;
+
 
                 //flameAnim.sprite = null;
                 //flameGlow.color = new Color(255, 255, 255, 255);
             }
         }
-        //both LT and RT are pressed, so the ship is gliding. For VFX: Flame should extinguish and ribbons are diabled
+        //both LT and RT are pressed, so the ship is gliding. For VFX: Flame should extinguish
         else
         {
             flameGlow.enabled = false;
-            trailLeft.enabled = false;
-            trailRight.enabled = false;
             accelFlame.enabled = false;
             boostFlame.enabled = false;
         }
@@ -315,7 +293,7 @@ public class PlayerCharacterMovement : MonoBehaviour
                 variableAngularDrag = 0;
             }
 
-            //Otherwise, when the angleDifference is less thatn the brakeAngle's value, increase the angular drag exponentially the smaller the angleDifference becomes
+            //Otherwise, when the angleDifference is less than the brakeAngle's value, increase the angular drag exponentially the smaller the angleDifference becomes
             else
             {
                 variableAngularDrag = maxVariableAngularDrag - (maxVariableAngularDrag * Mathf.Abs(angleDifference) / brakeAngle);
@@ -330,10 +308,6 @@ public class PlayerCharacterMovement : MonoBehaviour
                 //Debug info
                 //print("LEFT");
                 
-                //VFX Settings: By turning leftwards, only the left ribbon is enabled to change its appearance
-                isRibbonLeftEnabled = true;
-                isRibbonRightEnabled = false;
-
                 torque = Mathf.Abs(torque);
                 maxFastTurnTorque = Mathf.Abs(maxFastTurnTorque);
 
@@ -347,10 +321,6 @@ public class PlayerCharacterMovement : MonoBehaviour
                 {
                     torque = -torque;
                     maxFastTurnTorque = -maxFastTurnTorque;
-
-                    //VFX Settings: By turning rightwards, only the right ribbon is enabled to change its appearance
-                    isRibbonRightEnabled = true;
-                    isRibbonLeftEnabled = false;
                 }
             }
 
@@ -421,43 +391,7 @@ public class PlayerCharacterMovement : MonoBehaviour
             rb.AddForce(transform.right * strafingValue * strafeSpeed);
         }
     }
-
-
-    /**
-     * Handles the length of the Ribbons of the spaceship, depending on turning direction
-     */
-    void HandleRibbons()
-    {
-        //AngleDifference is a value, that gows up to ~ 40. Decrease this value by dividing it by 10 
-        float ribbonLengthMultiplier = Mathf.Abs(angleDifference) / ribbonLengthDivisor;
-        if (ribbonLengthMultiplier < ribbonDefaultLifetime)
-        {
-            ribbonLengthMultiplier = ribbonDefaultLifetime;
-        }
-
-        print("Angle Diff:    " + Mathf.Abs(angleDifference));
-
-        //Change Lifetime of left/Right Ribbon, depending on turning direction
-        //turning rightwards
-        if (isRibbonRightEnabled)
-        {
-            //left ribbon has to grow, depending on divided angleDifference
-            trailLeft.time = ribbonTurnLength * ribbonLengthMultiplier;
-            //right ribbon has to shrink, depending on divided angleDifference
-            trailRight.time = ribbonTurnLength / ribbonLengthMultiplier;
-        }
-        //turning leftwards
-        if (isRibbonLeftEnabled)
-        {
-            //right ribbon has to grow, depending on divided angleDifference
-            trailRight.time = ribbonTurnLength * ribbonLengthMultiplier;
-            //left ribbon has to shrink, depending on divided angleDifference
-            trailLeft.time = ribbonTurnLength / ribbonLengthMultiplier;
-        }
-    }
-
-
-
+  
     #region Input System Controls
 
     /**
