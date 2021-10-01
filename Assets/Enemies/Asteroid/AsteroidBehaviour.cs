@@ -64,6 +64,8 @@ public class AsteroidBehaviour : MonoBehaviour
     //Damage & Destroy VFX
     public void Damage(float damage)
     {
+        print("Asteroid Damage:  " + damage);
+
         health -= damage;
 
         if (health <= 0)

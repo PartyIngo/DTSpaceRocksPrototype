@@ -560,6 +560,7 @@ MonoBehaviour:
   isShootingEnabled: 1
   bullet: {fileID: 5803481595772901523, guid: 0d5a12c9886214a4a8814109e77ea64b, type: 3}
   shootingInterval: 0.05
+  damageBase: 2
 --- !u!1 &1088200373
 GameObject:
   m_ObjectHideFlags: 0
@@ -711,7 +712,7 @@ GameObject:
   - component: {fileID: 1662176527}
   m_Layer: 0
   m_Name: Asteroid Large
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -729,7 +730,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   forceMax: 5000
-  health: 3
+  health: 500
   Xmax: 35
   Ymax: 18
 --- !u!58 &1662176528

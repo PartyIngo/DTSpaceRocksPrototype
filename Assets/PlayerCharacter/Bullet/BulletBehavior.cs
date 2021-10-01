@@ -15,10 +15,26 @@ public class BulletBehavior : MonoBehaviour
     [Tooltip("The damage this bullet deals.")]
     public float damage;
 
+    Rigidbody2D rb;
+    public float force;
+    Vector2 tempForce;
+
+
+    private void Start()
+    {
+        tempForce = transform.up * force;
+
+        print("tempForce" + tempForce);
+
+        rb = GetComponent<Rigidbody2D>();
+        rb.AddForce(tempForce);
+    }
+
     void Update()
     {
         //The projectile has to fly forward ad a specified speed
-        transform.position += transform.up * Time.deltaTime * speed;
+        //transform.position += transform.up * Time.deltaTime * speed;
+
 
         //Destroy the bullet when outside of the field
         if (transform.position.x < -borderX)
@@ -41,14 +57,28 @@ public class BulletBehavior : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        print("Bullet Damage Before:  " + damage);
         if (collision.gameObject.tag == "Enemy")
         {
+            print("Bullet Damage After:  " + damage);
+
             collision.gameObject.SendMessage("Damage", damage);
+
+            //TBD: DEstroy VFX
+            Destroy(gameObject);
         }
+
+        //if (collision.gameObject.tag == "bullet")
+        //{
+        //    Physics.IgnoreCollision(theobjectToIgnore.collider, collider);
+        //}
+
     }
 
     public void SetDamage(float dmg)
     {
         damage = dmg;
     }
+
+
 }
