@@ -17,6 +17,9 @@ public class PlayerCharacterCombat : MonoBehaviour
     public float shootingInterval;
     float nextShot = 0.0f;
 
+    [Tooltip("Base damage of the character.")]
+    public float damageBase;
+
     bool isShooting;
 
     // Update is called once per frame
@@ -42,7 +45,8 @@ public class PlayerCharacterCombat : MonoBehaviour
             nextShot = Time.time + shootingInterval;
 
             //Create a bullet
-            Instantiate(bullet, transform.position, transform.rotation);
+            GameObject tempBullet = Instantiate(bullet, transform.position, transform.rotation);
+            tempBullet.gameObject.SendMessage("SetDamage", damageBase);
         }
     }
 

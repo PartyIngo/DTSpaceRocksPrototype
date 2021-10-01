@@ -13,7 +13,7 @@ public class AsteroidBehaviour : MonoBehaviour
     Vector2 force;
 
     [Tooltip("Health of the Asteroid. If it reaches 0, the Asteroid is destroyed.")]
-    public int health;
+    public float health;
 
     Rigidbody2D rb;
 
@@ -59,6 +59,16 @@ public class AsteroidBehaviour : MonoBehaviour
             tmp.y = Ymax - 1;
             transform.position = tmp;
         }
+    }
 
+    //Damage & Destroy VFX
+    public void Damage(float damage)
+    {
+        health -= damage;
+
+        if (health <= 0)
+        {
+            Destroy(gameObject);
+        }
     }
 }

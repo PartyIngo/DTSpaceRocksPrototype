@@ -12,6 +12,9 @@ public class BulletBehavior : MonoBehaviour
     [Tooltip("the radius from the centre of the field to the horizontal borders (top/bottom)")]
     public float borderY;
 
+    [Tooltip("The damage this bullet deals.")]
+    public float damage;
+
     void Update()
     {
         //The projectile has to fly forward ad a specified speed
@@ -34,5 +37,18 @@ public class BulletBehavior : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Enemy")
+        {
+            collision.gameObject.SendMessage("Damage", damage);
+        }
+    }
+
+    public void SetDamage(float dmg)
+    {
+        damage = dmg;
     }
 }
