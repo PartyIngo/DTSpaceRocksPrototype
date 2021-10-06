@@ -72,7 +72,6 @@ public class BulletBehavior : MonoBehaviour
         //{
         //    Physics.IgnoreCollision(theobjectToIgnore.collider, collider);
         //}
-
     }
 
     public void SetDamage(float dmg)
