@@ -22,18 +22,6 @@ public class AsteroidBehaviour : MonoBehaviour
     [Tooltip("Maximum Y-Coord.")]
     public float Ymax;
 
-
-    [Header("Spawn Handler Stats")]
-    [Tooltip("minimum Value for next Spawntime")]
-    public float minTime;
-    [Tooltip("maximum Value for next Spawntime")]
-    public float maxTime;
-    [Tooltip("Weight of impact for gameplay")]
-    public int gamePlayWeight;
-    [Tooltip("next calculated SpawnTime")]
-    public float nextSpawnTime;
-    [Tooltip("Weight of impact for gameplay")]
-    public bool isQueuedForSpawn;
     #endregion
 
     // Start is called before the first frame update
@@ -83,6 +71,10 @@ public class AsteroidBehaviour : MonoBehaviour
 
         if (health <= 0)
         {
+            GameObject handler = GameObject.Find("SpawnHandler");
+            handler.gameObject.SendMessage("decreaseOverallWeight", "Asteroid Large");
+
+
             Destroy(gameObject);
         }
     }
