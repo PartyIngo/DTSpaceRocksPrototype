@@ -22,9 +22,15 @@ public class AsteroidBehaviour : MonoBehaviour
     [Tooltip("Maximum Y-Coord.")]
     public float Ymax;
 
+    [Tooltip("Minimum Amount of spawnable children")]
+    public int minChildrenAmount;
+    [Tooltip("Maximum Amount of spawnable children")]
+    public int maxChildrenAmount;
+
 
     [Header("Asteroid Appearance")]
-
+    [Tooltip("The scale of the asteroid")]
+    public float asteroidScale;
     [Tooltip("The Size of the Asteroid. The larger the value, the larger the size.")]
     [Range(1, 3)]
     public int asteroidSize;
@@ -37,6 +43,13 @@ public class AsteroidBehaviour : MonoBehaviour
     public int spriteIndex;
     [Tooltip("The VFX that plays, when the asateroid gets destroyed")]
     public GameObject burstVFX;
+
+    [Tooltip("The Scale of the small asteroid variant")]
+    public float asteroidScaleSmall;
+    [Tooltip("The Scale of the medium asteroid variant")]
+    public float asteroidScaleMedium;
+    [Tooltip("The Scale of the large asteroid variant")]
+    public float asteroidScaleLarge;
 
     #endregion
 
@@ -92,13 +105,34 @@ public class AsteroidBehaviour : MonoBehaviour
      */
     void changeAppearance()
     {
-        if (asteroidSize == 3)
+        //assign random sprite
+        int rand = Random.Range(0, asteroidSprite.Length);
+        spriteRenderer.sprite = asteroidSprite[rand];
+
+        Vector3 newScale;
+        float tempScale;
+
+        switch (asteroidSize)
         {
-            //assign random sprite
-            int rand = Random.Range(0, asteroidSprite.Length);
-            spriteRenderer.sprite = asteroidSprite[rand];
-            spriteIndex = rand;
+            case 1:
+                tempScale = asteroidScaleSmall;
+                break;
+            case 2:
+                tempScale = asteroidScaleMedium;
+                break;
+            case 3:
+                tempScale = asteroidScaleLarge;
+                break;
+            default:
+                tempScale = 1;
+                break;
         }
+        
+        //change scale of asteroid based on asteroidSize
+        newScale.x = tempScale; // asteroidScale * (asteroidSize / 3);
+        newScale.y = tempScale; //asteroidScale * (asteroidSize / 3);
+        newScale.z = 1;
+        gameObject.transform.localScale = newScale;
     }
 
 
@@ -114,18 +148,41 @@ public class AsteroidBehaviour : MonoBehaviour
 
         if (health <= 0)
         {
-            GameObject handler = GameObject.Find("SpawnHandler");
-            handler.gameObject.SendMessage("decreaseOverallWeight", "Asteroid Large");
+            //GameObject handler = GameObject.Find("SpawnHandler");
+            //handler.gameObject.SendMessage("decreaseOverallWeight", "Asteroid Large");
 
-
-            //TODO: VFX explosion
+            //VFX explosion
             Instantiate(burstVFX, transform.position, transform.rotation);
 
 
-            //TODO: Spawn child asteroids
+
+            //Spawn child asteroids
+            if (asteroidSize > 1)
+            {
+                int temp = Random.Range(minChildrenAmount, maxChildrenAmount);
+                for (int i = 0; i < temp; i++)
+                {
+                    GameObject newSpawn = Instantiate(gameObject, transform.position, transform.rotation);
+                    newSpawn.gameObject.SendMessage("decreaseSize", asteroidSize - 1);
+
+                }
+
+            }
 
 
+            //child: spriteIndex = rand;
+            //Destroy this instance of asteroid
             Destroy(gameObject);
+
         }
     }
+
+    /**
+     * Sets the Size to paramenter value
+     */
+    public void decreaseSize(int newSize)
+    {
+        asteroidSize = newSize;
+    }
+
 }
