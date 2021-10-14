@@ -12,8 +12,10 @@ public class AsteroidBehaviour : MonoBehaviour
     [Tooltip("Actual force of the Asteroid.")]
     Vector2 force;
 
-    [Tooltip("Health of the Asteroid. If it reaches 0, the Asteroid is destroyed.")]
-    public float health;
+    [Tooltip("max Health of the Asteroid.")]
+    public float maxHealth;
+    [Tooltip("current Health of the Asteroid. If it reaches 0, the Asteroid is destroyed.")]
+    float currentHealth;
 
     Rigidbody2D rb;
 
@@ -27,6 +29,7 @@ public class AsteroidBehaviour : MonoBehaviour
     [Tooltip("Maximum Amount of spawnable children")]
     public int maxChildrenAmount;
 
+    public GameObject asteroidChild;
 
     [Header("Asteroid Appearance")]
     [Tooltip("The scale of the asteroid")]
@@ -51,11 +54,35 @@ public class AsteroidBehaviour : MonoBehaviour
     [Tooltip("The Scale of the large asteroid variant")]
     public float asteroidScaleLarge;
 
+    [Tooltip("The current variant of the asteroid's general appearance")]
+    int currentVariant;
+    bool isChild = false;
+
+    [Tooltip("threshold in percent when the asteroid should change the appearance when health falls below this value")]
+    [Range(1, 99)]
+    public float visibleDamageThreshold;
+
+    [Tooltip("Coolor tint when damaged")]
+    public Color damageTint;
+    [Tooltip("Duration of Color tint when damaged in seconds")]
+    public float damageDuration;
+    [Tooltip("If the asteroids gets damage just now")]
+    bool getsDamage;
+    float nextTime;
+
     #endregion
 
     // Start is called before the first frame update
     void Start()
     {
+        //Initializing some parameters
+        currentHealth = maxHealth;
+
+        print("visibleDamageThreshold:    " + visibleDamageThreshold);
+        visibleDamageThreshold /= 100;
+        print("visibleDamageThreshold:    " + visibleDamageThreshold);
+
+
         force = new Vector2(Random.Range(-forceMax, forceMax), Random.Range(-forceMax, forceMax));
         rb = GetComponent<Rigidbody2D>();
         rb.AddForce(force);
@@ -64,8 +91,6 @@ public class AsteroidBehaviour : MonoBehaviour
 
         //Choose and assign the sprite for the asteroid
         changeAppearance();
-        
-
     }
 
     // Update is called once per frame
@@ -96,19 +121,38 @@ public class AsteroidBehaviour : MonoBehaviour
             tmp.y = Ymax - 1;
             transform.position = tmp;
         }
+
+        if (getsDamage)
+        {
+            spriteRenderer.color = damageTint;
+            nextTime = Time.time + damageDuration;
+            getsDamage = false;
+        }
+
+        //TODO: optimizing that the color changes not every frame
+        if (Time.time > nextTime)
+        {
+            spriteRenderer.color = Color.white;
+        }
+
     }
 
 
 
     /**
-     * Channge appearance of Asteroid, when it's the largest version of it
+     * Sets the appearance of Asteroid
      */
     void changeAppearance()
     {
-        //assign random sprite
-        int rand = Random.Range(0, asteroidSprite.Length);
-        spriteRenderer.sprite = asteroidSprite[rand];
+        //Child asteroids should not get textures that are colorized different than their parent asteroids
+        if (!isChild)
+        {
+            //assign random sprite
+            currentVariant = Random.Range(0, asteroidSprite.Length);
+        }
 
+        spriteRenderer.sprite = asteroidSprite[currentVariant];
+       
         Vector3 newScale;
         float tempScale;
 
@@ -142,11 +186,18 @@ public class AsteroidBehaviour : MonoBehaviour
      */
     public void Damage(float damage)
     {
-        print("Asteroid Damage:  " + damage);
+        currentHealth -= damage;
 
-        health -= damage;
+        getsDamage = true;
 
-        if (health <= 0)
+        //when current Health falls below a specific threshold (or less than X% of health are remaining), viisible damage is shown as a sprite.
+        if (currentHealth < (maxHealth * visibleDamageThreshold))
+        {
+            //TODO: change Sprite of Asteroid to cracked variant
+            //spriteRenderer.sprite = crackedAsteroids[currentVariant]; //should be working, but has to be tested when other sprites are available
+        }
+
+        if (currentHealth <= 0)
         {
             //GameObject handler = GameObject.Find("SpawnHandler");
             //handler.gameObject.SendMessage("decreaseOverallWeight", "Asteroid Large");
@@ -162,8 +213,9 @@ public class AsteroidBehaviour : MonoBehaviour
                 int temp = Random.Range(minChildrenAmount, maxChildrenAmount);
                 for (int i = 0; i < temp; i++)
                 {
-                    GameObject newSpawn = Instantiate(gameObject, transform.position, transform.rotation);
+                    GameObject newSpawn = Instantiate(asteroidChild, transform.position, transform.rotation);
                     newSpawn.gameObject.SendMessage("decreaseSize", asteroidSize - 1);
+                    newSpawn.gameObject.SendMessage("setVariant", currentVariant);
 
                 }
 
@@ -183,6 +235,15 @@ public class AsteroidBehaviour : MonoBehaviour
     public void decreaseSize(int newSize)
     {
         asteroidSize = newSize;
+    }
+
+    /**
+     * Sets the current variant of child asteroids
+     */
+    public void setVariant(int newVariant)
+    {
+        currentVariant = newVariant;
+        isChild = true;
     }
 
 }
