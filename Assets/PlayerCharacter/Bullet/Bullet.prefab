@@ -129,6 +129,7 @@ MonoBehaviour:
   borderY: 16
   damage: 0
   force: 100
+  burstEmitter: {fileID: 8837153405204297873, guid: e9c68e42d90c1fd4daf8c50290efa890, type: 3}
 --- !u!50 &8064991678643815391
 Rigidbody2D:
   serializedVersion: 4

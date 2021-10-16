@@ -303,6 +303,7 @@ GameObject:
   - component: {fileID: 600121981}
   - component: {fileID: 600121979}
   - component: {fileID: 600121980}
+  - component: {fileID: 600121982}
   m_Layer: 0
   m_Name: PlayerCharacter
   m_TagString: Untagged
@@ -347,6 +348,8 @@ MonoBehaviour:
   boostFlame: {fileID: 1659015912}
   accelerationDotColor: {r: 1, g: 0.49897224, b: 0, a: 0.5019608}
   boostDotColor: {r: 0.76862746, g: 0.9882353, b: 1, a: 0.5019608}
+  damageTint: {r: 1, g: 0.75673854, b: 0.7311321, a: 1}
+  damageDuration: 1
 --- !u!212 &600121977
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -561,6 +564,22 @@ MonoBehaviour:
   bullet: {fileID: 5803481595772901523, guid: 0d5a12c9886214a4a8814109e77ea64b, type: 3}
   shootingInterval: 0.05
   damageBase: 2
+--- !u!58 &600121982
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 600121975}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: -0.17024003}
+  serializedVersion: 2
+  m_Radius: 0.64
 --- !u!1 &1088200373
 GameObject:
   m_ObjectHideFlags: 0

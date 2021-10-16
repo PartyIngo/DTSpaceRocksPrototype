@@ -31,9 +31,9 @@ public class AsteroidBehaviour : MonoBehaviour
 
     public GameObject asteroidChild;
 
-    [Header("Asteroid Appearance")]
+    [Header("Asteroid' General Appearance")]
     [Tooltip("The scale of the asteroid")]
-    public float asteroidScale;
+    public float asteroidScale;             //Can be removed bc its nnever used in Code
     [Tooltip("The Size of the Asteroid. The larger the value, the larger the size.")]
     [Range(1, 3)]
     public int asteroidSize;
@@ -44,8 +44,6 @@ public class AsteroidBehaviour : MonoBehaviour
     [Tooltip("The assigned sprite.")]
     [HideInInspector]
     public int spriteIndex;
-    [Tooltip("The VFX that plays, when the asateroid gets destroyed")]
-    public GameObject burstVFX;
 
     [Tooltip("The Scale of the small asteroid variant")]
     public float asteroidScaleSmall;
@@ -58,17 +56,27 @@ public class AsteroidBehaviour : MonoBehaviour
     int currentVariant;
     bool isChild = false;
 
+
+    [Header("VFX Stats")]
+
+    [Tooltip("The VFX that plays, when the Asteroid gets destroyed")]
+    public GameObject burstVFX;
+
     [Tooltip("threshold in percent when the asteroid should change the appearance when health falls below this value")]
     [Range(1, 99)]
     public float visibleDamageThreshold;
-
-    [Tooltip("Coolor tint when damaged")]
+    [Tooltip("Color tint when damaged")]
     public Color damageTint;
     [Tooltip("Duration of Color tint when damaged in seconds")]
     public float damageDuration;
     [Tooltip("If the asteroids gets damage just now")]
     bool getsDamage;
     float nextTime;
+
+
+
+
+
 
     #endregion
 

@@ -19,6 +19,9 @@ public class BulletBehavior : MonoBehaviour
     public float force;
     Vector2 tempForce;
 
+    [Tooltip("The Emitter that plays, when the bullet collides with something")]
+    public GameObject burstEmitter;
+
 
     private void Start()
     {
@@ -64,7 +67,8 @@ public class BulletBehavior : MonoBehaviour
 
             collision.gameObject.SendMessage("Damage", damage);
 
-            //TBD: DEstroy VFX
+            //Burst VFX
+            Instantiate(burstEmitter, transform.position, transform.rotation);
             Destroy(gameObject);
         }
 

@@ -69,14 +69,26 @@ public class PlayerCharacterMovement : MonoBehaviour
     [Tooltip("The Distance from top or bottom Border to the center (0/0)")]
     public float borderDistanceY;
 
-    [Header("VFX Stats")]
+    [Header("VFX: Spaceship Acceleration")]
     [Tooltip("The glowing dot to lighten up the area around the flame")]
     public SpriteRenderer flameGlow;
-    [Tooltip("the spriterenderer asset of the accelerating flame")]
+    [Tooltip("the Sprite Renderer asset of the accelerating flame")]
     public SpriteRenderer accelFlame;
-    [Tooltip("the spriterenderer asset of the boosting flame")]
+    [Tooltip("the Sprite Renderer asset of the boosting flame")]
     public SpriteRenderer boostFlame;
+    [Tooltip("Color of glowing dot for acceleration flame")]
+    public Color accelerationDotColor;
+    [Tooltip("Color of glowing dot for boost flame")]
+    public Color boostDotColor;
 
+    [Header("VFX: Incoming Damage")]
+    [Tooltip("Color tint when damaged")]
+    public Color damageTint;
+    [Tooltip("Duration of Color tint when damaged in seconds")]
+    public float damageDuration;
+    [Tooltip("If the asteroids gets damage just now")]
+    bool getsDamage;
+    float nextTime;
 
     //[Tooltip("the sprite for the acceleration")]
     //public Sprite accelerationFlame;
@@ -85,11 +97,7 @@ public class PlayerCharacterMovement : MonoBehaviour
     //public  accelerationController;
     //public AnimatorControllerParameter boostController;
 
-    [Tooltip("Color of glowing dot for acceleration flame")]
-    public Color accelerationDotColor;
-    [Tooltip("Color of glowing dot for boost flame")]
-    public Color boostDotColor;
-
+    SpriteRenderer ownSprite;
     float normalizedAngleDifference;
     Rigidbody2D rb;
 
@@ -101,6 +109,8 @@ public class PlayerCharacterMovement : MonoBehaviour
     {
         rb = this.GetComponent<Rigidbody2D>();
         rb.drag = defaultFriction;
+
+        ownSprite = GetComponent<SpriteRenderer>();
     }
 
     void Update()
@@ -110,6 +120,9 @@ public class PlayerCharacterMovement : MonoBehaviour
         {
             CheckPosition();
         }
+
+        handleIncomingDamage();
+
     }
     void FixedUpdate()
     {
@@ -197,14 +210,14 @@ public class PlayerCharacterMovement : MonoBehaviour
                     //print("NORMAL Speed: " + currentAcceleration);
 
                     //VFX: change glow color
-                    print("Accel");
+                    //print("Accel");
                 }
 
                 //When dragging the Left Thumbstick to it's limit, a boost has to be applied, to increase the acceleration to a maximum
                 if (leftStickInput.magnitude >= boostZone)
                 {
                     currentAcceleration = (leftStickInput.normalized.magnitude * accelerationValue * accelerationBoostMultiplier);
-                    print("BOOST!");
+                    //print("BOOST!");
 
                     //VFX: change glow color and flame from acceleration to boost variant
                     flameGlow.color = boostDotColor;
@@ -391,7 +404,41 @@ public class PlayerCharacterMovement : MonoBehaviour
             rb.AddForce(transform.right * strafingValue * strafeSpeed);
         }
     }
-  
+
+
+    /**
+     * Check for Collisions with foes
+     */
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Enemy")
+        {
+            getsDamage = true;
+        }
+    }
+
+
+    /**
+     * TODO: Rewrite this Method, when more damage options are available
+     * 
+     */
+    void handleIncomingDamage()
+    {
+        if (getsDamage)
+        {
+            ownSprite.color = damageTint;
+            nextTime = Time.time + damageDuration;
+            getsDamage = false;
+        }
+
+        //TODO: optimizing that the color changes not every frame
+        if (Time.time > nextTime)
+        {
+            ownSprite.color = Color.white;
+        }
+    }
+
+
     #region Input System Controls
 
     /**
