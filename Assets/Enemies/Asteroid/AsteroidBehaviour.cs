@@ -269,7 +269,9 @@ public class AsteroidBehaviour : MonoBehaviour
                 }
             }
 
-            //child: spriteIndex = rand;
+            //Increase Score
+            ScoreScript.scoreValue += 1;
+
             //Destroy this instance of asteroid
             Destroy(gameObject);
         }

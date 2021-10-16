@@ -432,6 +432,9 @@ public class PlayerCharacterMovement : MonoBehaviour
             nextTime = Time.time + damageDuration;
             getsDamage = false;
 
+            //Reset Score
+            ScoreScript.scoreValue = 0;
+
             //Reload Scene
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
@@ -445,7 +448,6 @@ public class PlayerCharacterMovement : MonoBehaviour
 
 
     }
-
 
     #region Input System Controls
 
