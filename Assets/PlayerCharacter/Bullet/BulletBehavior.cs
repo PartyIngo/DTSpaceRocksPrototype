@@ -65,6 +65,7 @@ public class BulletBehavior : MonoBehaviour
         {
             print("Bullet Damage After:  " + damage);
 
+            //Deal Damage to Asteroid
             collision.gameObject.SendMessage("Damage", damage);
 
             //Burst VFX

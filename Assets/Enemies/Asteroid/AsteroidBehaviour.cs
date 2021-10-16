@@ -20,9 +20,9 @@ public class AsteroidBehaviour : MonoBehaviour
     Rigidbody2D rb;
 
     [Tooltip("Maximum X-Coord.")]
-    public float Xmax;
+    float Xmax;
     [Tooltip("Maximum Y-Coord.")]
-    public float Ymax;
+    float Ymax;
 
     [Tooltip("Minimum Amount of spawnable children")]
     public int minChildrenAmount;
@@ -67,6 +67,7 @@ public class AsteroidBehaviour : MonoBehaviour
     public float visibleDamageThreshold;
     [Tooltip("Color tint when damaged")]
     public Color damageTint;
+
     [Tooltip("Duration of Color tint when damaged in seconds")]
     public float damageDuration;
     [Tooltip("If the asteroids gets damage just now")]
@@ -85,11 +86,9 @@ public class AsteroidBehaviour : MonoBehaviour
     {
         //Initializing some parameters
         currentHealth = maxHealth;
-
-        print("visibleDamageThreshold:    " + visibleDamageThreshold);
         visibleDamageThreshold /= 100;
-        print("visibleDamageThreshold:    " + visibleDamageThreshold);
 
+        print("Force Max    " + forceMax);
 
         force = new Vector2(Random.Range(-forceMax, forceMax), Random.Range(-forceMax, forceMax));
         rb = GetComponent<Rigidbody2D>();
@@ -142,7 +141,6 @@ public class AsteroidBehaviour : MonoBehaviour
         {
             spriteRenderer.color = Color.white;
         }
-
     }
 
 
@@ -221,19 +219,18 @@ public class AsteroidBehaviour : MonoBehaviour
                 int temp = Random.Range(minChildrenAmount, maxChildrenAmount);
                 for (int i = 0; i < temp; i++)
                 {
+
                     GameObject newSpawn = Instantiate(asteroidChild, transform.position, transform.rotation);
                     newSpawn.gameObject.SendMessage("decreaseSize", asteroidSize - 1);
                     newSpawn.gameObject.SendMessage("setVariant", currentVariant);
-
+                    newSpawn.gameObject.SendMessage("setXmax", Xmax);
+                    newSpawn.gameObject.SendMessage("setYmax", Ymax);
                 }
-
             }
-
 
             //child: spriteIndex = rand;
             //Destroy this instance of asteroid
             Destroy(gameObject);
-
         }
     }
 
@@ -254,4 +251,19 @@ public class AsteroidBehaviour : MonoBehaviour
         isChild = true;
     }
 
+    /**
+     * Sets Variable Xmax to parameter value
+     */
+    public void setXmax(float newX)
+    {
+        Xmax = newX;
+    }
+
+    /**
+    * Sets Variable Ymax to parameter value
+    */
+    public void setYmax(float newY)
+    {
+        Ymax = newY;
+    }
 }
