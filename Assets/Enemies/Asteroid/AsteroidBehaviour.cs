@@ -6,6 +6,8 @@ public class AsteroidBehaviour : MonoBehaviour
 {
     #region Variables
     [Header("Asteroid Variables")]
+    Rigidbody2D rb;
+
 
     [Tooltip("Maximum movement force of the Asteroid.")]
     public float forceMax;
@@ -13,11 +15,25 @@ public class AsteroidBehaviour : MonoBehaviour
     Vector2 force;
 
     [Tooltip("max Health of the Asteroid.")]
-    public float maxHealth;
+    float maxHealth;
     [Tooltip("current Health of the Asteroid. If it reaches 0, the Asteroid is destroyed.")]
     float currentHealth;
 
-    Rigidbody2D rb;
+    [Header("Asteroid Health Variants")]
+    [Tooltip("max Health of the small Asteroid.")]
+    public float healthSmall;
+    [Tooltip("max Health of the medium Asteroid.")]
+    public float healthMedium;
+    [Tooltip("max Health of the large Asteroid.")]
+    public float healthLarge;
+
+    [Header("Asteroid Health Variants")]
+    [Tooltip("The Mass of the small Asteroid.")]
+    public float massSmall;
+    [Tooltip("The Mass of the medium Asteroid.")]
+    public float massMedium;
+    [Tooltip("The Mass of the large Asteroid.")]
+    public float massLarge;
 
     [Tooltip("Maximum X-Coord.")]
     float Xmax;
@@ -45,12 +61,14 @@ public class AsteroidBehaviour : MonoBehaviour
     [HideInInspector]
     public int spriteIndex;
 
+    [Header("Asteroid Scale")]
     [Tooltip("The Scale of the small asteroid variant")]
     public float asteroidScaleSmall;
     [Tooltip("The Scale of the medium asteroid variant")]
     public float asteroidScaleMedium;
     [Tooltip("The Scale of the large asteroid variant")]
     public float asteroidScaleLarge;
+
 
     [Tooltip("The current variant of the asteroid's general appearance")]
     int currentVariant;
@@ -85,8 +103,6 @@ public class AsteroidBehaviour : MonoBehaviour
     void Start()
     {
         //Initializing some parameters
-        currentHealth = maxHealth;
-        visibleDamageThreshold /= 100;
 
         print("Force Max    " + forceMax);
 
@@ -95,6 +111,31 @@ public class AsteroidBehaviour : MonoBehaviour
         rb.AddForce(force);
 
         spriteRenderer = GetComponent<SpriteRenderer>();
+
+        //Sets max Health depending on size
+        switch (asteroidSize)
+        {
+            case 1:
+                maxHealth = healthSmall;
+                rb.mass = massSmall;
+                break;
+            case 2:
+                maxHealth = healthMedium;
+                rb.mass = massMedium;
+                break;
+            case 3:
+                maxHealth = healthLarge;
+                rb.mass = massLarge;
+                break;
+            default:
+                break;
+        }
+
+        //Adds random torque for more juice
+        rb.AddTorque(Random.Range(-1000, 1000), ForceMode2D.Force);
+
+        currentHealth = maxHealth;
+        visibleDamageThreshold /= 100;
 
         //Choose and assign the sprite for the asteroid
         changeAppearance();
@@ -221,7 +262,7 @@ public class AsteroidBehaviour : MonoBehaviour
                 {
 
                     GameObject newSpawn = Instantiate(asteroidChild, transform.position, transform.rotation);
-                    newSpawn.gameObject.SendMessage("decreaseSize", asteroidSize - 1);
+                    newSpawn.gameObject.SendMessage("setSize", asteroidSize - 1);
                     newSpawn.gameObject.SendMessage("setVariant", currentVariant);
                     newSpawn.gameObject.SendMessage("setXmax", Xmax);
                     newSpawn.gameObject.SendMessage("setYmax", Ymax);
@@ -237,7 +278,7 @@ public class AsteroidBehaviour : MonoBehaviour
     /**
      * Sets the Size to paramenter value
      */
-    public void decreaseSize(int newSize)
+    public void setSize(int newSize)
     {
         asteroidSize = newSize;
     }

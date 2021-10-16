@@ -63,7 +63,7 @@ public class SpawnHandlerBehavior : MonoBehaviour
      */
     void spawnAsteroid()
     {
-        byte axis = (byte)Random.Range(1, 4);
+        float axis = Random.Range(1, 5);
         Vector3 spawnCoords = new Vector2();
 
         switch (axis)
@@ -99,6 +99,7 @@ public class SpawnHandlerBehavior : MonoBehaviour
         GameObject newAsteroid = Instantiate(spawnableAssets[0], spawnCoords, transform.rotation);
         newAsteroid.gameObject.SendMessage("setXmax", Xmax);
         newAsteroid.gameObject.SendMessage("setYmax", Ymax);
+        newAsteroid.gameObject.SendMessage("setSize", Random.Range(1,4));
     }
 
 

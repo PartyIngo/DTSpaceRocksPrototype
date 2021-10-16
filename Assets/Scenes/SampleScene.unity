@@ -333,7 +333,7 @@ MonoBehaviour:
   accelerationBoostMultiplier: 3
   brakeDragMultiplier: 3
   defaultFriction: 1
-  torque: 2
+  torque: 1
   maxFastTurnTorque: 20
   defaultAngularDrag: 8
   maxVariableAngularDrag: 25
@@ -563,7 +563,7 @@ MonoBehaviour:
   isShootingEnabled: 1
   bullet: {fileID: 5803481595772901523, guid: 0d5a12c9886214a4a8814109e77ea64b, type: 3}
   shootingInterval: 0.05
-  damageBase: 2
+  damageBase: 1
 --- !u!58 &600121982
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -579,7 +579,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: -0.17024003}
   serializedVersion: 2
-  m_Radius: 0.64
+  m_Radius: 0.4
 --- !u!1 &1088200373
 GameObject:
   m_ObjectHideFlags: 0
@@ -644,7 +644,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnableAssets:
   - {fileID: 182441705955601652, guid: fd0cf03780b4edf41a154de835a818d5, type: 3}
-  spawnCooldown: 10
+  spawnCooldown: 5
   Xmax: 34
   Ymax: 19
 --- !u!4 &1476863219

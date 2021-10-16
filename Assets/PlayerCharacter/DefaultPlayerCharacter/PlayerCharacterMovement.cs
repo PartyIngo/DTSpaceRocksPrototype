@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
+
 
 public class PlayerCharacterMovement : MonoBehaviour
 {
@@ -429,6 +431,9 @@ public class PlayerCharacterMovement : MonoBehaviour
             ownSprite.color = damageTint;
             nextTime = Time.time + damageDuration;
             getsDamage = false;
+
+            //Reload Scene
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
 
         //TODO: optimizing that the color changes not every frame
@@ -436,6 +441,9 @@ public class PlayerCharacterMovement : MonoBehaviour
         {
             ownSprite.color = Color.white;
         }
+
+
+
     }
 
 
