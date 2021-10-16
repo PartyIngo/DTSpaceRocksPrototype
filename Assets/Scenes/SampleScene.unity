@@ -133,7 +133,7 @@ GameObject:
   m_Component:
   - component: {fileID: 295364182}
   - component: {fileID: 295364183}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: BackgroundGlow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -304,7 +304,7 @@ GameObject:
   - component: {fileID: 600121979}
   - component: {fileID: 600121980}
   - component: {fileID: 600121982}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: PlayerCharacter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -333,8 +333,8 @@ MonoBehaviour:
   accelerationBoostMultiplier: 3
   brakeDragMultiplier: 3
   defaultFriction: 1
-  torque: 3
-  maxFastTurnTorque: 30
+  torque: 2
+  maxFastTurnTorque: 20
   defaultAngularDrag: 8
   maxVariableAngularDrag: 25
   brakeAngle: 2
@@ -589,7 +589,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1088200374}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Flame
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -672,7 +672,7 @@ GameObject:
   - component: {fileID: 1659015914}
   - component: {fileID: 1659015912}
   - component: {fileID: 1659015913}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: boostFlameAnimation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -775,7 +775,7 @@ GameObject:
   - component: {fileID: 1704369162}
   - component: {fileID: 1704369164}
   - component: {fileID: 1704369163}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: accelerationFlameAnimation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
