@@ -84,9 +84,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   forceMax: 5000
-  healthSmall: 1
-  healthMedium: 4
-  healthLarge: 10
+  healthSmall: 2
+  healthMedium: 8
+  healthLarge: 16
   massSmall: 7
   massMedium: 10
   massLarge: 15
