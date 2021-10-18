@@ -10,9 +10,17 @@ public class AsteroidBehaviour : MonoBehaviour
 
 
     [Tooltip("Maximum movement force of the Asteroid.")]
-    public float forceMax;
+    float forceMax;
     [Tooltip("Actual force of the Asteroid.")]
     Vector2 force;
+
+    [Header("Asteroid Force Variants")]
+    [Tooltip("max Spawning Force of the small Asteroid.")]
+    public float spawnForceSmall;
+    [Tooltip("max Spawning Force of the medium Asteroid.")]
+    public float spawnForceMedium;
+    [Tooltip("max Spawning Force of the large Asteroid.")]
+    public float spawnForceLarge;
 
     [Tooltip("max Health of the Asteroid.")]
     float maxHealth;
@@ -103,34 +111,36 @@ public class AsteroidBehaviour : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //Initializing some parameters
-
-        print("Force Max    " + forceMax);
-
-        force = new Vector2(Random.Range(-forceMax, forceMax), Random.Range(-forceMax, forceMax));
         rb = GetComponent<Rigidbody2D>();
-        rb.AddForce(force);
 
-        spriteRenderer = GetComponent<SpriteRenderer>();
-
-        //Sets max Health depending on size
+        //Initializing some parameters depending on size
         switch (asteroidSize)
         {
             case 1:
                 maxHealth = healthSmall;
                 rb.mass = massSmall;
+                forceMax = spawnForceSmall;
                 break;
             case 2:
                 maxHealth = healthMedium;
                 rb.mass = massMedium;
+                forceMax = spawnForceMedium;
                 break;
             case 3:
                 maxHealth = healthLarge;
                 rb.mass = massLarge;
+                forceMax = spawnForceLarge;
                 break;
             default:
                 break;
         }
+
+        print("Force Max    " + forceMax);
+
+        force = new Vector2(Random.Range(-forceMax, forceMax), Random.Range(-forceMax, forceMax));
+        rb.AddForce(force);
+
+        spriteRenderer = GetComponent<SpriteRenderer>();
 
         //Adds random torque for more juice
         rb.AddTorque(Random.Range(-1000, 1000), ForceMode2D.Force);
