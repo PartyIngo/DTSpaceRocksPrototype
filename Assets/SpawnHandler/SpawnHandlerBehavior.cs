@@ -99,9 +99,17 @@ public class SpawnHandlerBehavior : MonoBehaviour
         GameObject newAsteroid = Instantiate(spawnableAssets[0], spawnCoords, transform.rotation);
         newAsteroid.gameObject.SendMessage("setXmax", Xmax);
         newAsteroid.gameObject.SendMessage("setYmax", Ymax);
-        newAsteroid.gameObject.SendMessage("setSize", Random.Range(1,4));
+        newAsteroid.gameObject.SendMessage("setSize", Random.Range(1, 4));
     }
 
+
+    /**
+     * 
+     */
+    public void destroyEntity(GameObject target)
+    {
+        Destroy(target);
+    }
 
 
     ///**

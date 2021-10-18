@@ -46,6 +46,7 @@ public class AsteroidBehaviour : MonoBehaviour
     public int maxChildrenAmount;
 
     public GameObject asteroidChild;
+    public GameObject spawnHandler;
 
     [Header("Asteroid' General Appearance")]
     [Tooltip("The scale of the asteroid")]
@@ -273,7 +274,7 @@ public class AsteroidBehaviour : MonoBehaviour
             ScoreScript.scoreValue += 1;
 
             //Destroy this instance of asteroid
-            Destroy(gameObject);
+            spawnHandler.GetComponent<SpawnHandlerBehavior>().destroyEntity(gameObject);            
         }
     }
 

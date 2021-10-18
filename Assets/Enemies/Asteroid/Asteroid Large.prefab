@@ -93,6 +93,7 @@ MonoBehaviour:
   minChildrenAmount: 2
   maxChildrenAmount: 4
   asteroidChild: {fileID: 182441705955601652}
+  spawnHandler: {fileID: 7109787635731926875, guid: b326f940de4b9a5469d05896cc9208de, type: 3}
   asteroidScale: 5
   asteroidSize: 3
   asteroidSprite:
