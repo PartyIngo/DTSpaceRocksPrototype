@@ -86,10 +86,10 @@ MonoBehaviour:
   forceMax: 5000
   healthSmall: 2
   healthMedium: 8
-  healthLarge: 16
+  healthLarge: 24
   massSmall: 7
   massMedium: 10
-  massLarge: 15
+  massLarge: 20
   minChildrenAmount: 2
   maxChildrenAmount: 4
   asteroidChild: {fileID: 182441705955601652}
@@ -102,7 +102,7 @@ MonoBehaviour:
   spriteIndex: 0
   asteroidScaleSmall: 1.5
   asteroidScaleMedium: 3
-  asteroidScaleLarge: 5
+  asteroidScaleLarge: 6
   burstVFX: {fileID: 64770742388454264, guid: 1b039d5fef945e64982f90e5454d9c1a, type: 3}
   visibleDamageThreshold: 50
   damageTint: {r: 1, g: 0, b: 0, a: 1}
