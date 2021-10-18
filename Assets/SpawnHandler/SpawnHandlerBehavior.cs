@@ -108,6 +108,7 @@ public class SpawnHandlerBehavior : MonoBehaviour
      */
     public void destroyEntity(GameObject target)
     {
+        Destroy(target.GetComponent<SpriteRenderer>());
         Destroy(target);
     }
 

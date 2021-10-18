@@ -155,6 +155,38 @@ public class AsteroidBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (currentHealth <= 0)
+        {
+            //GameObject handler = GameObject.Find("SpawnHandler");
+            //handler.gameObject.SendMessage("decreaseOverallWeight", "Asteroid Large");
+
+            //VFX explosion
+            Instantiate(burstVFX, transform.position, transform.rotation);
+
+
+
+            //Spawn child asteroids
+            if (asteroidSize > 1)
+            {
+                int temp = Random.Range(minChildrenAmount, maxChildrenAmount);
+                for (int i = 0; i < temp; i++)
+                {
+
+                    GameObject newSpawn = Instantiate(asteroidChild, transform.position, transform.rotation);
+                    newSpawn.gameObject.SendMessage("setSize", asteroidSize - 1);
+                    newSpawn.gameObject.SendMessage("setVariant", currentVariant);
+                    newSpawn.gameObject.SendMessage("setXmax", Xmax);
+                    newSpawn.gameObject.SendMessage("setYmax", Ymax);
+                }
+            }
+
+            //Increase Score
+            ScoreScript.scoreValue += 1;
+
+            //Destroy this instance of asteroid
+            spawnHandler.GetComponent<SpawnHandlerBehavior>().destroyEntity(gameObject);
+        }
+
         Vector2 tmp = transform.position;
 
         if (transform.position.x > Xmax)
@@ -253,38 +285,6 @@ public class AsteroidBehaviour : MonoBehaviour
         {
             //TODO: change Sprite of Asteroid to cracked variant
             //spriteRenderer.sprite = crackedAsteroids[currentVariant]; //should be working, but has to be tested when other sprites are available
-        }
-
-        if (currentHealth <= 0)
-        {
-            //GameObject handler = GameObject.Find("SpawnHandler");
-            //handler.gameObject.SendMessage("decreaseOverallWeight", "Asteroid Large");
-
-            //VFX explosion
-            Instantiate(burstVFX, transform.position, transform.rotation);
-
-
-
-            //Spawn child asteroids
-            if (asteroidSize > 1)
-            {
-                int temp = Random.Range(minChildrenAmount, maxChildrenAmount);
-                for (int i = 0; i < temp; i++)
-                {
-
-                    GameObject newSpawn = Instantiate(asteroidChild, transform.position, transform.rotation);
-                    newSpawn.gameObject.SendMessage("setSize", asteroidSize - 1);
-                    newSpawn.gameObject.SendMessage("setVariant", currentVariant);
-                    newSpawn.gameObject.SendMessage("setXmax", Xmax);
-                    newSpawn.gameObject.SendMessage("setYmax", Ymax);
-                }
-            }
-
-            //Increase Score
-            ScoreScript.scoreValue += 1;
-
-            //Destroy this instance of asteroid
-            spawnHandler.GetComponent<SpawnHandlerBehavior>().destroyEntity(gameObject);            
         }
     }
 
