@@ -83,15 +83,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 575ad75114b674a4e837c174de318111, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnForceSmall: 5000
-  spawnForceMedium: 7000
-  spawnForceLarge: 20000
+  spawnForceSmall: 2500
+  spawnForceMedium: 9000
+  spawnForceLarge: 30000
   healthSmall: 2
   healthMedium: 8
   healthLarge: 24
-  massSmall: 7
+  massSmall: 3
   massMedium: 15
-  massLarge: 50
+  massLarge: 75
   minChildrenAmount: 2
   maxChildrenAmount: 4
   asteroidChild: {fileID: 182441705955601652}
