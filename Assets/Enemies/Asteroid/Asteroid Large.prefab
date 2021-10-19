@@ -84,7 +84,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnForceSmall: 2500
-  spawnForceMedium: 9000
+  spawnForceMedium: 10000
   spawnForceLarge: 30000
   healthSmall: 2
   healthMedium: 8
