@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 
-public class PlayerCharacterMovement : MonoBehaviour
+public class PlayerCharacterMovement : NetworkBehaviour
 {
     [Header("Enable/Disable specific Functions")]
     [Tooltip("Is the Spaceship able to turn leftwards/rightwards?")]
@@ -61,6 +62,7 @@ public class PlayerCharacterMovement : MonoBehaviour
     [Header("Gamepad Deadzone Setup")]
     [Tooltip("The Deadzone of the left thumbstick")]
     public float deadZoneRadiusLTS;
+    private NetworkVariable<Vector2> networkLTSInput = new NetworkVariable<Vector2>();
     Vector2 leftStickInput;
     [Tooltip("The Deadzone of both the LT and RT Triggers")]
     public float deadZoneLTRT;
@@ -444,13 +446,9 @@ public class PlayerCharacterMovement : MonoBehaviour
         {
             ownSprite.color = Color.white;
         }
-
-
-
     }
 
     #region Input System Controls
-
     /**
      * When pressing the left Thumbstick, a multiplier has to be applied to the friction to slow down the spaceship.
      */
@@ -474,13 +472,28 @@ public class PlayerCharacterMovement : MonoBehaviour
         }
     }
 
+
+    //[ServerRpc]
+    //void setLTSInputServerRpc(Vector2 value)
+    //{
+    //    networkLTSInput.Value = value;
+    //    leftStickInput = networkLTSInput.Value;
+    //}
+
+
     /**
      * Called, then the left Thumbstick is dragged
      * The input value will be stored for further usage
      */
     public void OnLeftThumbstickInput(InputAction.CallbackContext context)
     {
-        leftStickInput = context.ReadValue<Vector2>();
+        //leftStickInput = context.ReadValue<Vector2>();
+
+        if (IsLocalPlayer)
+        {
+            leftStickInput = context.ReadValue<Vector2>();
+        }
+
         //print("LTS Input: " + leftStickInput.magnitude);
     }
 
