@@ -6,6 +6,15 @@ using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 
+/**
+ * 
+ * TO DO:
+ * - The player character can be moved from every client, but every other player character will be moved too. This has to be fixed (Somethingn with client authorities. 
+ *      Eventually the input system has to be adapted that onnly the currentyl active client can move it's associated Player Character
+ * - Asteroids have to be spawned from server side and replicated to clients. Also the damage for asteroids has to be handled via the server
+ * - IP stuff. Multiplayer has to work over the Internet
+ */
+
 public class PlayerCharacterMovement : NetworkBehaviour
 {
     [Header("Enable/Disable specific Functions")]
@@ -105,6 +114,11 @@ public class PlayerCharacterMovement : NetworkBehaviour
     float normalizedAngleDifference;
     Rigidbody2D rb;
 
+    [Header("Networking Variables")]
+    public NetworkVariable<Vector2> netPosition = new NetworkVariable<Vector2>(/*NetworkVariableReadPermission.Everyone*/);
+    
+
+
     
     /**
      * prepare some values by starting this script
@@ -130,6 +144,18 @@ public class PlayerCharacterMovement : NetworkBehaviour
     }
     void FixedUpdate()
     {
+        if (IsServer)
+        {
+            netPosition.Value = leftStickInput;
+        }
+        else
+        {
+            SetPositionServerRpc(leftStickInput);
+        }
+
+
+
+
         //Check if the spaceship has to be accelerated forward
         HandleAcceleration();
         
@@ -139,6 +165,14 @@ public class PlayerCharacterMovement : NetworkBehaviour
         //Check if the spaceship has to strafe
         HandleStrafing();
     }
+
+    [ServerRpc]
+    public void SetPositionServerRpc(Vector3 direction)
+    {
+        netPosition.Value = direction;
+    }
+
+
 
     /**
      * Checks if the player is outside of the boundaries of the playfield
@@ -197,7 +231,7 @@ public class PlayerCharacterMovement : NetworkBehaviour
         if (!(isStrafingLeft && isStrafingRight))
         {
             //When the current Value of the Thumbstick is out of the deadzone...
-            if (leftStickInput.magnitude > deadZoneRadiusLTS)
+            if (netPosition.Value/*leftStickInput*/.magnitude > deadZoneRadiusLTS)
             {
                 //vfx: enable flame and glow
                 flameGlow.enabled = true;
@@ -208,9 +242,9 @@ public class PlayerCharacterMovement : NetworkBehaviour
                 //print("Magnitude: " + leftStickInput.normalized.magnitude + " On Coordinates " + leftStickInput);
                 //print("On Coordinates " + leftStickInput);
                 //When dragging the Left Thumbstick a little bit, the acceleration is normal
-                if (leftStickInput.magnitude < boostZone)
+                if (netPosition.Value/*leftStickInput*/.magnitude < boostZone)
                 {
-                    currentAcceleration = (leftStickInput.normalized.magnitude * accelerationValue);
+                    currentAcceleration = (netPosition.Value/*leftStickInput*/.normalized.magnitude * accelerationValue);
                     //print("NORMAL Speed: " + currentAcceleration);
 
                     //VFX: change glow color
@@ -218,9 +252,9 @@ public class PlayerCharacterMovement : NetworkBehaviour
                 }
 
                 //When dragging the Left Thumbstick to it's limit, a boost has to be applied, to increase the acceleration to a maximum
-                if (leftStickInput.magnitude >= boostZone)
+                if (netPosition.Value/*leftStickInput*/.magnitude >= boostZone)
                 {
-                    currentAcceleration = (leftStickInput.normalized.magnitude * accelerationValue * accelerationBoostMultiplier);
+                    currentAcceleration = (netPosition.Value/*leftStickInput*/.normalized.magnitude * accelerationValue * accelerationBoostMultiplier);
                     //print("BOOST!");
 
                     //VFX: change glow color and flame from acceleration to boost variant
@@ -271,10 +305,10 @@ public class PlayerCharacterMovement : NetworkBehaviour
     void HandleTurning()
     {   
         //When out of Deadzone, the Spaceship is able to turn around
-        if (leftStickInput.magnitude > deadZoneRadiusLTS)
+        if (netPosition.Value/*leftStickInput*/.magnitude > deadZoneRadiusLTS)
         {
             //calculate y and x values of leftStickInput to get a float value, that it can be better compared to values of the spaceship's rotation values
-            float angleLTS = Mathf.Atan2(leftStickInput.y, leftStickInput.x) * Mathf.Rad2Deg;
+            float angleLTS = Mathf.Atan2(netPosition.Value/*leftStickInput*/.y, netPosition.Value/*leftStickInput*/.x) * Mathf.Rad2Deg;
      
             //Conversion by adding -90 on Ship's rotation
             float convShipRotation = transform.rotation.eulerAngles.z + 90;
@@ -343,7 +377,7 @@ public class PlayerCharacterMovement : NetworkBehaviour
 
             
             float extraTorque = maxFastTurnTorque * (Mathf.Abs(normalizedAngleDifference) / 180);
-            float scaledTotalTorque = (torque + extraTorque) * leftStickInput.magnitude;
+            float scaledTotalTorque = (torque + extraTorque) * netPosition.Value/*leftStickInput*/.magnitude;
 
             if (isTurningEnabled)
             {
@@ -489,7 +523,7 @@ public class PlayerCharacterMovement : NetworkBehaviour
     {
         //leftStickInput = context.ReadValue<Vector2>();
 
-        if (IsLocalPlayer)
+        if (IsClient)
         {
             leftStickInput = context.ReadValue<Vector2>();
         }

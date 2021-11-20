@@ -8,7 +8,7 @@ namespace HelloWorld
     /**
      * 
      * The whole Script is copied from https://mp-docs.dl.it.unity3d.com/docs/tutorials/goldenpath_series/goldenpath_one/index.html
-     * of the chhapter "Adding Scripts to GoldenPath"
+     * of the chapter "Adding Scripts to GoldenPath"
      * 
      */
     public class HelloWorldPlayer : NetworkBehaviour

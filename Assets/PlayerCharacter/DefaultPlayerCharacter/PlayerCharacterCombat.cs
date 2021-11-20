@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 
-public class PlayerCharacterCombat : MonoBehaviour
+public class PlayerCharacterCombat : NetworkBehaviour
 {
     [Header("Enable/Disable specific Functions")]
     public bool isShootingEnabled;
@@ -22,6 +23,10 @@ public class PlayerCharacterCombat : MonoBehaviour
 
     bool isShooting;
 
+    [Header("Network Variables")]
+    public NetworkVariable<bool> netIsShooting = new NetworkVariable<bool>();
+
+
     // Update is called once per frame
     void Update()
     {
@@ -31,6 +36,23 @@ public class PlayerCharacterCombat : MonoBehaviour
         }
     }
 
+    private void FixedUpdate()
+    {
+        if (IsServer)
+        {
+            netIsShooting.Value = isShooting;
+        }
+        else
+        {
+            SetIsShootingServerRpc(isShooting);
+        }
+    }
+
+    [ServerRpc]
+    void SetIsShootingServerRpc(bool value)
+    {
+        netIsShooting.Value = isShooting;
+    }
 
     /**
      * Checks if the player wants to shoot as well as the cooldown for a new shot is enabled
@@ -39,7 +61,7 @@ public class PlayerCharacterCombat : MonoBehaviour
     void HandleShooting()
     {
         //Check if shooting is physically enabled (via Gamepad) AND if time has passed to enable the next shot
-        if (isShooting && Time.time > nextShot)
+        if (netIsShooting.Value && Time.time > nextShot)
         {
             //Set a new time to disable shooting until time has passed
             nextShot = Time.time + shootingInterval;
