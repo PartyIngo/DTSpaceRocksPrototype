@@ -4,7 +4,7 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
-
+using UnityEngine.Networking;
 
 /**
  * 
@@ -144,17 +144,20 @@ public class PlayerCharacterMovement : NetworkBehaviour
     }
     void FixedUpdate()
     {
-        if (IsServer)
-        {
+        //if (IsLocalPlayer)
+        //{
             netPosition.Value = leftStickInput;
-        }
-        else
+        //}
+        //else
+        //{
+        //    SetPositionServerRpc(leftStickInput);
+        //}
+
+        
+        if (!IsLocalPlayer)
         {
-            SetPositionServerRpc(leftStickInput);
+            return;
         }
-
-
-
 
         //Check if the spaceship has to be accelerated forward
         HandleAcceleration();
@@ -171,7 +174,6 @@ public class PlayerCharacterMovement : NetworkBehaviour
     {
         netPosition.Value = direction;
     }
-
 
 
     /**

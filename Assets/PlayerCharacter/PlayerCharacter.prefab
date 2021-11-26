@@ -338,6 +338,7 @@ GameObject:
   - component: {fileID: 1342965781778387432}
   - component: {fileID: 1342965781778387434}
   - component: {fileID: 9056392226811936446}
+  - component: {fileID: 3975936996692372669}
   m_Layer: 7
   m_Name: PlayerCharacter
   m_TagString: Untagged
@@ -451,6 +452,8 @@ MonoBehaviour:
   boostDotColor: {r: 0.76862746, g: 0.9882353, b: 1, a: 0.5019608}
   damageTint: {r: 1, g: 0, b: 0, a: 1}
   damageDuration: 0.05
+  netPosition:
+    m_InternalValue: {x: 0, y: 0}
 --- !u!114 &1342965781778387433
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -467,6 +470,8 @@ MonoBehaviour:
   bullet: {fileID: 5803481595772901523, guid: 0d5a12c9886214a4a8814109e77ea64b, type: 3}
   shootingInterval: 0.05
   damageBase: 1
+  netIsShooting:
+    m_InternalValue: 0
 --- !u!50 &1342965781778387439
 Rigidbody2D:
   serializedVersion: 4
@@ -630,3 +635,30 @@ MonoBehaviour:
   AlwaysReplicateAsRoot: 0
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
+--- !u!114 &3975936996692372669
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1342965781778387427}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e96cb6065543e43c4a752faaa1468eb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SyncPositionX: 1
+  SyncPositionY: 1
+  SyncPositionZ: 1
+  SyncRotAngleX: 1
+  SyncRotAngleY: 1
+  SyncRotAngleZ: 1
+  SyncScaleX: 1
+  SyncScaleY: 1
+  SyncScaleZ: 1
+  PositionThreshold: 0.001
+  RotAngleThreshold: 0.01
+  ScaleThreshold: 0.01
+  InLocalSpace: 0
+  Interpolate: 1
+  CanCommitToTransform: 0
