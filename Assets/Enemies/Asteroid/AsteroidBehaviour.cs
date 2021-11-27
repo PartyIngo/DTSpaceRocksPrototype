@@ -187,31 +187,6 @@ public class AsteroidBehaviour : MonoBehaviour
             spawnHandler.GetComponent<SpawnHandlerBehavior>().destroyEntity(gameObject);
         }
 
-        Vector2 tmp = transform.position;
-
-        if (transform.position.x > Xmax)
-        {
-            tmp.x = -Xmax + 1;   
-            transform.position = tmp;
-        }
-
-        if (transform.position.x < -Xmax)
-        {
-            tmp.x = Xmax - 1; 
-            transform.position = tmp;
-        }
-
-        if (transform.position.y > Ymax)
-        {
-            tmp.y = -Ymax + 1;
-            transform.position = tmp;
-        }
-
-        if (transform.position.y < -Ymax)
-        {
-            tmp.y = Ymax - 1;
-            transform.position = tmp;
-        }
 
         if (getsDamage)
         {

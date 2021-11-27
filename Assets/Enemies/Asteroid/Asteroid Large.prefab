@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 182441705955601652}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 5, y: 5, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -96,16 +96,16 @@ MonoBehaviour:
   maxChildrenAmount: 4
   asteroidChild: {fileID: 182441705955601652}
   spawnHandler: {fileID: 7109787635731926875, guid: b326f940de4b9a5469d05896cc9208de, type: 3}
-  asteroidScale: 5
+  asteroidScale: 0
   asteroidSize: 3
   asteroidSprite:
   - {fileID: 21300000, guid: cbbda7e41d75f4340853d6cc6137b82a, type: 3}
   - {fileID: 21300000, guid: 864c18c49fcbfb84183e54915648e5f5, type: 3}
   - {fileID: 21300000, guid: 05f4ffc8837ddb5478fac12a7a84d9b6, type: 3}
   spriteIndex: 0
-  asteroidScaleSmall: 1.5
-  asteroidScaleMedium: 3
-  asteroidScaleLarge: 6
+  asteroidScaleSmall: 0.75
+  asteroidScaleMedium: 1
+  asteroidScaleLarge: 2
   burstVFX: {fileID: 64770742388454264, guid: 1b039d5fef945e64982f90e5454d9c1a, type: 3}
   visibleDamageThreshold: 50
   damageTint: {r: 1, g: 0, b: 0, a: 1}

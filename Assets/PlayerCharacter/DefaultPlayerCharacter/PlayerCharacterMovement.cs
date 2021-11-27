@@ -117,14 +117,7 @@ public class PlayerCharacterMovement : MonoBehaviour
 
     void Update()
     {
-        //Check if the Spaceship is outside of the Field and sets it's position to the opposite border.
-        if (isLoopingEnabled)
-        {
-            CheckPosition();
-        }
-
         handleIncomingDamage();
-
     }
     void FixedUpdate()
     {
@@ -138,53 +131,6 @@ public class PlayerCharacterMovement : MonoBehaviour
         HandleStrafing();
     }
 
-    /**
-     * Checks if the player is outside of the boundaries of the playfield
-     * If so, the player will enter the field from the opposite border
-     */
-    void CheckPosition()
-    {
-        //print("X Pos: " + transform.position.x + " Y Pos: " + transform.position.y);
-        
-        Vector3 tmp = transform.position;
-
-        //If spaceship has passed the right border...
-        if (transform.position.x > borderDistanceX)
-        {
-            //Change it's position to be inside of the left border of the field
-            tmp.x = -borderDistanceX + 1;   //Make sure, the ship will spawn WITHIN the borders to avoid switching its signs infinitely
-            transform.position = tmp;
-            //print(tmp);
-        }
-
-        //If spaceship has passed the left border...
-        if (transform.position.x < -borderDistanceX)
-        {
-            //Change it's position to be inside of the left border of the field
-            tmp.x = borderDistanceX - 1;   //Make sure, the ship will spawn WITHIN the borders to avoid switching its signs infinitely
-            transform.position = tmp;
-            //print(tmp);
-        }
-
-        //If spaceship hahs passed top border...
-        if (transform.position.y > borderDistanceY)
-        {
-            //Change it's position to be inside of the left border of the field
-            tmp.y = -borderDistanceY + 1;    //Make sure, the ship will spawn WITHIN the borders to avoid switching its signs infinitely
-            transform.position = tmp;
-            //print(tmp);
-        }
-
-        //If spaceship hahs passed bottom border...
-        if (transform.position.y < -borderDistanceY)
-        {
-            //Change it's position to be inside of the left border of the field
-            tmp.y = borderDistanceY - 1;    //Make sure, the ship will spawn WITHIN the borders to avoid switching its signs infinitely
-            transform.position = tmp;
-            //print(tmp);
-        }
-
-    }
 
     /**
      * Sets the spaceship' s speed when requirements are given

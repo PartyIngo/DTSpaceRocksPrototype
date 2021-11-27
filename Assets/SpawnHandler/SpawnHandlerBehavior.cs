@@ -2,13 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/**
+ * TODO: 
+ * - Weight and isLooping as properties in respective Prefaby (Player, Asteroid)
+ * - The Spawn Handler should get access to these properties, to store them in a list and check for looping
+ * 
+ */
+
+
 public class SpawnHandlerBehavior : MonoBehaviour
 {
+    List<GameObject> currentlyActiveList;
+    //List<ItemCatalogue> currentlyActiveList;  //NOTE: Currently Not useful because the Inspector has to be customized first
+
     #region Variables
 
     [Header("The Gameobjects, the Spawn Handler has to handle")]
-    [Tooltip("List of Game Objects")]
-    public GameObject[] spawnableAssets;
+    [Tooltip("The Reference to the Player Character")]
+    public GameObject playerCharacter;
+    
+    [Tooltip("Array of Game Object prefabs")]
+    public GameObject[] entityReferences;
 
     //[Header("Parameters for gameplay weight of Assets")]
     //[Tooltip("The weight of the asteroid asset")]
@@ -38,7 +52,23 @@ public class SpawnHandlerBehavior : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //catalogue = new List<ItemCatalogue>();
+
+        currentlyActiveList = new List<GameObject>();
+
+        print("New List Count:    " + currentlyActiveList.Count);
+
+        //Spawn an instance of the Player Character and add it to the List
+        Vector2 spawnCoords = new Vector2(0, 0);
+        GameObject tmp = Instantiate(playerCharacter, spawnCoords, transform.rotation);
+        currentlyActiveList.Add(tmp);
+
+
+        //Reset timer for next spawn
         nextSpawnTime = Time.time + spawnCooldown;
+
+        //Debug Log
+        print("New List Count:    " + currentlyActiveList.Count);
     }
 
     /**
@@ -54,13 +84,68 @@ public class SpawnHandlerBehavior : MonoBehaviour
             nextSpawnTime = Time.time + spawnCooldown;
 
             spawnAsteroid();
-
         }
+
+        checkBoundaries();
+
     }
     /**
      * Spawns asteroids on a random border
      * 
      */
+
+
+
+    /**
+     * Checks every Entity that steps over the boundaries and changes it's position to the opposite or destroys them
+     */
+    void checkBoundaries()
+    {
+        //Boundaries X +/- Xmax
+        //Boundaries Y +/- Ymax
+
+        foreach (var item in currentlyActiveList)
+        {
+            GameObject itemGO = item.gameObject;
+
+            Vector3 tmp = itemGO.transform.position;
+
+            if (itemGO.transform.position.x > Xmax)
+            {
+                //Change it's position to be inside of the left border of the field
+                tmp.x = -Xmax + 1;   //Make sure, the ship will spawn WITHIN the borders to avoid switching its signs infinitely
+                itemGO.transform.position = tmp;
+            }
+
+            //If spaceship has passed the left border...
+            if (itemGO.transform.position.x < -Xmax)
+            {
+                //Change it's position to be inside of the left border of the field
+                tmp.x = Xmax - 1;   //Make sure, the ship will spawn WITHIN the borders to avoid switching its signs infinitely
+                itemGO.transform.position = tmp;
+            }
+
+            //If spaceship hahs passed top border...
+            if (itemGO.transform.position.y > Ymax)
+            {
+                //Change it's position to be inside of the left border of the field
+                tmp.y = -Ymax + 1;    //Make sure, the ship will spawn WITHIN the borders to avoid switching its signs infinitely
+                itemGO.transform.position = tmp;
+            }
+
+            //If spaceship hahs passed bottom border...
+            if (itemGO.transform.position.y < -Ymax)
+            {
+                //Change it's position to be inside of the left border of the field
+                tmp.y = Ymax - 1;    //Make sure, the ship will spawn WITHIN the borders to avoid switching its signs infinitely
+                itemGO.transform.position = tmp;
+            }
+
+            print(item);
+        }
+    }
+
+
     void spawnAsteroid()
     {
         float axis = Random.Range(1, 5);
@@ -96,7 +181,12 @@ public class SpawnHandlerBehavior : MonoBehaviour
         print("SpawnCoords: " + spawnCoords);
 
         //Spawns new Astreroid on respective axis
-        GameObject newAsteroid = Instantiate(spawnableAssets[0], spawnCoords, transform.rotation);
+
+
+        GameObject newAsteroid = Instantiate(entityReferences[0], spawnCoords, transform.rotation);
+        currentlyActiveList.Add(newAsteroid);
+        print("New List Count:    " + currentlyActiveList.Count);
+
         newAsteroid.gameObject.SendMessage("setXmax", Xmax);
         newAsteroid.gameObject.SendMessage("setYmax", Ymax);
         newAsteroid.gameObject.SendMessage("setSize", Random.Range(1, 4));
@@ -144,7 +234,7 @@ public class SpawnHandlerBehavior : MonoBehaviour
     // */
     //public void decreaseOverallWeight(string temp)
     //{
-    //    print("DEstroy nname:    " + temp);
+    //    print("Destroy name:    " + temp);
         
     //    switch (temp)
     //    {
