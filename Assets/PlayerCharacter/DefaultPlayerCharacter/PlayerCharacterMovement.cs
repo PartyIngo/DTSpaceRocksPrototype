@@ -123,7 +123,7 @@ public class PlayerCharacterMovement : NetworkBehaviour
     /**
      * prepare some values by starting this script
      */
-    void Start()
+    void /*OnStartLocalPlayer()*/Start()
     {
         rb = this.GetComponent<Rigidbody2D>();
         rb.drag = defaultFriction;
@@ -144,29 +144,38 @@ public class PlayerCharacterMovement : NetworkBehaviour
     }
     void FixedUpdate()
     {
-        //if (IsLocalPlayer)
-        //{
+
+
+        /** 
+         * Was passiert?
+         * -    Host bewegt sich, aber der richtige Client wird animiert
+         * 
+         */
+
+        if (IsLocalPlayer)
+        {
             netPosition.Value = leftStickInput;
-        //}
+
+            //Check if the spaceship has to be accelerated forward
+            HandleAcceleration();
+
+            //Check if the Spaceship has to turn
+            HandleTurning();
+
+            //Check if the spaceship has to strafe
+            HandleStrafing();
+
+            //return;
+        }
+
+        
+        
+        
         //else
         //{
         //    SetPositionServerRpc(leftStickInput);
         //}
-
         
-        if (!IsLocalPlayer)
-        {
-            return;
-        }
-
-        //Check if the spaceship has to be accelerated forward
-        HandleAcceleration();
-        
-        //Check if the Spaceship has to turn
-        HandleTurning();
-
-        //Check if the spaceship has to strafe
-        HandleStrafing();
     }
 
     [ServerRpc]
