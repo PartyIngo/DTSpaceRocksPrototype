@@ -56,7 +56,7 @@ public class SpawnHandlerBehavior : MonoBehaviour
 
         currentlyActiveList = new List<GameObject>();
 
-        print("New List Count:    " + currentlyActiveList.Count);
+        //print("New List Count:    " + currentlyActiveList.Count);
 
         //Spawn an instance of the Player Character and add it to the List
         Vector2 spawnCoords = new Vector2(0, 0);
@@ -68,7 +68,7 @@ public class SpawnHandlerBehavior : MonoBehaviour
         nextSpawnTime = Time.time + spawnCooldown;
 
         //Debug Log
-        print("New List Count:    " + currentlyActiveList.Count);
+        //print("New List Count:    " + currentlyActiveList.Count);
     }
 
     /**
@@ -141,7 +141,7 @@ public class SpawnHandlerBehavior : MonoBehaviour
                 itemGO.transform.position = tmp;
             }
 
-            print(item);
+            //print(item);
         }
     }
 
@@ -178,14 +178,14 @@ public class SpawnHandlerBehavior : MonoBehaviour
         }
 
         spawnCoords.z = 0;
-        print("SpawnCoords: " + spawnCoords);
+        //print("SpawnCoords: " + spawnCoords);
 
         //Spawns new Astreroid on respective axis
 
 
         GameObject newAsteroid = Instantiate(entityReferences[0], spawnCoords, transform.rotation);
         currentlyActiveList.Add(newAsteroid);
-        print("New List Count:    " + currentlyActiveList.Count);
+        //print("New List Count:    " + currentlyActiveList.Count);
 
         newAsteroid.gameObject.SendMessage("setXmax", Xmax);
         newAsteroid.gameObject.SendMessage("setYmax", Ymax);

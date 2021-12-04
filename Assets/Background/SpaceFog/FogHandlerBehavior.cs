@@ -25,7 +25,7 @@ public class FogHandlerBehavior : MonoBehaviour
     Vector3 rotationSpeedFog;
 
     //The array of fog planes
-    GameObject[] fog = new GameObject[3];
+    GameObject[] fog = new GameObject[4];
     
 
 

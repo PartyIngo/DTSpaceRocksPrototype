@@ -18,6 +18,12 @@ public class SkyboxBehavior : MonoBehaviour
     [SerializeField]
     Vector3 rotationSpeedSkybox02;
 
+    [Tooltip("The skybox 2 more inside than Skybox 1")]
+    [SerializeField]
+    GameObject skybox03;
+    [Tooltip("The speed and direction of which the skybox should rotate")]
+    [SerializeField]
+    Vector3 rotationSpeedSkybox03;
 
 
     // Start is called before the first frame update
@@ -36,5 +42,9 @@ public class SkyboxBehavior : MonoBehaviour
         skybox02.transform.Rotate(  rotationSpeedSkybox02.x * Time.deltaTime,
                                     rotationSpeedSkybox02.y * Time.deltaTime,
                                     rotationSpeedSkybox02.z * Time.deltaTime);
+
+        skybox03.transform.Rotate(  rotationSpeedSkybox03.x * Time.deltaTime,
+                                    rotationSpeedSkybox03.y * Time.deltaTime,
+                                    rotationSpeedSkybox03.z * Time.deltaTime);
     }
 }
