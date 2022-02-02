@@ -11,10 +11,13 @@ GameObject:
   - component: {fileID: 182441705955601615}
   - component: {fileID: 182441705955601649}
   - component: {fileID: 182441705955601650}
-  - component: {fileID: 182441705955601651}
+  - component: {fileID: 30330667085198695}
+  - component: {fileID: 5250106605228614595}
   - component: {fileID: 6814755364794065338}
+  - component: {fileID: 4227598663727217602}
+  - component: {fileID: 2644050547878534961}
   m_Layer: 6
-  m_Name: Asteroid Large
+  m_Name: LargeAsteroid
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -71,7 +74,7 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
---- !u!114 &182441705955601651
+--- !u!114 &30330667085198695
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -107,9 +110,29 @@ MonoBehaviour:
   asteroidScaleMedium: 1
   asteroidScaleLarge: 2
   burstVFX: {fileID: 64770742388454264, guid: 1b039d5fef945e64982f90e5454d9c1a, type: 3}
-  visibleDamageThreshold: 50
-  damageTint: {r: 1, g: 0, b: 0, a: 1}
+  visibleDamageThreshold: 0
+  damageTint: {r: 1, g: 0, b: 0, a: 0}
   damageDuration: 0.02
+--- !u!114 &5250106605228614595
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 182441705955601652}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78a69f02a66983447918e364f0f69a40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  appearanceVariant1:
+  - {fileID: 3655494474098559788, guid: dbe544585e870f34d96865b7de129c85, type: 3}
+  - {fileID: 4534059207003580527, guid: dbe544585e870f34d96865b7de129c85, type: 3}
+  - {fileID: 8178217476033639039, guid: dbe544585e870f34d96865b7de129c85, type: 3}
+  - {fileID: 5044534421181150113, guid: dbe544585e870f34d96865b7de129c85, type: 3}
+  appearanceVariant2: []
+  appearanceVariant3: []
+  animationInterval: 0
 --- !u!212 &6814755364794065338
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -162,3 +185,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!111 &4227598663727217602
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 182441705955601652}
+  m_Enabled: 0
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 3bb5e648209c18a4fad0d1b51c5dfb7e, type: 2}
+  m_Animations: []
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0
+--- !u!95 &2644050547878534961
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 182441705955601652}
+  m_Enabled: 0
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 6be2638385f9cae4ab961ab8ce3dc25c, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

@@ -64,6 +64,11 @@ public class AsteroidBehaviour : MonoBehaviour
     public int asteroidSize;
     [Tooltip("The Sprite Renderer Component")]
     SpriteRenderer spriteRenderer;
+    [Tooltip("The Animation Component")]
+    Animation animation;
+    [Tooltip("The Anomator Component")]
+    Animator animator;
+
     [Tooltip("Every Asteroid Sprite that may be assigned")]
     public Sprite[] asteroidSprite;
     [Tooltip("The assigned sprite.")]
@@ -77,6 +82,8 @@ public class AsteroidBehaviour : MonoBehaviour
     public float asteroidScaleMedium;
     [Tooltip("The Scale of the large asteroid variant")]
     public float asteroidScaleLarge;
+
+
 
 
     [Tooltip("The current variant of the asteroid's general appearance")]
@@ -140,7 +147,12 @@ public class AsteroidBehaviour : MonoBehaviour
         force = new Vector2(Random.Range(-forceMax, forceMax), Random.Range(-forceMax, forceMax));
         rb.AddForce(force);
 
+        //Get access to some important conponents
         spriteRenderer = GetComponent<SpriteRenderer>();
+        animation = GetComponent<Animation>();
+        animator = GetComponent<Animator>();
+
+
 
         //Adds random torque for more juice
         rb.AddTorque(Random.Range(-forceMax/5, forceMax/5), ForceMode2D.Force);
@@ -224,6 +236,7 @@ public class AsteroidBehaviour : MonoBehaviour
         switch (asteroidSize)
         {
             case 1:
+                //Change the scale 
                 tempScale = asteroidScaleSmall;
                 break;
             case 2:
