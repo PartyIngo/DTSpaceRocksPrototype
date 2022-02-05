@@ -6,33 +6,22 @@ using UnityEngine;
  * TODO: 
  * - Weight and isLooping as properties in respective Prefaby (Player, Asteroid)
  * - The Spawn Handler should get access to these properties, to store them in a list and check for looping
- * 
  */
 
 
 public class SpawnHandlerBehavior : MonoBehaviour
 {
-    List<GameObject> currentlyActiveList;
-    //List<ItemCatalogue> currentlyActiveList;  //NOTE: Currently Not useful because the Inspector has to be customized first
-
     #region Variables
 
     [Header("The Gameobjects, the Spawn Handler has to handle")]
     [Tooltip("The Reference to the Player Character")]
     public GameObject playerCharacter;
-    
+
     [Tooltip("Array of Game Object prefabs")]
     public GameObject[] entityReferences;
 
-    //[Header("Parameters for gameplay weight of Assets")]
-    //[Tooltip("The weight of the asteroid asset")]
-    //public float weightAsteroid;
-    //[Tooltip("The current total weight of all assets that are hostile against the player")]
-    //float currentWeight;
-    //[Space(10)]
-    //[Tooltip("The maximum weight of all assets that are hostile against the player")]
-    //public float maximumWeight;
-
+    [Tooltip("Array of existing Entities")]
+    List<GameObject> existingEntities;
 
     [Header("General Spawner Settings")]
     [Tooltip("The Delay until the next entity spawns in seconds")]
@@ -52,30 +41,22 @@ public class SpawnHandlerBehavior : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //catalogue = new List<ItemCatalogue>();
-
-        currentlyActiveList = new List<GameObject>();
-
-        //print("New List Count:    " + currentlyActiveList.Count);
+        //Create the List
+        existingEntities = new List<GameObject>();
 
         //Spawn an instance of the Player Character and add it to the List
         Vector2 spawnCoords = new Vector2(0, 0);
         GameObject tmp = Instantiate(playerCharacter, spawnCoords, transform.rotation);
-        currentlyActiveList.Add(tmp);
+        //addToList(tmp);
 
 
         //Reset timer for next spawn
         nextSpawnTime = Time.time + spawnCooldown;
-
-        //Debug Log
-        //print("New List Count:    " + currentlyActiveList.Count);
     }
 
     /**
-     * Call functions to handle spawning: 
-     * 1. check if objects can be spawned depending on current weight and maximum Weight
-     * 2. if objects can be spawned: choose an object (randomly), that doesn't exceed the maximum Weight
-     * 3. spawn this asset
+     * Check if it's time to spawn a new Entity.
+     * Also checks if Entities are moved out of the Playing Field.
      */
     void Update()
     {
@@ -83,74 +64,80 @@ public class SpawnHandlerBehavior : MonoBehaviour
         {
             nextSpawnTime = Time.time + spawnCooldown;
 
-            spawnAsteroid();
+            spawnEntity();
         }
 
         checkBoundaries();
-
     }
-    /**
-     * Spawns asteroids on a random border
-     * 
-     */
-
 
 
     /**
-     * Checks every Entity that steps over the boundaries and changes it's position to the opposite or destroys them
+     * Checks every Entity that steps over the boundaries and changes it's position to the opposite border, so that they are in the field again
      */
     void checkBoundaries()
     {
-        //Boundaries X +/- Xmax
-        //Boundaries Y +/- Ymax
+        //Create a List with Playercahracter, Enemy Entities (Future: and Items)
+        existingEntities.Add(GameObject.FindGameObjectWithTag("Player"));
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
 
-        foreach (var item in currentlyActiveList)
+        for (int i = 0; i < enemies.Length; i++)
         {
-            GameObject itemGO = item.gameObject;
+            existingEntities.Add(enemies[i]);
+        }
+        
 
-            Vector3 tmp = itemGO.transform.position;
+        //Iterates through every entity, checks boundaries and moves object back to the playing field.
+        foreach (GameObject enemyEntity in existingEntities)
+        {
+            Vector3 tmp = enemyEntity.transform.position;
 
-            if (itemGO.transform.position.x > Xmax)
+            if (enemyEntity.transform.position.x > Xmax)
             {
                 //Change it's position to be inside of the left border of the field
                 tmp.x = -Xmax + 1;   //Make sure, the ship will spawn WITHIN the borders to avoid switching its signs infinitely
-                itemGO.transform.position = tmp;
+                enemyEntity.transform.position = tmp;
             }
 
             //If spaceship has passed the left border...
-            if (itemGO.transform.position.x < -Xmax)
+            if (enemyEntity.transform.position.x < -Xmax)
             {
                 //Change it's position to be inside of the left border of the field
                 tmp.x = Xmax - 1;   //Make sure, the ship will spawn WITHIN the borders to avoid switching its signs infinitely
-                itemGO.transform.position = tmp;
+                enemyEntity.transform.position = tmp;
             }
 
             //If spaceship hahs passed top border...
-            if (itemGO.transform.position.y > Ymax)
+            if (enemyEntity.transform.position.y > Ymax)
             {
                 //Change it's position to be inside of the left border of the field
                 tmp.y = -Ymax + 1;    //Make sure, the ship will spawn WITHIN the borders to avoid switching its signs infinitely
-                itemGO.transform.position = tmp;
+                enemyEntity.transform.position = tmp;
             }
 
             //If spaceship hahs passed bottom border...
-            if (itemGO.transform.position.y < -Ymax)
+            if (enemyEntity.transform.position.y < -Ymax)
             {
                 //Change it's position to be inside of the left border of the field
                 tmp.y = Ymax - 1;    //Make sure, the ship will spawn WITHIN the borders to avoid switching its signs infinitely
-                itemGO.transform.position = tmp;
+                enemyEntity.transform.position = tmp;
             }
-
-            //print(item);
         }
+
+        //Clear the List
+        existingEntities.Clear();
+
     }
 
-
-    void spawnAsteroid()
+    /**
+     * Spawns a new Entity on the borders, so that they can fly in the field to appear.
+     */
+    void spawnEntity()
     {
+        //Important Variables
         float axis = Random.Range(1, 5);
         Vector3 spawnCoords = new Vector2();
 
+        //Determine on which border of the screen the entity should be spawned
         switch (axis)
         {
             //North
@@ -178,75 +165,18 @@ public class SpawnHandlerBehavior : MonoBehaviour
         }
 
         spawnCoords.z = 0;
-        //print("SpawnCoords: " + spawnCoords);
-
-        //Spawns new Astreroid on respective axis
-
-
-        GameObject newAsteroid = Instantiate(entityReferences[0], spawnCoords, transform.rotation);
-        currentlyActiveList.Add(newAsteroid);
-        //print("New List Count:    " + currentlyActiveList.Count);
-
-        newAsteroid.gameObject.SendMessage("setXmax", Xmax);
-        newAsteroid.gameObject.SendMessage("setYmax", Ymax);
-        newAsteroid.gameObject.SendMessage("setSize", Random.Range(1, 4));
+        
+        //Instantiate the new Entity on the respective coordinates
+        Instantiate(entityReferences[0], spawnCoords, transform.rotation);
     }
 
 
     /**
-     * 
+     *  Destroys an entity
      */
     public void destroyEntity(GameObject target)
     {
-        Destroy(target.GetComponent<SpriteRenderer>());
+        //Destroy(target.GetComponent<SpriteRenderer>());
         Destroy(target);
     }
-
-
-    ///**
-    // * Spawns the asset and increases the current weight
-    // */
-    //void spawnEntity(GameObject asset)
-    //{
-    //    print("Name of Game Object:    " + asset.name);
-        
-    //    //Check for the name and increase the current weight, dependinng on the next asset
-    //    switch (asset.name)
-    //    {
-    //        case "Asteroid Large":
-    //            currentWeight += weightAsteroid;
-    //            break;
-    //        default:
-    //            break;
-    //    }
-
-    //    print("Current Weight on create:    " + currentWeight);
-
-
-    //    //Instantiate the asset
-    //    //TOTO: position and rotation may be adjusted and randomized to improve gameplay
-    //    Instantiate(asset, transform.position, transform.rotation);
-    //}
-
-    ///**
-    // * This is called from hostile assets like Asteroids and Items, when they are destroyed.
-    // * The total sum of weight is decreased by the weight value of the destroyed asset
-    // */
-    //public void decreaseOverallWeight(string temp)
-    //{
-    //    print("Destroy name:    " + temp);
-        
-    //    switch (temp)
-    //    {
-    //        case "Asteroid Large":
-    //            currentWeight -= weightAsteroid;
-    //            break;
-    //        default:
-    //            break;
-    //    }
-
-    //    print("Current Weight on destroy:    " + currentWeight);
-
-    //}
-
 }

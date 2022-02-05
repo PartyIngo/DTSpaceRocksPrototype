@@ -10,38 +10,38 @@ public class AsteroidBehaviour : MonoBehaviour
 
 
     [Tooltip("Maximum movement force of the Asteroid.")]
-    float forceMax;
+    public float forceMax;
     [Tooltip("Actual force of the Asteroid.")]
     Vector2 force;
 
-    [Header("Asteroid Force Variants")]
-    [Tooltip("max Spawning Force of the small Asteroid.")]
-    public float spawnForceSmall;
-    [Tooltip("max Spawning Force of the medium Asteroid.")]
-    public float spawnForceMedium;
-    [Tooltip("max Spawning Force of the large Asteroid.")]
-    public float spawnForceLarge;
+    //[Header("Asteroid Force Variants")]
+    //[Tooltip("max Spawning Force of the small Asteroid.")]
+    //public float spawnForceSmall;
+    //[Tooltip("max Spawning Force of the medium Asteroid.")]
+    //public float spawnForceMedium;
+    //[Tooltip("max Spawning Force of the large Asteroid.")]
+    //public float spawnForceLarge;
 
     [Tooltip("max Health of the Asteroid.")]
-    float maxHealth;
+    public float maxHealth;
     [Tooltip("current Health of the Asteroid. If it reaches 0, the Asteroid is destroyed.")]
     float currentHealth;
 
-    [Header("Asteroid Health Variants")]
-    [Tooltip("max Health of the small Asteroid.")]
-    public float healthSmall;
-    [Tooltip("max Health of the medium Asteroid.")]
-    public float healthMedium;
-    [Tooltip("max Health of the large Asteroid.")]
-    public float healthLarge;
+    //[Header("Asteroid Health Variants")]
+    //[Tooltip("max Health of the small Asteroid.")]
+    //public float healthSmall;
+    //[Tooltip("max Health of the medium Asteroid.")]
+    //public float healthMedium;
+    //[Tooltip("max Health of the large Asteroid.")]
+    //public float healthLarge;
 
     [Header("Asteroid Health Variants")]
-    [Tooltip("The Mass of the small Asteroid.")]
-    public float massSmall;
-    [Tooltip("The Mass of the medium Asteroid.")]
-    public float massMedium;
-    [Tooltip("The Mass of the large Asteroid.")]
-    public float massLarge;
+    [Tooltip("The Mass of the Asteroid.")]
+    public float mass;
+    //[Tooltip("The Mass of the medium Asteroid.")]
+    //public float massMedium;
+    //[Tooltip("The Mass of the large Asteroid.")]
+    //public float massLarge;
 
     [Tooltip("Maximum X-Coord.")]
     float Xmax;
@@ -53,42 +53,43 @@ public class AsteroidBehaviour : MonoBehaviour
     [Tooltip("Maximum Amount of spawnable children")]
     public int maxChildrenAmount;
 
+    [Tooltip("The Asteroid Asset in the next smaller variant")]
     public GameObject asteroidChild;
     public GameObject spawnHandler;
 
-    [Header("Asteroid' General Appearance")]
-    [Tooltip("The scale of the asteroid")]
-    public float asteroidScale;             //Can be removed bc its nnever used in Code
-    [Tooltip("The Size of the Asteroid. The larger the value, the larger the size.")]
-    [Range(1, 3)]
-    public int asteroidSize;
+    //[Header("Asteroid' General Appearance")]
+    //[Tooltip("The scale of the asteroid")]
+    //public float asteroidScale;             //Can be removed bc its nnever used in Code
+    //[Tooltip("The Size of the Asteroid. The larger the value, the larger the size.")]
+    //[Range(1, 3)]
+    //public int asteroidSize;
     [Tooltip("The Sprite Renderer Component")]
     SpriteRenderer spriteRenderer;
-    [Tooltip("The Animation Component")]
-    Animation animation;
-    [Tooltip("The Anomator Component")]
-    Animator animator;
+    //[Tooltip("The Animation Component")]
+    //Animation animation;
+    //[Tooltip("The Anomator Component")]
+    //Animator animator;
 
-    [Tooltip("Every Asteroid Sprite that may be assigned")]
-    public Sprite[] asteroidSprite;
-    [Tooltip("The assigned sprite.")]
-    [HideInInspector]
-    public int spriteIndex;
+    //[Tooltip("Every Asteroid Sprite that may be assigned")]
+    //public Sprite[] asteroidSprite;
+    //[Tooltip("The assigned sprite.")]
+    //[HideInInspector]
+    //public int spriteIndex;
 
-    [Header("Asteroid Scale")]
-    [Tooltip("The Scale of the small asteroid variant")]
-    public float asteroidScaleSmall;
-    [Tooltip("The Scale of the medium asteroid variant")]
-    public float asteroidScaleMedium;
-    [Tooltip("The Scale of the large asteroid variant")]
-    public float asteroidScaleLarge;
-
-
+    //[Header("Asteroid Scale")]
+    //[Tooltip("The Scale of the small asteroid variant")]
+    //public float asteroidScaleSmall;
+    //[Tooltip("The Scale of the medium asteroid variant")]
+    //public float asteroidScaleMedium;
+    //[Tooltip("The Scale of the large asteroid variant")]
+    //public float asteroidScaleLarge;
 
 
-    [Tooltip("The current variant of the asteroid's general appearance")]
-    int currentVariant;
-    bool isChild = false;
+
+
+    //[Tooltip("The current variant of the asteroid's general appearance")]
+    //int currentVariant;
+    //bool isChild = false;
 
 
     [Header("VFX Stats")]
@@ -120,39 +121,12 @@ public class AsteroidBehaviour : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
 
-        //Initializing some parameters depending on size
-        switch (asteroidSize)
-        {
-            case 1:
-                maxHealth = healthSmall;
-                rb.mass = massSmall;
-                forceMax = spawnForceSmall;
-                break;
-            case 2:
-                maxHealth = healthMedium;
-                rb.mass = massMedium;
-                forceMax = spawnForceMedium;
-                break;
-            case 3:
-                maxHealth = healthLarge;
-                rb.mass = massLarge;
-                forceMax = spawnForceLarge;
-                break;
-            default:
-                break;
-        }
-
-        print("Force Max    " + forceMax);
-
+        rb.mass = mass;
         force = new Vector2(Random.Range(-forceMax, forceMax), Random.Range(-forceMax, forceMax));
         rb.AddForce(force);
 
         //Get access to some important conponents
         spriteRenderer = GetComponent<SpriteRenderer>();
-        animation = GetComponent<Animation>();
-        animator = GetComponent<Animator>();
-
-
 
         //Adds random torque for more juice
         rb.AddTorque(Random.Range(-forceMax/5, forceMax/5), ForceMode2D.Force);
@@ -160,36 +134,30 @@ public class AsteroidBehaviour : MonoBehaviour
         currentHealth = maxHealth;
         visibleDamageThreshold /= 100;
 
-        //Choose and assign the sprite for the asteroid
-        changeAppearance();
+
+
+        //Randomize the color of the Asteroid
+        //spriteRenderer.material.color = Random.ColorHSV(0, 1, 0, 1, 1, 1);
+
     }
 
     // Update is called once per frame
     void Update()
     {
+        //When the Asteroid is destroyed, some things have to occur
         if (currentHealth <= 0)
         {
-            //GameObject handler = GameObject.Find("SpawnHandler");
-            //handler.gameObject.SendMessage("decreaseOverallWeight", "Asteroid Large");
-
             //VFX explosion
             Instantiate(burstVFX, transform.position, transform.rotation);
 
-
-
             //Spawn child asteroids
-            if (asteroidSize > 1)
+            int temp = Random.Range(minChildrenAmount, maxChildrenAmount + 1);
+            for (int i = 0; i < temp; i++)
             {
-                int temp = Random.Range(minChildrenAmount, maxChildrenAmount);
-                for (int i = 0; i < temp; i++)
-                {
 
-                    GameObject newSpawn = Instantiate(asteroidChild, transform.position, transform.rotation);
-                    newSpawn.gameObject.SendMessage("setSize", asteroidSize - 1);
-                    newSpawn.gameObject.SendMessage("setVariant", currentVariant);
-                    newSpawn.gameObject.SendMessage("setXmax", Xmax);
-                    newSpawn.gameObject.SendMessage("setYmax", Ymax);
-                }
+                GameObject newSpawn = Instantiate(asteroidChild, transform.position, transform.rotation);
+                //Call Method of child to change the appaerance (brown purple or red)
+                //changeAppearance("red"); --> this statement is working but not yet implemented...
             }
 
             //Increase Score
@@ -217,52 +185,35 @@ public class AsteroidBehaviour : MonoBehaviour
 
 
     /**
+     * TBD: implementation && has to be called by instantiating child asteroids.
      * Sets the appearance of Asteroid
      */
-    void changeAppearance()
+    void changeAppearance(string variant)
     {
-        //Child asteroids should not get textures that are colorized different than their parent asteroids
-        if (!isChild)
-        {
-            //assign random sprite
-            currentVariant = Random.Range(0, asteroidSprite.Length);
-        }
+        ////Child asteroids should not get textures that are colorized different than their parent asteroids
+        //switch (variant)
+        //{
+        //    case "brown":
+        //        //Choose brown set of Sprites
+        //        break;
+        //    case "purple":
+        //        //Choose purple set of Sprites
 
-        spriteRenderer.sprite = asteroidSprite[currentVariant];
-       
-        Vector3 newScale;
-        float tempScale;
-
-        switch (asteroidSize)
-        {
-            case 1:
-                //Change the scale 
-                tempScale = asteroidScaleSmall;
-                break;
-            case 2:
-                tempScale = asteroidScaleMedium;
-                break;
-            case 3:
-                tempScale = asteroidScaleLarge;
-                break;
-            default:
-                tempScale = 1;
-                break;
-        }
-        
-        //change scale of asteroid based on asteroidSize
-        newScale.x = tempScale; // asteroidScale * (asteroidSize / 3);
-        newScale.y = tempScale; //asteroidScale * (asteroidSize / 3);
-        newScale.z = 1;
-        gameObject.transform.localScale = newScale;
+        //        break;
+        //    case "red":
+        //        //Choose red set of Sprites
+        //        break;
+        //    default:
+        //        break;
+        //}
     }
 
 
 
-    /**
-     * Damage & Destroy VFX
-     */
-    public void Damage(float damage)
+/**
+ * Damage & Destroy VFX
+ */
+public void Damage(float damage)
     {
         currentHealth -= damage;
 
@@ -276,36 +227,20 @@ public class AsteroidBehaviour : MonoBehaviour
         }
     }
 
-    /**
-     * Sets the Size to paramenter value
-     */
-    public void setSize(int newSize)
-    {
-        asteroidSize = newSize;
-    }
-
-    /**
-     * Sets the current variant of child asteroids
-     */
-    public void setVariant(int newVariant)
-    {
-        currentVariant = newVariant;
-        isChild = true;
-    }
 
     /**
      * Sets Variable Xmax to parameter value
-     */
-    public void setXmax(float newX)
-    {
-        Xmax = newX;
-    }
+    // */
+    //public void setXmax(float newX)
+    //{
+    //    Xmax = newX;
+    //}
 
-    /**
-    * Sets Variable Ymax to parameter value
-    */
-    public void setYmax(float newY)
-    {
-        Ymax = newY;
-    }
+    ///**
+    //* Sets Variable Ymax to parameter value
+    //*/
+    //public void setYmax(float newY)
+    //{
+    //    Ymax = newY;
+    //}
 }
