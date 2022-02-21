@@ -92,6 +92,10 @@ public class PlayerCharacterMovement : MonoBehaviour
     bool getsDamage;
     float nextTime;
 
+
+
+    public Animator spaceShipAnimator;
+
     //[Tooltip("the sprite for the acceleration")]
     //public Sprite accelerationFlame;
     //public Sprite boostFlame;
@@ -113,6 +117,8 @@ public class PlayerCharacterMovement : MonoBehaviour
         rb.drag = defaultFriction;
 
         ownSprite = GetComponent<SpriteRenderer>();
+
+        spaceShipAnimator = GetComponentInChildren<Animator>();
     }
 
     void Update()
@@ -144,9 +150,13 @@ public class PlayerCharacterMovement : MonoBehaviour
             if (leftStickInput.magnitude > deadZoneRadiusLTS)
             {
                 //vfx: enable flame and glow
-                flameGlow.enabled = true;
-                flameGlow.color = accelerationDotColor;
-                accelFlame.enabled = true;
+                spaceShipAnimator.SetBool("flameIsStarting", true);
+                spaceShipAnimator.SetBool("flameIsStopping", false);
+
+
+                //flameGlow.enabled = true;
+                //flameGlow.color = accelerationDotColor;
+                //accelFlame.enabled = true;
 
 
                 //print("Magnitude: " + leftStickInput.normalized.magnitude + " On Coordinates " + leftStickInput);
@@ -168,9 +178,9 @@ public class PlayerCharacterMovement : MonoBehaviour
                     //print("BOOST!");
 
                     //VFX: change glow color and flame from acceleration to boost variant
-                    flameGlow.color = boostDotColor;
-                    accelFlame.enabled = false;
-                    boostFlame.enabled = true;
+                    //flameGlow.color = boostDotColor;
+                    //accelFlame.enabled = false;
+                    //boostFlame.enabled = true;
 
                 }
                 //when not boosting, the boosting flame has to be disabled
@@ -190,9 +200,13 @@ public class PlayerCharacterMovement : MonoBehaviour
             else
             {
                 //VFX: disable flame sprite and glow because ship isn't moving and fire is extinguished
-                accelFlame.enabled = false;
-                flameGlow.enabled = false;
-                boostFlame.enabled = false;
+
+                spaceShipAnimator.SetBool("flameIsStarting", false);
+                spaceShipAnimator.SetBool("flameIsStopping", true);
+
+                //accelFlame.enabled = false;
+                //flameGlow.enabled = false;
+                //boostFlame.enabled = false;
 
 
                 //flameAnim.sprite = null;
@@ -202,9 +216,9 @@ public class PlayerCharacterMovement : MonoBehaviour
         //both LT and RT are pressed, so the ship is gliding. For VFX: Flame should extinguish
         else
         {
-            flameGlow.enabled = false;
-            accelFlame.enabled = false;
-            boostFlame.enabled = false;
+            //flameGlow.enabled = false;
+            //accelFlame.enabled = false;
+            //boostFlame.enabled = false;
         }
     }
     
