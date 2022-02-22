@@ -1492,15 +1492,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 7109787635731926872, guid: b326f940de4b9a5469d05896cc9208de, type: 3}
       propertyPath: Xmax
-      value: 12.4
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 7109787635731926872, guid: b326f940de4b9a5469d05896cc9208de, type: 3}
       propertyPath: Ymax
-      value: 7
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 7109787635731926872, guid: b326f940de4b9a5469d05896cc9208de, type: 3}
       propertyPath: spawnCooldown
-      value: 5
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 7109787635731926872, guid: b326f940de4b9a5469d05896cc9208de, type: 3}
       propertyPath: playerCharacter

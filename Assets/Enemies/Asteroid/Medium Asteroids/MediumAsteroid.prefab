@@ -30,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 678488285477789908}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -47,7 +47,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 10
+  m_Mass: 40
   m_LinearDrag: 0
   m_AngularDrag: 0
   m_GravityScale: 0
@@ -55,7 +55,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 4
+  m_Constraints: 0
 --- !u!58 &678488285477789906
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -84,11 +84,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 575ad75114b674a4e837c174de318111, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  forceMax: 10000
-  maxHealth: 8
-  mass: 15
-  minChildrenAmount: 2
-  maxChildrenAmount: 3
+  forceMax: 8000
+  maxHealth: 16
+  mass: 40
+  minChildrenAmount: 3
+  maxChildrenAmount: 5
   asteroidChild: {fileID: 6153288415985944732, guid: 1eb0ec4fea54f7f4f9b65c58b6808c8e, type: 3}
   spawnHandler: {fileID: 7109787635731926875, guid: b326f940de4b9a5469d05896cc9208de, type: 3}
   burstVFX: {fileID: 64770742388454264, guid: 1b039d5fef945e64982f90e5454d9c1a, type: 3}

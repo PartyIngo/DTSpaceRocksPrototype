@@ -129,7 +129,7 @@ public class AsteroidBehaviour : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
 
         //Adds random torque for more juice
-        rb.AddTorque(Random.Range(-forceMax/5, forceMax/5), ForceMode2D.Force);
+        rb.AddTorque(Random.Range(-forceMax/8, forceMax/8), ForceMode2D.Force);
 
         currentHealth = maxHealth;
         visibleDamageThreshold /= 100;
