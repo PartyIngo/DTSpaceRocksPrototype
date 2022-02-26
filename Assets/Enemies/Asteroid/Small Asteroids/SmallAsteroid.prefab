@@ -91,6 +91,22 @@ MonoBehaviour:
   maxChildrenAmount: 0
   asteroidChild: {fileID: 0}
   spawnHandler: {fileID: 7109787635731926875, guid: b326f940de4b9a5469d05896cc9208de, type: 3}
+  redVariant:
+  - {fileID: 21300000, guid: 8a84a44c2d48c3842b1101b5e735050e, type: 3}
+  - {fileID: 21300000, guid: 60deb5025686a6d4482dfb5a661e390a, type: 3}
+  - {fileID: 21300000, guid: 339006f2fb8b58d4fb082dd4f6323535, type: 3}
+  - {fileID: 21300000, guid: 1e46d0c1749597247ab0ca3ec3cca084, type: 3}
+  brownVariant:
+  - {fileID: 21300000, guid: 0e16bc5e94db85d4a807d6e4d59e73ce, type: 3}
+  - {fileID: 21300000, guid: 4354a78e88b52aa48b95cd8e6b78bdbb, type: 3}
+  - {fileID: 21300000, guid: dc60c18ef0bc5c345a3866dfb1968283, type: 3}
+  - {fileID: 21300000, guid: dd4de5cb9462c534586b574c480a4df6, type: 3}
+  purpleVariant:
+  - {fileID: 21300000, guid: eb5f0a0cef9ef87498cf20e6866ccf30, type: 3}
+  - {fileID: 21300000, guid: cb33e079178aa8346958fb5fb4ce8b85, type: 3}
+  - {fileID: 21300000, guid: 2ebed52879d093e4683d6d3478de3999, type: 3}
+  - {fileID: 21300000, guid: dd635ee229a9c48449a73bdfb2869aa5, type: 3}
+  currentVariant: 0
   burstVFX: {fileID: 64770742388454264, guid: 1b039d5fef945e64982f90e5454d9c1a, type: 3}
   visibleDamageThreshold: 0
   damageTint: {r: 1, g: 0, b: 0, a: 1}
@@ -108,10 +124,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sprites:
-  - {fileID: 21300000, guid: 13122b763f8019642ac0c609272a56f5, type: 3}
-  - {fileID: 21300000, guid: 41dc072cfc7634641a8c463043312def, type: 3}
-  - {fileID: 21300000, guid: 12d9f0b2f68df2a448628c7f0c29bfbe, type: 3}
-  - {fileID: 21300000, guid: 7e95fce67af4d1e499cd2109d4d4ce4b, type: 3}
+  - {fileID: 21300000, guid: 8a84a44c2d48c3842b1101b5e735050e, type: 3}
+  - {fileID: 21300000, guid: 60deb5025686a6d4482dfb5a661e390a, type: 3}
+  - {fileID: 21300000, guid: 339006f2fb8b58d4fb082dd4f6323535, type: 3}
+  - {fileID: 21300000, guid: 1e46d0c1749597247ab0ca3ec3cca084, type: 3}
   interval: 0.15
 --- !u!212 &684029343266080210
 SpriteRenderer:

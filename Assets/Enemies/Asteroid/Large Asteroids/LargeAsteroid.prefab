@@ -91,6 +91,21 @@ MonoBehaviour:
   maxChildrenAmount: 3
   asteroidChild: {fileID: 678488285477789908, guid: 7be6d878e02f2da4c9438d28bac3f451, type: 3}
   spawnHandler: {fileID: 7109787635731926875, guid: b326f940de4b9a5469d05896cc9208de, type: 3}
+  redVariant:
+  - {fileID: 21300000, guid: 4bdc8414314ecfb419b0d9d4dca8fbfb, type: 3}
+  - {fileID: 21300000, guid: fc9fd6ec337da0b42a00371fef5a18a0, type: 3}
+  - {fileID: 21300000, guid: d01fe9f35aa20cb4bbeed93d75c353e0, type: 3}
+  - {fileID: 21300000, guid: b36429f0291da6d449954ba3e576e82a, type: 3}
+  brownVariant:
+  - {fileID: 21300000, guid: fcfa481680d9d264581293a44d39c4ea, type: 3}
+  - {fileID: 21300000, guid: 2bd3acd47bb1f394ca30b443cf3e3b7b, type: 3}
+  - {fileID: 21300000, guid: 4b39216f365d8e44aa88635d1f5e9f7a, type: 3}
+  - {fileID: 21300000, guid: a7be9c743f3d4d84383a04ea892bd019, type: 3}
+  purpleVariant:
+  - {fileID: 21300000, guid: b6652ae42c5b14f4c9827fb2c5278649, type: 3}
+  - {fileID: 21300000, guid: 991af2d5f427e714ca5e22fd5f4a1b68, type: 3}
+  - {fileID: 21300000, guid: 0f6a275972cf7744fbf020e97ea7c03b, type: 3}
+  - {fileID: 21300000, guid: 86d67ad66be0ae3429d18c4d5b6a5a6a, type: 3}
   burstVFX: {fileID: 64770742388454264, guid: 1b039d5fef945e64982f90e5454d9c1a, type: 3}
   visibleDamageThreshold: 0
   damageTint: {r: 1, g: 0, b: 0, a: 1}
@@ -108,10 +123,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sprites:
-  - {fileID: 21300000, guid: 08287ad09f403634a98bf9a4a0cfc920, type: 3}
-  - {fileID: 21300000, guid: f3b6dcd16173cd14ca96a3c9e3ebfa5d, type: 3}
-  - {fileID: 21300000, guid: c675b7bbf53cb0c44869f3c7347d01cb, type: 3}
-  - {fileID: 21300000, guid: 4bdb8a9e70d691848a5a1fbe7900f84e, type: 3}
+  - {fileID: 21300000, guid: b6652ae42c5b14f4c9827fb2c5278649, type: 3}
+  - {fileID: 21300000, guid: 991af2d5f427e714ca5e22fd5f4a1b68, type: 3}
+  - {fileID: 21300000, guid: 0f6a275972cf7744fbf020e97ea7c03b, type: 3}
+  - {fileID: 21300000, guid: 86d67ad66be0ae3429d18c4d5b6a5a6a, type: 3}
   interval: 0.15
 --- !u!212 &2451427950327676417
 SpriteRenderer:

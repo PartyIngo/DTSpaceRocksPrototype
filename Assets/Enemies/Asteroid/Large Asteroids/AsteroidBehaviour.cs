@@ -65,6 +65,14 @@ public class AsteroidBehaviour : MonoBehaviour
     //public int asteroidSize;
     [Tooltip("The Sprite Renderer Component")]
     SpriteRenderer spriteRenderer;
+
+
+    [Header("Appearance Stats")]
+    public Sprite[] redVariant;
+    public Sprite[] brownVariant;
+    public Sprite[] purpleVariant;
+    public int currentVariant;
+
     //[Tooltip("The Animation Component")]
     //Animation animation;
     //[Tooltip("The Anomator Component")]
@@ -85,13 +93,6 @@ public class AsteroidBehaviour : MonoBehaviour
     //public float asteroidScaleLarge;
 
 
-
-
-    //[Tooltip("The current variant of the asteroid's general appearance")]
-    //int currentVariant;
-    //bool isChild = false;
-
-
     [Header("VFX Stats")]
 
     [Tooltip("The VFX that plays, when the Asteroid gets destroyed")]
@@ -108,11 +109,6 @@ public class AsteroidBehaviour : MonoBehaviour
     [Tooltip("If the asteroids gets damage just now")]
     bool getsDamage;
     float nextTime;
-
-
-
-
-
 
     #endregion
 
@@ -134,10 +130,9 @@ public class AsteroidBehaviour : MonoBehaviour
         currentHealth = maxHealth;
         visibleDamageThreshold /= 100;
 
-
-
-        //Randomize the color of the Asteroid
-        //spriteRenderer.material.color = Random.ColorHSV(0, 1, 0, 1, 1, 1);
+        //set the Appearance of the Asteroid by a random determination
+        currentVariant = Random.Range(1, 4);
+        ChangeAppearance(currentVariant);
 
     }
 
@@ -154,10 +149,8 @@ public class AsteroidBehaviour : MonoBehaviour
             int temp = Random.Range(minChildrenAmount, maxChildrenAmount + 1);
             for (int i = 0; i < temp; i++)
             {
-
                 GameObject newSpawn = Instantiate(asteroidChild, transform.position, transform.rotation);
-                //Call Method of child to change the appaerance (brown purple or red)
-                //changeAppearance("red"); --> this statement is working but not yet implemented...
+                newSpawn.SendMessage("ChangeAppearance", currentVariant);
             }
 
             //Increase Score
@@ -188,32 +181,42 @@ public class AsteroidBehaviour : MonoBehaviour
      * TBD: implementation && has to be called by instantiating child asteroids.
      * Sets the appearance of Asteroid
      */
-    void changeAppearance(string variant)
+    void ChangeAppearance(int variant)
     {
-        ////Child asteroids should not get textures that are colorized different than their parent asteroids
-        //switch (variant)
-        //{
-        //    case "brown":
-        //        //Choose brown set of Sprites
-        //        break;
-        //    case "purple":
-        //        //Choose purple set of Sprites
+        currentVariant = variant;
 
-        //        break;
-        //    case "red":
-        //        //Choose red set of Sprites
-        //        break;
-        //    default:
-        //        break;
-        //}
+        switch (variant)
+        {
+            //Red variant
+            case 1:
+                gameObject.GetComponent<AnimationHandler>().sprites[0] = redVariant[0];
+                gameObject.GetComponent<AnimationHandler>().sprites[1] = redVariant[1];
+                gameObject.GetComponent<AnimationHandler>().sprites[2] = redVariant[2];
+                gameObject.GetComponent<AnimationHandler>().sprites[3] = redVariant[3];
+                break;
+            //Brown Variant
+            case 2:
+                gameObject.GetComponent<AnimationHandler>().sprites[0] = brownVariant[0];
+                gameObject.GetComponent<AnimationHandler>().sprites[1] = brownVariant[1];
+                gameObject.GetComponent<AnimationHandler>().sprites[2] = brownVariant[2];
+                gameObject.GetComponent<AnimationHandler>().sprites[3] = brownVariant[3];
+                break;
+            //Purple Variant
+            case 3:
+                gameObject.GetComponent<AnimationHandler>().sprites[0] = purpleVariant[0];
+                gameObject.GetComponent<AnimationHandler>().sprites[1] = purpleVariant[1];
+                gameObject.GetComponent<AnimationHandler>().sprites[2] = purpleVariant[2];
+                gameObject.GetComponent<AnimationHandler>().sprites[3] = purpleVariant[3];
+                break;
+        }
     }
 
 
 
-/**
- * Damage & Destroy VFX
- */
-public void Damage(float damage)
+    /**
+     * Damage & Destroy VFX
+     */
+    public void Damage(float damage)
     {
         currentHealth -= damage;
 

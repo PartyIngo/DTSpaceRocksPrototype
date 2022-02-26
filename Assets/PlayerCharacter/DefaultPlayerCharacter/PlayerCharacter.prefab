@@ -242,10 +242,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sprites:
-  - {fileID: 21300000, guid: 4cdd683a1329cd84eaf82acfc3d55d37, type: 3}
-  - {fileID: 21300000, guid: a0c178f5b7f7e4a468d6cccf5fdd1b2b, type: 3}
-  - {fileID: 21300000, guid: 61c69c81e25fa534eb0098fa5e4e16c0, type: 3}
-  - {fileID: 21300000, guid: 79f4b5e29ada2244184084f07ab1362a, type: 3}
+  - {fileID: 21300000, guid: 4641c14568b75ba43ab5b958ea005b48, type: 3}
+  - {fileID: 21300000, guid: fbbb5e4425b109d4c8ecd34a8cd6aa3e, type: 3}
+  - {fileID: 21300000, guid: f4c1fa25afe69d84d9a8a82cfe8b968e, type: 3}
+  - {fileID: 21300000, guid: a05a3e19681a3434b8ed921a78f416f9, type: 3}
   interval: 0.15
 --- !u!50 &6683240490694271303
 Rigidbody2D:

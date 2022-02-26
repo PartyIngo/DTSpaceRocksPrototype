@@ -150,8 +150,9 @@ public class PlayerCharacterMovement : MonoBehaviour
             if (leftStickInput.magnitude > deadZoneRadiusLTS)
             {
                 //vfx: enable flame and glow
-                spaceShipAnimator.SetBool("flameIsStarting", true);
-                spaceShipAnimator.SetBool("flameIsStopping", false);
+                spaceShipAnimator.SetBool("isFlameOn", true);
+                //spaceShipAnimator.SetBool("flameIsStarting", true);
+                //spaceShipAnimator.SetBool("flameIsStopping", false);
 
 
                 //flameGlow.enabled = true;
@@ -201,8 +202,10 @@ public class PlayerCharacterMovement : MonoBehaviour
             {
                 //VFX: disable flame sprite and glow because ship isn't moving and fire is extinguished
 
-                spaceShipAnimator.SetBool("flameIsStarting", false);
-                spaceShipAnimator.SetBool("flameIsStopping", true);
+                spaceShipAnimator.SetBool("isFlameOn", false);
+
+                //spaceShipAnimator.SetBool("flameIsStarting", false);
+                //spaceShipAnimator.SetBool("flameIsStopping", true);
 
                 //accelFlame.enabled = false;
                 //flameGlow.enabled = false;
