@@ -6,6 +6,7 @@ public class AsteroidBehaviour : MonoBehaviour
 {
     #region Variables
     [Header("Asteroid Variables")]
+    public int asteroidTier;
     Rigidbody2D rb;
 
 
@@ -124,16 +125,38 @@ public class AsteroidBehaviour : MonoBehaviour
         //Get access to some important conponents
         spriteRenderer = GetComponent<SpriteRenderer>();
 
+        //1. Call Function
+        spawnHandler.GetComponent<SceneVariables>().newOrder(asteroidTier);
+
+
+        //2. get Variable
+        switch (asteroidTier)
+        {
+            case 3:
+                spriteRenderer.sortingOrder = spawnHandler.GetComponent<SceneVariables>().orderInLayerTier3;
+                break;
+            case 2:
+                spriteRenderer.sortingOrder = spawnHandler.GetComponent<SceneVariables>().orderInLayerTier2;
+                break;
+            case 1:
+                spriteRenderer.sortingOrder = spawnHandler.GetComponent<SceneVariables>().orderInLayerTier1;
+                break;
+            default:
+                break;
+        }
+
+        
+
+
+        //spriteRenderer.sortingOrder = spawnHandler.GetComponent<SceneVariables>().newOrder(asteroidTier);
+
+
+
         //Adds random torque for more juice
         rb.AddTorque(Random.Range(-forceMax/8, forceMax/8), ForceMode2D.Force);
 
         currentHealth = maxHealth;
         visibleDamageThreshold /= 100;
-
-        //set the Appearance of the Asteroid by a random determination
-        currentVariant = Random.Range(1, 4);
-        ChangeAppearance(currentVariant);
-
     }
 
     // Update is called once per frame
@@ -149,8 +172,24 @@ public class AsteroidBehaviour : MonoBehaviour
             int temp = Random.Range(minChildrenAmount, maxChildrenAmount + 1);
             for (int i = 0; i < temp; i++)
             {
+
+
+                //This line is working
                 GameObject newSpawn = Instantiate(asteroidChild, transform.position, transform.rotation);
                 newSpawn.SendMessage("ChangeAppearance", currentVariant);
+                //Renderer.sortingOrder
+
+
+
+
+
+
+
+
+                //spawnHandler.SendMessage("spawnEntity", asteroidTier, currentVariant, transform.position);
+
+                //spawnHandler.GetComponent<SpawnHandlerBehavior>().spawnEntity(asteroidTier, currentVariant, transform.position);
+
             }
 
             //Increase Score

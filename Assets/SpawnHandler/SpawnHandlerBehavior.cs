@@ -17,11 +17,17 @@ public class SpawnHandlerBehavior : MonoBehaviour
     [Tooltip("The Reference to the Player Character")]
     public GameObject playerCharacter;
 
-    [Tooltip("Array of Game Object prefabs")]
-    public GameObject[] entityReferences;
+    [Tooltip("Asteroid Game Object prefabs")]
+    public GameObject largeAsteroid;
+    public GameObject mediumAsteroid;
+    public GameObject smallAsteroid;
+    int colorVariant;
+
 
     [Tooltip("Array of existing Entities")]
     List<GameObject> existingEntities;
+
+
 
     [Header("General Spawner Settings")]
     [Tooltip("The Delay until the next entity spawns in seconds")]
@@ -34,6 +40,11 @@ public class SpawnHandlerBehavior : MonoBehaviour
     public float Xmax;
     [Tooltip("Maximum Y-Coord.")]
     public float Ymax;
+
+
+
+
+
 
     #endregion
 
@@ -64,7 +75,11 @@ public class SpawnHandlerBehavior : MonoBehaviour
         {
             nextSpawnTime = Time.time + spawnCooldown;
 
-            spawnEntity();
+
+            //set the Appearance of the Asteroid by a random determination
+            colorVariant = Random.Range(1, 4);
+            //Spawn a new, random Entity on the determined Coordinates
+            spawnEntity(Random.Range(1,4), colorVariant, determineCoordinates());
         }
 
         checkBoundaries();
@@ -128,10 +143,7 @@ public class SpawnHandlerBehavior : MonoBehaviour
 
     }
 
-    /**
-     * Spawns a new Entity on the borders, so that they can fly in the field to appear.
-     */
-    void spawnEntity()
+    Vector3 determineCoordinates()
     {
         //Important Variables
         float axis = Random.Range(1, 5);
@@ -163,11 +175,48 @@ public class SpawnHandlerBehavior : MonoBehaviour
             default:
                 break;
         }
-
         spawnCoords.z = 0;
         
+        return spawnCoords;
+    }
+
+
+
+
+    /**
+     * Spawns a new Entity on respective coordinates, so that they can fly in the field to appear.
+     */
+    public void spawnEntity(int asteroidSize, int newColorVariant, Vector3 coordinates)
+    {
+        colorVariant = newColorVariant;
+
+
+        GameObject newEntity = null;
+        
         //Instantiate the new Entity on the respective coordinates
-        Instantiate(entityReferences[0], spawnCoords, transform.rotation);
+        switch (asteroidSize)
+        {
+            //Large Asteroid
+            case 3:
+                newEntity = Instantiate(largeAsteroid, coordinates, transform.rotation);
+                break;
+            //Medium Asteroid
+            case 2:
+                newEntity = Instantiate(mediumAsteroid, coordinates, transform.rotation);
+                break;
+            //Small Asteroid
+            case 1:
+                newEntity = Instantiate(smallAsteroid, coordinates, transform.rotation);
+                break;
+            default:
+                break;
+        }
+                
+
+        if (newEntity != null)
+        {
+            newEntity.SendMessage("ChangeAppearance", colorVariant);
+        }
     }
 
 

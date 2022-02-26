@@ -84,13 +84,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 575ad75114b674a4e837c174de318111, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  asteroidTier: 3
   forceMax: 28000
   maxHealth: 48
   mass: 150
   minChildrenAmount: 3
   maxChildrenAmount: 3
   asteroidChild: {fileID: 678488285477789908, guid: 7be6d878e02f2da4c9438d28bac3f451, type: 3}
-  spawnHandler: {fileID: 7109787635731926875, guid: b326f940de4b9a5469d05896cc9208de, type: 3}
+  spawnHandler: {fileID: 2587841440665150308, guid: b326f940de4b9a5469d05896cc9208de, type: 3}
   redVariant:
   - {fileID: 21300000, guid: 4bdc8414314ecfb419b0d9d4dca8fbfb, type: 3}
   - {fileID: 21300000, guid: fc9fd6ec337da0b42a00371fef5a18a0, type: 3}
@@ -106,6 +107,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 991af2d5f427e714ca5e22fd5f4a1b68, type: 3}
   - {fileID: 21300000, guid: 0f6a275972cf7744fbf020e97ea7c03b, type: 3}
   - {fileID: 21300000, guid: 86d67ad66be0ae3429d18c4d5b6a5a6a, type: 3}
+  currentVariant: 0
   burstVFX: {fileID: 64770742388454264, guid: 1b039d5fef945e64982f90e5454d9c1a, type: 3}
   visibleDamageThreshold: 0
   damageTint: {r: 1, g: 0, b: 0, a: 1}
