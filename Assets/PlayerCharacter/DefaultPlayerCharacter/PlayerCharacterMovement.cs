@@ -72,12 +72,18 @@ public class PlayerCharacterMovement : MonoBehaviour
     public float borderDistanceY;
 
     [Header("VFX: Spaceship Acceleration")]
+    [Tooltip("The Component for the Spaceship's Flame")]
+    public SpriteRenderer spaceshipFlame;
+    [Tooltip("the Sprite Renderer asset of the boosting flame")]
+    public SpriteRenderer boostFlame;
+
+
+
+
     [Tooltip("The glowing dot to lighten up the area around the flame")]
     public SpriteRenderer flameGlow;
     [Tooltip("the Sprite Renderer asset of the accelerating flame")]
     public SpriteRenderer accelFlame;
-    [Tooltip("the Sprite Renderer asset of the boosting flame")]
-    public SpriteRenderer boostFlame;
     [Tooltip("Color of glowing dot for acceleration flame")]
     public Color accelerationDotColor;
     [Tooltip("Color of glowing dot for boost flame")]
@@ -149,8 +155,10 @@ public class PlayerCharacterMovement : MonoBehaviour
             //When the current Value of the Thumbstick is out of the deadzone...
             if (leftStickInput.magnitude > deadZoneRadiusLTS)
             {
-                //vfx: enable flame and glow
-                spaceShipAnimator.SetBool("isFlameOn", true);
+                //vfx: enable normal flame
+                spaceshipFlame.enabled = true;
+
+                //spaceShipAnimator.SetBool("isFlameOn", true);
                 //spaceShipAnimator.SetBool("flameIsStarting", true);
                 //spaceShipAnimator.SetBool("flameIsStopping", false);
 
@@ -179,10 +187,8 @@ public class PlayerCharacterMovement : MonoBehaviour
                     //print("BOOST!");
 
                     //VFX: change glow color and flame from acceleration to boost variant
-                    //flameGlow.color = boostDotColor;
-                    //accelFlame.enabled = false;
-                    //boostFlame.enabled = true;
-
+                    spaceshipFlame.enabled = false;
+                    boostFlame.enabled = true;
                 }
                 //when not boosting, the boosting flame has to be disabled
                 else
@@ -202,7 +208,11 @@ public class PlayerCharacterMovement : MonoBehaviour
             {
                 //VFX: disable flame sprite and glow because ship isn't moving and fire is extinguished
 
-                spaceShipAnimator.SetBool("isFlameOn", false);
+                spaceshipFlame.enabled = false;
+                boostFlame.enabled = false;
+
+
+                //spaceShipAnimator.SetBool("isFlameOn", false);
 
                 //spaceShipAnimator.SetBool("flameIsStarting", false);
                 //spaceShipAnimator.SetBool("flameIsStopping", true);
