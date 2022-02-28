@@ -1,19 +1,19 @@
 fileFormatVersion: 2
-guid: 2fe97c9fe27b3e641a6b125bc051d7e8
+guid: 6aff30fb0eea7784eba490f6963b3591
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 962702687383759840
-    second: Spaceship_Flame_Normal_0
+      213: -8502880747368690903
+    second: Spaceship_Flame_Normal_V2_0
   - first:
-      213: 5648948162406498589
-    second: Spaceship_Flame_Normal_1
+      213: -4151381626625719537
+    second: Spaceship_Flame_Normal_V2_1
   - first:
-      213: -8045564393865229650
-    second: Spaceship_Flame_Normal_2
+      213: -4025155513937375239
+    second: Spaceship_Flame_Normal_V2_2
   - first:
-      213: -3100690347919914637
-    second: Spaceship_Flame_Normal_3
+      213: 2344844679544180510
+    second: Spaceship_Flame_Normal_V2_3
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -115,13 +115,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Spaceship_Flame_Normal_0
+      name: Spaceship_Flame_Normal_V2_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 64
-        width: 64
-        height: 64
+        y: 128
+        width: 128
+        height: 128
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -129,20 +129,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0eba2d95ef43c5d00800000000000000
-      internalID: 962702687383759840
+      spriteID: 92bc49da203bff980800000000000000
+      internalID: -8502880747368690903
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spaceship_Flame_Normal_1
+      name: Spaceship_Flame_Normal_V2_1
       rect:
         serializedVersion: 2
-        x: 64
-        y: 64
-        width: 64
-        height: 64
+        x: 128
+        y: 128
+        width: 128
+        height: 128
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -150,20 +150,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d11c5de9c68156e40800000000000000
-      internalID: 5648948162406498589
+      spriteID: f0304e1d7645366c0800000000000000
+      internalID: -4151381626625719537
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spaceship_Flame_Normal_2
+      name: Spaceship_Flame_Normal_V2_2
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 64
-        height: 64
+        width: 128
+        height: 128
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -171,20 +171,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: eaac12e9fc9685090800000000000000
-      internalID: -8045564393865229650
+      spriteID: 9ffce02e266c328c0800000000000000
+      internalID: -4025155513937375239
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spaceship_Flame_Normal_3
+      name: Spaceship_Flame_Normal_V2_3
       rect:
         serializedVersion: 2
-        x: 64
+        x: 128
         y: 0
-        width: 64
-        height: 64
+        width: 128
+        height: 128
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -192,8 +192,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 37940c58e8228f4d0800000000000000
-      internalID: -3100690347919914637
+      spriteID: e1f02b100df8a8020800000000000000
+      internalID: 2344844679544180510
       vertices: []
       indices: 
       edges: []
