@@ -166,7 +166,7 @@ public class AsteroidBehaviour : MonoBehaviour
         if (currentHealth <= 0)
         {
             //VFX explosion
-            Instantiate(burstVFX, transform.position, transform.rotation);
+            Instantiate(burstVFX, transform.position, Quaternion.identity);
 
             //Spawn child asteroids
             int temp = Random.Range(minChildrenAmount, maxChildrenAmount + 1);
