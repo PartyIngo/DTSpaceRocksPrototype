@@ -54,14 +54,6 @@ public class SceneVariables : MonoBehaviour
         }
     }
 
-
-
-
-
-
-
-
-
     /**
      * Increase orderInLayerTier1 by +1; When the upper Limit is reached, reset the number and start from 1 again
      */

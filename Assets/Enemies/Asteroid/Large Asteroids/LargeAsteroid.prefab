@@ -89,6 +89,7 @@ MonoBehaviour:
   forceMax: 28000
   maxHealth: 48
   mass: 150
+  scorePoints: 100
   minChildrenAmount: 3
   maxChildrenAmount: 3
   asteroidChild: {fileID: 678488285477789908, guid: 7be6d878e02f2da4c9438d28bac3f451, type: 3}
@@ -110,7 +111,6 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 86d67ad66be0ae3429d18c4d5b6a5a6a, type: 3}
   currentVariant: 0
   burstVFX: {fileID: 64770742388454264, guid: 1b039d5fef945e64982f90e5454d9c1a, type: 3}
-  visibleDamageThreshold: 0
   damageTint: {r: 1, g: 0, b: 0, a: 1}
   damageDuration: 0.02
 --- !u!114 &5328590810652371619
