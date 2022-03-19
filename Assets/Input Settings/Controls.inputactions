@@ -147,6 +147,55 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "MainMenu",
+            "id": "8e17f8fd-cf0a-4b67-a30b-d24fe14ef5b7",
+            "actions": [
+                {
+                    "name": "Submit",
+                    "type": "Button",
+                    "id": "0bd062be-cc83-4dfd-9a04-820468c1f182",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "c0f7c7c1-7210-4604-a636-6acfdaa86618",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Submit",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2f7e1074-0c45-40c3-b432-a892944301dc",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Submit",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0a0319d0-bade-4ca6-8b35-6dc2de4cef21",
+                    "path": "<Keyboard>/anyKey",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Submit",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []
