@@ -184,12 +184,12 @@ SpriteRenderer:
   m_SortingLayerID: -1106219973
   m_SortingLayer: 6
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 21f9cffcadec09c4da81e95b1dc95728, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1.28, y: 1.28}
+  m_Size: {x: 5.12, y: 5.12}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 0
@@ -245,7 +245,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isShootingEnabled: 1
   bullet: {fileID: 5803481595772901523, guid: 0d5a12c9886214a4a8814109e77ea64b, type: 3}
-  bulletOffset: 1.52
   shootingInterval: 0.05
   damageBase: 1
 --- !u!114 &8629155466702137172
@@ -406,6 +405,10 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 98621532-f19f-4708-9ba8-4b04ee47defc
     m_ActionName: Gameplay/Shooting[/XInputControllerWindows/buttonEast]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 0bd062be-cc83-4dfd-9a04-820468c1f182
+    m_ActionName: MainMenu/Submit[/XInputControllerWindows/buttonSouth,/Mouse/leftButton,/Keyboard/anyKey]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Gameplay
