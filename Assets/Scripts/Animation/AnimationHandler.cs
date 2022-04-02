@@ -9,10 +9,6 @@ public class AnimationHandler : MonoBehaviour
     [Tooltip("the interval between the frames in seconds")]
     public float interval;
 
-    private Animator spaceShipAnimator;
-
-
-
     //Timer Variables
     float nextTime;
 
@@ -26,8 +22,6 @@ public class AnimationHandler : MonoBehaviour
         nextTime = Time.time + interval;
         spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.sprite = sprites[0];
-
-        spaceShipAnimator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
