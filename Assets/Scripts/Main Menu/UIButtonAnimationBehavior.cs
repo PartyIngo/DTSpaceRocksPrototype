@@ -33,7 +33,7 @@ public class UIButtonAnimationBehavior : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        print("Mouse over Start Button");
+        //print("Mouse over Start Button");
 
         if (startAnimation)
         {
