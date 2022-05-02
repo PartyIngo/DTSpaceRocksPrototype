@@ -50,12 +50,12 @@ public class OptionsBehavior : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Debug.Log("Master Volume Raw: " + masterVolumeRaw);
-        //Debug.Log("Master Volume: " + masterVolume);
-        //Debug.Log("Music Volume Raw: " + musicVolumeRaw);
-        //Debug.Log("Music Volume: " + musicVolume);
-        //Debug.Log("SFX Volume Raw: " + sfxVolumeRaw);
-        //Debug.Log("SFX Volume: " + sfxVolume);
+        Debug.Log("Master Volume Raw: " + masterVolumeRaw);
+        Debug.Log("Master Volume: " + masterVolume);
+        Debug.Log("Music Volume Raw: " + musicVolumeRaw);
+        Debug.Log("Music Volume: " + musicVolume);
+        Debug.Log("SFX Volume Raw: " + sfxVolumeRaw);
+        Debug.Log("SFX Volume: " + sfxVolume);
     }
 
 
