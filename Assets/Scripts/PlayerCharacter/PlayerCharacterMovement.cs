@@ -92,6 +92,7 @@ public class PlayerCharacterMovement : MonoBehaviour
     float normalizedAngleDifference;
     Rigidbody2D rb;
 
+
     
     /**
      * prepare some values by starting this script
@@ -295,11 +296,31 @@ public class PlayerCharacterMovement : MonoBehaviour
             nextTime = Time.time + damageDuration;
             getsDamage = false;
 
+
+            PlayerPrefs.SetInt("NewScore", ScoreScript.scoreValue);
+            PlayerPrefs.SetString("NewName", "ASDF");
+            PlayerPrefs.Save();
+
+
+
+
+            //The player dies: 
+            // 1. Score in Highscore laden, dann Score resetten
+            // 2. Scene neu laden
+            // 3. Separates Overlay mit Buttons (Game Over Overlay)
+            // 
+
+
             //Reset Score
             ScoreScript.scoreValue = 0;
 
-            //Reload Scene
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            //Trigger visibility of Game Over Overlay
+            ScoreScript.isOverlayActive = true;
+
+            Destroy(gameObject);
+
+            ////Reload Scene
+            //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
 
         //TODO: optimizing that the color changes not every frame

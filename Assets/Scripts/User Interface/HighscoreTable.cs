@@ -17,12 +17,25 @@ public class HighscoreTable : MonoBehaviour
 
         entryTemplate.gameObject.SetActive(false);
 
-        AddHighscoreEntry(999999999, "BLA");
-        //addItem(999999, "BLA");
+        //AddHighscoreEntry(999999999, "BLA");
 
 
         string jsonString = PlayerPrefs.GetString("highscoreTable");
+        Debug.Log(jsonString);
         Highscores highscores = JsonUtility.FromJson<Highscores>(jsonString);
+
+        if (highscores == null)
+        {
+            // There's no stored table, initialize
+            Debug.Log("Initializing table with default values...");
+            AddHighscoreEntry(3, "DES");
+            AddHighscoreEntry(2, "CRI");
+            AddHighscoreEntry(1, "PGO");
+            // Reload
+            jsonString = PlayerPrefs.GetString("highscoreTable");
+            highscores = JsonUtility.FromJson<Highscores>(jsonString);
+        }
+
 
         //Sorting of the List
         for (int i = 0; i < highscores.highscoreEntryList.Count; i++)
@@ -45,6 +58,24 @@ public class HighscoreTable : MonoBehaviour
             CreateHighscoreEntryTransform(highscoreEntry, entryContainer, highscoreEntryTransformList);
         }
     }
+
+
+    void OnEnable()
+    {
+        //Check if a new High Score candidate is there. If so, save if to the High Scores and reset the container
+        int newScore = PlayerPrefs.GetInt("NewScore");
+        string newName = PlayerPrefs.GetString("NewName");
+        Debug.Log(newName + "     " + newScore);
+        if ((newScore != 0) && (newName != ""))
+        {
+            AddHighscoreEntry(newScore, newName);
+            PlayerPrefs.SetInt("NewScore", 0);
+            PlayerPrefs.SetString("NewName", "");
+            PlayerPrefs.Save();
+        }
+    }
+
+
 
 
     /**
@@ -82,8 +113,20 @@ public class HighscoreTable : MonoBehaviour
         string jsonString = PlayerPrefs.GetString("highscoreTable");
         Highscores highscores = JsonUtility.FromJson<Highscores>(jsonString);
 
+        if (highscores == null)
+        {
+            // There's no stored table, initialize
+            highscores = new Highscores()
+            {
+                highscoreEntryList = new List<HighscoreEntry>()
+            };
+        }
+
+
+
         //Add new Entry to Highscores
         highscores.highscoreEntryList.Add(highscoreEntry);
+
 
         //Sort Entries
         for (int i = 0; i < highscores.highscoreEntryList.Count; i++)
@@ -122,6 +165,10 @@ public class HighscoreTable : MonoBehaviour
     //}
 
 
+    //public void resetPlayerPrefs()
+    //{
+    //    PlayerPrefs.DeleteAll();
+    //}
 
 
     private class Highscores
@@ -129,9 +176,6 @@ public class HighscoreTable : MonoBehaviour
         public List<HighscoreEntry> highscoreEntryList;
 
     }
-
-
-
 
     /*
      * Single High Score entry
