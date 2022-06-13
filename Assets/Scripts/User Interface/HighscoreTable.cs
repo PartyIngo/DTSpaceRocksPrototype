@@ -12,6 +12,29 @@ public class HighscoreTable : MonoBehaviour
 
     void Awake()
     {
+        showHighScores();
+
+    }
+
+
+    void Update()
+    {
+        //Check if a new High Score candidate is there. If so, save if to the High Scores and reset the container
+        int newScore = PlayerPrefs.GetInt("NewScore");
+        string newName = PlayerPrefs.GetString("NewName");
+        //Debug.Log(newName + "     " + newScore);
+        if ((newScore != 0) && (newName != ""))
+        {
+            AddHighscoreEntry(newScore, newName);
+            PlayerPrefs.SetInt("NewScore", 0);
+            PlayerPrefs.SetString("NewName", "");
+            PlayerPrefs.Save();
+        }
+    }
+
+    //Shows the High Scores on the screen
+    private void showHighScores()
+    {
         entryContainer = transform.Find("HighscoreTable");
         entryTemplate = entryContainer.Find("HighscoreRow");
 
@@ -56,22 +79,6 @@ public class HighscoreTable : MonoBehaviour
         foreach (HighscoreEntry highscoreEntry in highscores.highscoreEntryList)
         {
             CreateHighscoreEntryTransform(highscoreEntry, entryContainer, highscoreEntryTransformList);
-        }
-    }
-
-
-    void OnEnable()
-    {
-        //Check if a new High Score candidate is there. If so, save if to the High Scores and reset the container
-        int newScore = PlayerPrefs.GetInt("NewScore");
-        string newName = PlayerPrefs.GetString("NewName");
-        Debug.Log(newName + "     " + newScore);
-        if ((newScore != 0) && (newName != ""))
-        {
-            AddHighscoreEntry(newScore, newName);
-            PlayerPrefs.SetInt("NewScore", 0);
-            PlayerPrefs.SetString("NewName", "");
-            PlayerPrefs.Save();
         }
     }
 
@@ -153,10 +160,18 @@ public class HighscoreTable : MonoBehaviour
         }
 
 
+        //set the last candidate, to check for a new highscore
+        PlayerPrefs.SetInt("lastPlacement", highscores.highscoreEntryList[9].score);
+        PlayerPrefs.Save();
+        Debug.Log("10TH PLACEMENT" + PlayerPrefs.GetInt("lastPlacement"));
+
+
         //Save updated Highscores
         string json = JsonUtility.ToJson(highscores);
         PlayerPrefs.SetString("highscoreTable", json);
         PlayerPrefs.Save();
+
+        showHighScores();
     }
 
     //public void addItem(int score, string name)

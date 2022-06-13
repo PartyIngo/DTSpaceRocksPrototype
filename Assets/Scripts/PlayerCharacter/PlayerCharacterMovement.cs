@@ -297,9 +297,9 @@ public class PlayerCharacterMovement : MonoBehaviour
             getsDamage = false;
 
 
-            PlayerPrefs.SetInt("NewScore", ScoreScript.scoreValue);
-            PlayerPrefs.SetString("NewName", "ASDF");
-            PlayerPrefs.Save();
+            //PlayerPrefs.SetInt("NewScore", ScoreScript.scoreValue);
+            //PlayerPrefs.SetString("NewName", "ASDF");
+            //PlayerPrefs.Save();
 
 
 
@@ -311,8 +311,8 @@ public class PlayerCharacterMovement : MonoBehaviour
             // 
 
 
-            //Reset Score
-            ScoreScript.scoreValue = 0;
+            ////Reset Score
+            //ScoreScript.scoreValue = 0;
 
             //Trigger visibility of Game Over Overlay
             ScoreScript.isOverlayActive = true;
