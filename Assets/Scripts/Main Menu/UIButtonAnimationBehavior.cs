@@ -9,6 +9,9 @@ public class UIButtonAnimationBehavior : MonoBehaviour
 {
     [Tooltip("The Sprites for animating the asset. Animation will loop")]
     public Sprite[] sprites;
+
+    [Tooltip("The default Sprite without Animation")]
+    public Sprite[] defaultSprites;
     [Tooltip("the interval between the frames in seconds")]
     public float interval;
 
@@ -27,7 +30,7 @@ public class UIButtonAnimationBehavior : MonoBehaviour
     {
         nextTime = Time.time + interval;
         image = GetComponent<Image>();
-        image.sprite = sprites[0];
+        image.sprite = defaultSprites[0]; // sprites[0];
     }
 
     // Update is called once per frame
@@ -51,7 +54,26 @@ public class UIButtonAnimationBehavior : MonoBehaviour
 
                 image.sprite = sprites[currentIndex];
             }
-        }        
+        }
+
+        //else
+        //{
+        //    if (Time.time > nextTime)
+        //    {
+        //        //Reset Timer
+        //        nextTime = Time.time + interval;
+
+        //        currentIndex++;
+
+        //        if (currentIndex >= sprites.Length)
+        //        {
+        //            currentIndex = 0;
+        //        }
+
+        //        image.sprite = defaultSprites[currentIndex];
+        //    }
+        //}
+
     }
 
     public void StartAnimate()
@@ -61,6 +83,9 @@ public class UIButtonAnimationBehavior : MonoBehaviour
     public void StopAnimate()
     {
         startAnimation = false;
+
+        image.sprite = defaultSprites[0];
+
     }
 
 }
