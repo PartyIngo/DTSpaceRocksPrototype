@@ -65,9 +65,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 573f6818575843c4c96afdbf8e3aee1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  orderInLayerTier1: 0
-  orderInLayerTier2: 0
-  orderInLayerTier3: 0
+  orderInLayerTier1: 11
+  orderInLayerTier2: 9
+  orderInLayerTier3: 3
   maxOrderValue: 50
 --- !u!114 &2587841440665150107
 MonoBehaviour:
