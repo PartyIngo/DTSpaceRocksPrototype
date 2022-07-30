@@ -64,10 +64,6 @@ public class PlayerCharacterMovement : MonoBehaviour
     public SpriteRenderer spaceshipFlame;
     [Tooltip("the Sprite Renderer asset of the boosting flame")]
     public SpriteRenderer boostFlame;
-
-
-
-
     [Tooltip("The glowing dot to lighten up the area around the flame")]
     public SpriteRenderer flameGlow;
     [Tooltip("the Sprite Renderer asset of the accelerating flame")]
@@ -76,6 +72,22 @@ public class PlayerCharacterMovement : MonoBehaviour
     public Color accelerationDotColor;
     [Tooltip("Color of glowing dot for boost flame")]
     public Color boostDotColor;
+
+    [Header("Player Health & incoming Damage")]
+    [Tooltip("The maximum amount of lives, the player has.")]
+    [Range(0, 10)]
+    [SerializeField]
+    public int lives;
+    [Tooltip("The Duration of invulnerability after being hit in Seconds")]
+    [SerializeField]
+    float respawnInvulnerabilityDuration;
+    [Tooltip("The current cooldown for invulnerability")]
+    float invulnerabilityCooldown;
+    [Tooltip("The UI indicator for current Lives")]
+    public Sprite healthsprite;
+
+
+
 
     [Header("VFX: Incoming Damage")]
     [Tooltip("Color tint when damaged")]
@@ -286,7 +298,8 @@ public class PlayerCharacterMovement : MonoBehaviour
 
 
     /**
-     * TODO: Rewrite this Method, when more damage options are available
+     * Handle the player's incoming damage
+     * The player has a specific amount of lives
      */
     void handleIncomingDamage()
     {
@@ -296,28 +309,36 @@ public class PlayerCharacterMovement : MonoBehaviour
             nextTime = Time.time + damageDuration;
             getsDamage = false;
 
-
-            //PlayerPrefs.SetInt("NewScore", ScoreScript.scoreValue);
-            //PlayerPrefs.SetString("NewName", "ASDF");
-            //PlayerPrefs.Save();
-
-
+            //1. Check for remaining health
+            //1.1 If remaining life <= 0 --> Overlay/Game Over
+            //1.2 Else set cooldown
+            // while in Cooldown, the collider is disabled. If the cooldown expired, the collider is enabled again
 
 
-            //The player dies: 
-            // 1. Score in Highscore laden, dann Score resetten
-            // 2. Scene neu laden
-            // 3. Separates Overlay mit Buttons (Game Over Overlay)
-            // 
+            //the player has lives remaining and is not invulnerable at the moment, then we can subtract a life after being hit. The cooldown needs to be applied again
+            if (lives > 1)
+            {
+                if (Time.time > invulnerabilityCooldown)
+                {
+                    invulnerabilityCooldown = Time.time + respawnInvulnerabilityDuration;
+                    lives--;
+                }
+                Debug.Log("Lives: " + lives);
+                Debug.Log("Time: " + Time.time);
+            }
+            else
+            {
+                if (Time.time > invulnerabilityCooldown)
+                {
+                    //Trigger visibility of Game Over Overlay
+                    ScoreScript.isOverlayActive = true;
 
+                    Destroy(gameObject);
+                }
+                Debug.Log("Lives: " + lives);
+                Debug.Log("Time: " + Time.time);
+            }
 
-            ////Reset Score
-            //ScoreScript.scoreValue = 0;
-
-            //Trigger visibility of Game Over Overlay
-            ScoreScript.isOverlayActive = true;
-
-            Destroy(gameObject);
 
             ////Reload Scene
             //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);

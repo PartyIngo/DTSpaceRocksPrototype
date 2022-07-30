@@ -120,6 +120,7 @@ GameObject:
   - component: {fileID: 6683240490694271303}
   - component: {fileID: 6683240490694271296}
   - component: {fileID: 6683240490694271298}
+  - component: {fileID: 2430760413500151745}
   m_Layer: 7
   m_Name: PlayerCharacter
   m_TagString: Player
@@ -228,6 +229,9 @@ MonoBehaviour:
   accelFlame: {fileID: 0}
   accelerationDotColor: {r: 1, g: 0.49897224, b: 0, a: 0.5019608}
   boostDotColor: {r: 0.76862746, g: 0.9882353, b: 1, a: 0.5019608}
+  lives: 3
+  respawnInvulnerabilityDuration: 5
+  healthsprite: {fileID: 0}
   damageTint: {r: 1, g: 0, b: 0, a: 1}
   damageDuration: 0.05
   spaceShipAnimator: {fileID: 0}
@@ -406,9 +410,21 @@ MonoBehaviour:
     m_ActionId: 98621532-f19f-4708-9ba8-4b04ee47defc
     m_ActionName: Gameplay/Shooting[/XInputControllerWindows/buttonEast]
   - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 0bd062be-cc83-4dfd-9a04-820468c1f182
-    m_ActionName: MainMenu/Submit[/XInputControllerWindows/buttonSouth,/Mouse/leftButton,/Keyboard/anyKey]
+      m_Calls:
+      - m_Target: {fileID: 2430760413500151745}
+        m_TargetAssemblyTypeName: Pause, Assembly-CSharp
+        m_MethodName: pauseGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 9e82719c-24b0-40f0-90d4-fd0129d99d0c
+    m_ActionName: Gameplay/Pause[/XInputControllerWindows/start]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Gameplay
@@ -430,6 +446,19 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.2
+--- !u!114 &2430760413500151745
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6683240490694271307}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec6058f25326929439395289f4205dfb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pauseOverlay: {fileID: 0}
 --- !u!1 &6683240491280981385
 GameObject:
   m_ObjectHideFlags: 0
