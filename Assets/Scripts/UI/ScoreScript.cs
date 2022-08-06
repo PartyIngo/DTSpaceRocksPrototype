@@ -24,6 +24,8 @@ public class ScoreScript : MonoBehaviour
     public bool isPaused = false;
     public GameObject player;
 
+    [SerializeField] private GameObject scorePopup;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -36,10 +38,6 @@ public class ScoreScript : MonoBehaviour
     void Update()
     {
         pauseGame();
-
-
-
-
 
         score.text = "Score:    " + scoreValue;
 
@@ -89,14 +87,14 @@ public class ScoreScript : MonoBehaviour
     public void loadMenu()
     {
         ////Reset Score
-        //ScoreScript.scoreValue = 0;
+        ScoreScript.scoreValue = 0;
         SceneManager.LoadScene("MainMenu");
     }
 
     public void restartScene()
     {
         ////Reset Score
-        //ScoreScript.scoreValue = 0;
+        ScoreScript.scoreValue = 0;
         //Reload Scene
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
@@ -117,8 +115,11 @@ public class ScoreScript : MonoBehaviour
             //continue the game
             Time.timeScale = 1f;
         }
-
-
-
     }
+
+    //public void showScorePopup(int value)
+    //{
+    //    Debug.Log("Lalalalalalalala");
+    //    //Instantiate(scorePopup, Vector3.zero, Quaternion.identity);
+    //}
 }

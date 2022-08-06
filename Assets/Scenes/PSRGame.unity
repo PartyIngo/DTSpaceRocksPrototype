@@ -1297,6 +1297,7 @@ MonoBehaviour:
   pauseOverlay: {fileID: 539814870}
   isPaused: 0
   player: {fileID: 6683240490694271307, guid: 44f5820436671db419428672239b4341, type: 3}
+  scorePopup: {fileID: 0}
 --- !u!1 &699123281
 GameObject:
   m_ObjectHideFlags: 0

@@ -15,16 +15,26 @@ public class AsteroidBehaviour : MonoBehaviour
     Vector2 force;
 
     [Tooltip("max Health of the Asteroid.")]
-    public float maxHealth;
+    public int maxHealth;
     [Tooltip("current Health of the Asteroid. If it reaches 0, the Asteroid is destroyed.")]
-    float currentHealth;
+    int currentHealth;
 
 
     [Header("Asteroid Health Variants")]
     [Tooltip("The Mass of the Asteroid.")]
     public float mass;
-    [Tooltip("´How many points should the score increase, when this Asteroid is destroyed")]
-    public int scorePoints;
+
+    #region score variables
+    [Tooltip("How many points should the score increase, when an Asteroid of T1 is destroyed")]
+    public int scoreOnKill_T1;
+    [Tooltip("How many points should the score increase, when an Asteroid of T2 is destroyed")]
+    public int scoreOnKill_T2;
+    [Tooltip("How many points should the score increase, when an Asteroid of T3 is destroyed")]
+    public int scoreOnKill_T3;
+
+    //[Tooltip("How many points should the score increase, when an Asteroid of T1 is damaged")]
+    //public int scoreOnDamage;
+    #endregion
 
     [Tooltip("Minimum Amount of spawnable children")]
     public int minChildrenAmount;
@@ -57,6 +67,11 @@ public class AsteroidBehaviour : MonoBehaviour
     [Tooltip("If the asteroids gets damage just now")]
     bool getsDamage;
     float nextTime;
+
+
+
+
+    [SerializeField] private GameObject scorePopup;
 
     #endregion
 
@@ -106,6 +121,11 @@ public class AsteroidBehaviour : MonoBehaviour
         {
             //VFX explosion
             Instantiate(burstVFX, transform.position, Quaternion.identity);
+            //scoreScript = GameObject.FindGameObjectWithTag("Canvas").GetComponent<ScoreScript>();//.showScorePopup();
+            //scoreScript.showScorePopup(500);
+            //    //ScoreScript.SendMessage("showScorePopup", 500);
+            GameObject tmpScorePopup = Instantiate(scorePopup, transform.position, Quaternion.identity);
+            ////tmpScorePopup.transform.SetParent(GameObject.FindGameObjectWithTag("Canvas").transform, false);
 
             //Spawn child asteroids
             int temp = Random.Range(minChildrenAmount, maxChildrenAmount + 1);
@@ -115,8 +135,28 @@ public class AsteroidBehaviour : MonoBehaviour
                 newSpawn.SendMessage("ChangeAppearance", currentVariant);
             }
 
-            //Increase Score
-            ScoreScript.scoreValue += scorePoints;
+            //Increase Score for killing
+            switch (asteroidTier)
+            {
+                case 1:
+                    ScoreScript.scoreValue += scoreOnKill_T1;
+                    tmpScorePopup.gameObject.SendMessage("setScoreValue", scoreOnKill_T1);
+                    break;
+                case 2:
+                    ScoreScript.scoreValue += scoreOnKill_T2;
+                    tmpScorePopup.gameObject.SendMessage("setScoreValue", scoreOnKill_T2);
+                    break;
+                case 3:
+                    ScoreScript.scoreValue += scoreOnKill_T3;
+                    tmpScorePopup.gameObject.SendMessage("setScoreValue", scoreOnKill_T3);
+                    break;
+                default:
+                    break;
+            }
+
+            /*GameObject tmpScorePopup = */
+            //tmpScorePopup.transform.SetParent(GameObject.FindGameObjectWithTag("Canvas").transform, false);
+
 
             //Destroy this instance of asteroid
             spawnHandler.GetComponent<SpawnHandlerBehavior>().destroyEntity(gameObject);
@@ -176,8 +216,17 @@ public class AsteroidBehaviour : MonoBehaviour
     /**
      * Damage & Destroy VFX
      */
-    public void Damage(float damage)
+    public void Damage(int damage)
     {
+        //additional score cannot exceed the value of the remaining health points
+        if (damage > currentHealth)
+        {
+            ScoreScript.scoreValue += currentHealth;
+        }
+        else
+        {
+            ScoreScript.scoreValue += damage;
+        }
         currentHealth -= damage;
 
         getsDamage = true;

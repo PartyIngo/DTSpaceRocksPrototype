@@ -13,7 +13,7 @@ public class BulletBehavior : MonoBehaviour
     public float borderY;
 
     [Tooltip("The damage this bullet deals.")]
-    public float damage;
+    public int damage;
 
     Rigidbody2D rb;
     public float force;
@@ -60,10 +60,10 @@ public class BulletBehavior : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        print("Bullet Damage Before:  " + damage);
+        //print("Bullet Damage Before:  " + damage);
         if (collision.gameObject.tag == "Enemy")
         {
-            print("Bullet Damage After:  " + damage);
+            //print("Bullet Damage After:  " + damage);
 
             //Deal Damage to Asteroid
             collision.gameObject.SendMessage("Damage", damage);
@@ -79,7 +79,7 @@ public class BulletBehavior : MonoBehaviour
         //}
     }
 
-    public void SetDamage(float dmg)
+    public void SetDamage(int dmg)
     {
         damage = dmg;
     }
